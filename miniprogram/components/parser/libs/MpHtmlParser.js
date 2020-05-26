@@ -10,7 +10,7 @@ var cfg = require('./config.js'),
   CssHandler = require('./CssHandler.js'),
   screenWidth = wx.getSystemInfoSync().screenWidth;
 try {
-  var emoji = require('./emoji.js');
+  var emoji = require('./emoji.js.js');
 } catch (e) {}
 class MpHtmlParser {
   constructor(data, options = {}) {

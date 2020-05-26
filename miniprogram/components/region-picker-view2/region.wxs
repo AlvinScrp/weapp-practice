@@ -130,5 +130,16 @@ region.onComponentReady = function (e, owner) {
   console.log(e, "onComponentReady");
   // onSelectedValueChanged(owner)
 }
+// ownerInstance不一定是页面对象
+region.onPropSigned = function(newValue, oldValue, ownerInstance, instance){
+  console.log("onPropSigned",newValue, oldValue, ownerInstance, instance)
+  ownerInstance.callMethod("setData", {
+    provinces: region.provinces
+    , citys: region.citys
+    , areas: region.areas
+    , value: [0, 0, 0] // 地址选择器省市区 暂存 currentIndex
+    , regionText: ''
+  })
+}
 
 module.exports = region

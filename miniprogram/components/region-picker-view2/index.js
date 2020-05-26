@@ -9,11 +9,11 @@ Component({
   },
   properties: {},
   data: {
-    value: [0, 0, 0], // 地址选择器省市区 暂存 currentIndex
-    regionText: '', //所在地区
-    provinces: null, // 一级地址
-    citys: null, // 二级地址
-    areas: null, // 三级地址
+    // value: [0, 0, 0], // 地址选择器省市区 暂存 currentIndex
+    // regionText: '', //所在地区
+    // provinces: null, // 一级地址
+    // citys: null, // 二级地址
+    // areas: null, // 三级地址
     visible: false
   },
   ready(){},

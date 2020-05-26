@@ -9,7 +9,7 @@ var cache = {},
   Parser = require('./libs/MpHtmlParser.js'),
   fs = wx.getFileSystemManager && wx.getFileSystemManager();
 try {
-  var dom = require('./libs/document.js');
+  var dom = require('./libs/document.js.js');
 } catch (e) {}
 // 计算 cache 的 key
 function hash(str) {
