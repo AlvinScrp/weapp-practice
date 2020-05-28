@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/2.13/index",
     "pages/2.12/index",
     "pages/2.10/index",
     "pages/vtabs/index",

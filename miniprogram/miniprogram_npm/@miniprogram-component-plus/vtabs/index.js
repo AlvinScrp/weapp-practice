@@ -122,27 +122,27 @@ Component({
             this.scrollTabBar(_activeTab);
         }
     },
-    relations: {
-        '../vtabs-content/index': {
-            type: 'child',
-            linked: function linked(target) {
-                var _this = this;
+relations: {
+    '../vtabs-content/index': {
+        type: 'child',
+        linked: function linked(target) {
+            var _this = this;
 
-                target.calcHeight(function (rect) {
-                    _this.data._contentHeight[target.data.tabIndex] = rect.height;
-                    if (_this._calcHeightTimer) {
-                        clearTimeout(_this._calcHeightTimer);
-                    }
-                    _this._calcHeightTimer = setTimeout(function () {
-                        _this.calcHeight();
-                    }, 100);
-                });
-            },
-            unlinked: function unlinked(target) {
-                delete this.data._contentHeight[target.data.tabIndex];
-            }
+            target.calcHeight(function (rect) {
+                _this.data._contentHeight[target.data.tabIndex] = rect.height;
+                if (_this._calcHeightTimer) {
+                    clearTimeout(_this._calcHeightTimer);
+                }
+                _this._calcHeightTimer = setTimeout(function () {
+                    _this.calcHeight();
+                }, 100);
+            });
+        },
+        unlinked: function unlinked(target) {
+            delete this.data._contentHeight[target.data.tabIndex];
         }
-    },
+    }
+},
     lifetimes: {
         attached: function attached() {}
     },
