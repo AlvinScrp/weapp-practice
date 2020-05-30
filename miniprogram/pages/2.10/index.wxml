@@ -81,11 +81,15 @@
 		</view>
 
 		<!-- 双向绑定 -->
+
 		<view class="section">
-			<view class="section__title">普通选择器</view>
-			<picker model:value="{{index}}" range="{{array}}">
+			<view class="section__title">双向绑定 普通选择器</view>
+
+			{{index1}}
+
+			<picker model:value="{{index1}}" range="{{array}}">
 				<view class="picker">
-					当前选择：{{array[index]}}
+					当前选择：{{array[index1]}}
 				</view>
 			</picker>
 		</view>
@@ -99,12 +103,14 @@
 			<region-picker-view2 bindchange="onRegionChange"></region-picker-view2>
 		</view>
 
+		<!--   
+// npm i @miniprogram-component-plus/vtabs --save
+// npm i @miniprogram-component-plus/vtabs-content --save -->
+
 		<view class="page__section">
 			<view class="page__section-title">使用vtabs</view>
-			<navigator url="pages/vtabs/index" hover-class="navigator-hover">vtabs页面</navigator>
-
+			<navigator url="/pages/vtabs/index" hover-class="navigator-hover">vtabs页面</navigator>
 		</view>
-
 
 	</view>
 </view>
