@@ -24,13 +24,13 @@
 		 style="position: relative;"
 		>
 			<view class="image_card">
-				<image class="showpic" mode="aspectFill" src="{{item.live.pic_320}}" lazy-load="{{true}}" />
+				<image class="showpic" mode="aspectFill" src="{{item.live.pic_320}}" lazy-load />
 				<view class="cover" />
 				<text class="audience">{{item.live.audience_num}}观众</text>
 			</view>
 			<view class="user_card" catchtap="gotoHome" data-uid="{{item.live.user_info.id}}">
 				<view class="avabox">
-					<image src="{{item.live.user_info.avatar}}" lazy-load="{{true}}" class="ava" data-uid="{{item.live.user_info.id}}" />
+					<image src="{{item.live.user_info.avatar}}" lazy-load class="ava" data-uid="{{item.live.user_info.id}}" />
 					<image class="vip" wx:if="{{item.live.vip}}" lazy-load="{{true}}" src="http://img08.oneniceapp.com/upload/resource/9e7ca7ece11143b49fc952cfb2520e43.png" />
 				</view>
 				<text class="user_name">{{item.live.user_info.name}}</text>
@@ -47,7 +47,7 @@
 		 wx:key="*this"
 		>
 			<view class="image_card">
-				<image className="showpic" mode="aspectFill" src="{{item.live.pic_320}}" lazy-load="{{true}}" />
+				<image className="showpic" mode="aspectFill" src="{{item.live.pic_320}}" lazy-load />
 				<view class="cover" />
 				<text class="audience">{{item.live.audience_num}}观众</text>
 				<image class="back" lazy-load="{{true}}" src="http://img08.oneniceapp.com/upload/resource/002bdceaa732f300e33ab8b2cb84dd17.png" />
