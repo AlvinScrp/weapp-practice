@@ -28,6 +28,7 @@ page {
   box-sizing: border-box;
   width: auto;
   padding: 30rpx 0 30rpx;
+  text-align: center;
 }
 
 .btn-area button {

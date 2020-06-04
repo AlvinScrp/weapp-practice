@@ -1,9 +1,11 @@
 {
   "pages": [
+    "pages/2.18/index",
     "pages/2.15/index",
     "pages/2.15/player/index",
     "pages/2.14/cut/index",
-    "pages/2.14/index"
+    "pages/2.14/index",
+    "pages/2.18/web-view/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

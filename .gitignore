@@ -11,4 +11,6 @@ $RECYCLE.BIN/
 .Trashes
 
 # Node.js
-node_modules/
+server/node_modules/
+weapp-practice1/node_modules/
+weapp-practice2/node_modules/
