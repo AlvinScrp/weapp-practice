@@ -12,5 +12,5 @@ $RECYCLE.BIN/
 
 # Node.js
 server/node_modules/
-weapp-practice1/node_modules/
-weapp-practice2/node_modules/
+weapp-practice1/miniprogram/node_modules/
+weapp-practice2/miniprogram/node_modules/
