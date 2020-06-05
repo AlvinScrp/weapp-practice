@@ -3,7 +3,7 @@
 	<text class="page-head__desc">滑块</text>
 </view>
 
-<view class="page-section">
+<view wx:if="{{false}}" class="page-section">
 	<text class="page-section__title">use image</text>
 	<scroll-view class="cardbox">
 		<button

@@ -8,6 +8,6 @@
       <button bindtap="bindResume" class="page-body-button" type="primary">恢复推流</button>
       <button bindtap="bindSwitchCamera" class="page-body-button" type="primary">切换前后摄像头</button>
     </view>
-    <navigator style="color:white;text-align: center;width: 100%;" url="/pages/2.15/player/index" open-type="navigate">play</navigator>
+    <navigator style="color:white;text-align: center;width: 100%;" url="/pages/2.16/player/index" open-type="navigate">play</navigator>
   </view>
 </view>

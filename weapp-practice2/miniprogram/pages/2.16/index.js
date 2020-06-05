@@ -86,3 +86,14 @@ Page({
     })
   }
 })
+
+/**
+ 
+ffmpeg -f avfoundation -framerate 30 -video_size 1280x720 -i "FaceTime HD Camera:Built-in Microphone" -vcodec libx264 -preset ultrafast -acodec libmp3lame -ar 44100 -ac 1 -f flv "rtmp://64400.livepush.myqcloud.com/live/default?txSecret=56dd7f9d4a3f2a8aba89097576a574cf&txTime=63FA6BCB"
+
+ffmpeg -f avfoundation -framerate 30 -video_size 1280x720 -i "0:0" -vcodec libx264 -preset ultrafast -acodec libmp3lame -ar 44100 -ac 1 -f flv "rtmp://64400.livepush.myqcloud.com/live/default?txSecret=56dd7f9d4a3f2a8aba89097576a574cf&txTime=63FA6BCB"
+
+[0] FaceTime HD Camera
+[0] Built-in Microphone
+
+ */
