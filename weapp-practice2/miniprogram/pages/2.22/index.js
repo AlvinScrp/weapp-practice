@@ -8,22 +8,20 @@ Page({
 
   },
 
-  login(e){
+  login(e) {
+    console.log(e);
+    
+    let {userInfo,
+      encryptedData,
+      iv} = e.detail
     wx.login({
-      success (res0) {
+      success(res0) {
         if (res0.code) {
 
-          wx.getUserInfo({
-            withCredentials:true,
-            success: function(res) {
-              
-              var {userInfo,encryptedData,iv} = res
-
-              // console.log(userInfo,encryptedData,iv);
-                            //发起网络请求
+          //发起网络请求
           wx.request({
             url: 'http://localhost:3000/user/wexin-login2',
-            method:'POST',
+            method: 'POST',
             header: {
               'content-type': 'application/json'
             },
@@ -33,20 +31,17 @@ Page({
               encryptedData,
               iv
             },
-            success (res) {
-              console.log('请求成功',res.data)
+            success(res) {
+              console.log('请求成功', res.data)
               getApp().globalData.token = res.data.data.authorizationToken
-              console.log('authorization',getApp().globalData.token )
+              console.log('authorization', getApp().globalData.token)
             },
-            fail (err) {
-              console.log('请求异常',err)
+            fail(err) {
+              console.log('请求异常', err)
             }
           })
 
-            }
-          })
 
-          
         } else {
           console.log('登录失败！' + res.errMsg)
         }
