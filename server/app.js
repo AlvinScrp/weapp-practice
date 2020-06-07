@@ -1,6 +1,7 @@
 const Koa = require('koa');
 const session = require('koa-session')
 const store = require('koa-session-local');
+
 const Router = require("@koa/router")
 const koajwt = require('koa-jwt');
 const jsonwebtoken = require('jsonwebtoken');
@@ -19,6 +20,7 @@ app.use(koaBody());//parse request.body
 // 静态文件，自动跳过koajwt检测了
 app.use(serve({rootDir: 'static', rootPath: '/static'}))
 
+
 // 加载模板引擎
 app.use(views(path.join(__dirname, './view'), {
     extension: 'ejs'
@@ -28,19 +30,23 @@ app.use(views(path.join(__dirname, './view'), {
 app.use(async (ctx, next) => {
     await next();
     const rt = ctx.response.get('X-Response-Time');
-    console.log(`${ctx.method} ${ctx.url} - ${rt}`);
+    console.log(`执行时间：${ctx.method} ${ctx.url} - ${rt}`);
 });
 
 // x-response-time
 app.use(async (ctx, next) => {
     const start = Date.now();
+    console.log('记录开始时间');
     await next();
     const ms = Date.now() - start;
     ctx.set('X-Response-Time', `${ms}ms`);
 });
 
+// 设置签名的 Cookie 密钥
+app.keys = ['koakeys'];
 // session
 // cookie中设置了HttpOnly属性,那么通过js脚本将无法读取到cookie信息
+// signed = false 时，app.keys 不赋值没有关系；如果 signed: true 时，则需要对 app.keys 赋值，否则会报错。
 const CONFIG = {
     store: new store(),
     key: 'koa.sess', /** (string) cookie key (default is koa.sess) */
@@ -64,9 +70,6 @@ app.use(session(CONFIG, app));
 
 // Cannot set headers after they are sent to the client
 
-// 设置签名的 Cookie 密钥
-app.keys = ['keys1', 'keys2'];
-
 // cookie
 app.use(async function (ctx, next) {
     const n = ~~ctx.cookies.get('view') + 1;
@@ -80,20 +83,21 @@ app.use(async function (ctx, next) {
 
 // 开放一个路由
 const defaultRouter = new Router()
-defaultRouter.get('/hi', function (ctx) {
-    ctx.body = `hi,Request Body: ${JSON.stringify(ctx.request.body)}`;
-});
 // 这是一个中间件
-defaultRouter.use(async ctx => {
+defaultRouter.use(async (ctx,next) => {
     let n = ~~ctx.session.views +1;
     ctx.session.views = n;
-    console.log('Hello World.'+n)
+    console.log('views'+n)
     await next()
 });
 defaultRouter.get('/', function (ctx) {
     let n = ~~ctx.session.views + 1;
     ctx.session.views = n;
-    ctx.body = 'Hello World.' + n;
+    ctx.body = 'views' + n;
+});
+defaultRouter.get('/hi', function (ctx) {
+  ctx.body = `hi,Request Body: ${JSON.stringify(ctx.request.body)}`;
+  console.log('hi输出完毕');
 });
 app.use(defaultRouter.routes()).use(defaultRouter.allowedMethods());
 

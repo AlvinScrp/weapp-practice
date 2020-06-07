@@ -1,8 +1,5 @@
 /* miniprogram/pages/2.14/index.wxss */
-.lazy-image{
-
-}
-
+.lazy-image{}
 
 /* 用户列表相关样式 */
 .main{
