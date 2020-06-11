@@ -113,7 +113,7 @@ app.use(async (ctx, next) => {
         await next()
     } catch (err) {
         if(err.status === 401){
-            ctx.status = 401;
+          ctx.status = 401;
       		ctx.body = 'Protected resource';
         }else{
             throw err;
@@ -143,7 +143,6 @@ router.use(async (ctx, next) => {
             let payload = await util.promisify(jsonwebtoken.verify)(token, JWT_SECRET);
             console.log('payload', payload);
             // 404 bug
-            ctx.status = 200 //这里非常重要，只有设置了status，才能进入路由
             await next()
         } catch (err) {
             console.log('err', err);
@@ -151,7 +150,6 @@ router.use(async (ctx, next) => {
         }
     } else {
         // 这里status状态不对，也会返回404
-        ctx.status = 200
         // 所有next都要加await，重要！
         await next()
     }
@@ -270,3 +268,7 @@ app.listen(3000);
 在终端中测试jwt阻断的脚本
 curl -X GET -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibHkiLCJpYXQiOjE1OTEyMTMxNTksImV4cCI6MTU5MTIxNjc1OX0.SOU3xdOdFLcrJ0Y9KIeBGRXYXGmqYUOIhbrh_dnOh3s" "http://localhost:3000/user/home"
 */
+
+
+
+
