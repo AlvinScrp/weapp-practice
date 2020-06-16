@@ -17,6 +17,8 @@ WXBizDataCrypt.prototype.decryptData = function (encryptedData, iv) {
     // 设置自动 padding 为 true，删除填充补位
     decipher.setAutoPadding(true)
     var decoded = decipher.update(encryptedData, 'binary', 'utf8')
+    // 这里有一个错误发生：
+    // error:06065064:digital envelope routines:EVP_DecryptFinal_ex:bad decrypt
     decoded += decipher.final('utf8')
     
     decoded = JSON.parse(decoded)

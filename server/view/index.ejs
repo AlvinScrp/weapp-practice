@@ -19,6 +19,7 @@
   <input id="name" value="ly" /><br /><br />
   <input id="send-btn" type="button" value="send"></input>
   <p id="output"></p>
+  <input id="share-btn" type="button" value="share" style="width: 100px;height:30px;border:solid 1px grey;"></input>
   <script type="text/javascript">
     
 
@@ -55,8 +56,9 @@
         onWeixinJSBridgeReady()
       }
     }
+    // retrieveHomeData()
 
-    // 模拟调用接口
+    // 在小程序中，模拟调用接口
     function retrieveHomeData() {
       $('#send-btn').bind('click', (e) => {
         let name = $('#name').val()
@@ -76,10 +78,24 @@
             $("#output").text(err)
           }
         })
-
+      })
+      $('#share-btn').bind('click', (e) => {
+        console.log('share btn click')
+        wx.miniProgram.postMessage({
+          data: JSON.stringify({
+            action: 'share',
+            title: window.document.title
+          })
+        });
+        // wx.miniProgram.navigateBack()
       })
     }
   </script>
+  <script type="text/javascript" src="/static/js/vconsole.min.js"></script>
+  <script>
+    // 初始化
+    var vConsole = new VConsole();
+    console.log('Hello world');
+  </script>
 </body>
-
 </html>

@@ -195,7 +195,7 @@ router.all('/home', async function (ctx) {
 router.all('/web-view', async function (ctx) {
     let token = ctx.request.query.token 
     if (token) ctx.cookies.set('Authorization', `Bearer ${token}`, {httpOnly:false});
-    let title = 'web view'
+    let title = 'web view from koa'
     await ctx.render('index', {
         title,
     })
@@ -215,7 +215,7 @@ router.post("/wexin-login1", async (ctx) => {
     const openid = token.data.openid;
 
     // const userinfo = await weixinAuth.getUser(openid)
-    // 这个地方有错误，invalid credential, access_token is invalid or not latest
+    // 这个地方有一个错误，invalid credential, access_token is invalid or not latest
     // 拉取不到userInfo
 
     ctx.status = 200
@@ -228,7 +228,7 @@ router.post("/wexin-login1", async (ctx) => {
 
 // 这是正规的登陆方法
 router.post("/wexin-login2", async (ctx) => {
-    // console.log('request.body',ctx.request.body);
+    console.log('request.body',ctx.request.body);
     let { code,
         userInfo,
         encryptedData,
@@ -268,7 +268,3 @@ app.listen(3000);
 在终端中测试jwt阻断的脚本
 curl -X GET -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibHkiLCJpYXQiOjE1OTEyMTMxNTksImV4cCI6MTU5MTIxNjc1OX0.SOU3xdOdFLcrJ0Y9KIeBGRXYXGmqYUOIhbrh_dnOh3s" "http://localhost:3000/user/home"
 */
-
-
-
-
