@@ -4,8 +4,6 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
-    "blueimp-md5": "^2.16.0",
-    "mina-lazy-image": "^2.0.1",
     "threejs-miniprogram": "0.0.5"
   },
   "devDependencies": {},
