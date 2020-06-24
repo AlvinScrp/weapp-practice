@@ -7,27 +7,27 @@ function drawColorRectangle(gl) {
 
   // Vertex shader program
 
-  const vsSource = `
-    attribute vec4 aVertexPosition;
-    attribute vec4 aVertexColor;
-    uniform mat4 uModelViewMatrix;
-    uniform mat4 uProjectionMatrix;
-    varying lowp vec4 vColor;
-    void main(void) {
-      gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
-      vColor = aVertexColor;
-    }
-  `;
+const vsSource = `
+  attribute vec4 aVertexPosition;
+  attribute vec4 aVertexColor;
+  uniform mat4 uModelViewMatrix;
+  uniform mat4 uProjectionMatrix;
+  varying lowp vec4 vColor;
+  void main(void) {
+    gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+    vColor = aVertexColor;
+  }`;
 
   // Fragment shader program
 
   // 每个片段只是根据其相对于顶点的位置得到一个插值过的颜色，而不是一个指定的颜色值。
-  const fsSource = `
-    varying lowp vec4 vColor;
-    void main(void) {
-      gl_FragColor = vColor;
-    }
-  `;
+  // lowp表示低精度
+  // lowp, mediump和highp
+const fsSource = `
+  varying lowp vec4 vColor;
+  void main(void) {
+    gl_FragColor = vColor;
+  }`;
 
   // Initialize a shader program; this is where all the lighting
   // for the vertices and so forth is established.
@@ -92,12 +92,12 @@ function initBuffers(gl) {
   // Now set up the colors for the vertices
 
   // 此数组中包含四组四值向量，每一组向量代表一个顶点的颜色。
-  var colors = [
-    1.0,  1.0,  1.0,  1.0,    // white
-    1.0,  0.0,  0.0,  1.0,    // red
-    0.0,  1.0,  0.0,  1.0,    // green
-    0.0,  0.0,  1.0,  1.0,    // blue
-  ];
+var colors = [
+  1.0,  1.0,  1.0,  1.0,    // white
+  1.0,  0.0,  0.0,  1.0,    // red
+  0.0,  1.0,  0.0,  1.0,    // green
+  0.0,  0.0,  1.0,  1.0,    // blue
+];
 
   const colorBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
@@ -184,17 +184,21 @@ function drawScene(gl, programInfo, buffers) {
     const normalize = false;
     const stride = 0;
     const offset = 0;
+
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.color);
-    gl.vertexAttribPointer(
-        programInfo.attribLocations.vertexColor,
-        numComponents,
-        type,
-        normalize,
-        stride,
-        offset);
+
+
+  gl.vertexAttribPointer(
+    programInfo.attribLocations.vertexColor,
+    numComponents,
+    type,
+    normalize,
+    stride,
+    offset);
+
     gl.enableVertexAttribArray(
-        programInfo.attribLocations.vertexColor);
-  }
+      programInfo.attribLocations.vertexColor);
+    }
 
   // Tell WebGL to use our program when drawing
 
@@ -206,6 +210,7 @@ function drawScene(gl, programInfo, buffers) {
       programInfo.uniformLocations.projectionMatrix,
       false,
       projectionMatrix);
+
   gl.uniformMatrix4fv(
       programInfo.uniformLocations.modelViewMatrix,
       false,

@@ -54,10 +54,10 @@ onReady: function () {
       gl.clear(gl.COLOR_BUFFER_BIT);
 
       // 画的是一个正方形
-      drawRectangle(gl)
+      // drawRectangle(gl)
 
       // 给正方形加点颜色
-      // drawColorRectangle(gl)
+      drawColorRectangle(gl)
 
       // 动画
       // drawAnimationRectangle(gl,canvas)
