@@ -57,10 +57,10 @@ onReady: function () {
       // drawRectangle(gl)
 
       // 给正方形加点颜色
-      drawColorRectangle(gl)
+      // drawColorRectangle(gl)
 
       // 动画
-      // drawAnimationRectangle(gl,canvas)
+      drawAnimationRectangle(gl,canvas)
 
       // 立体的
       // drawCube(gl, canvas)

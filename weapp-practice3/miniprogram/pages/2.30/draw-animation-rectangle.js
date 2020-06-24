@@ -41,6 +41,7 @@ function drawAnimationRectangle(gl,canvas) {
   // Look up which attributes our shader program is using
   // for aVertexPosition, aVevrtexColor and also
   // look up uniform locations.
+
   const programInfo = {
     program: shaderProgram,
     attribLocations: {
@@ -60,16 +61,20 @@ function drawAnimationRectangle(gl,canvas) {
   var then = 0;
 
   // Draw the scene repeatedly
-  function render(now) {
-    now *= 0.001;  // convert to seconds
-    const deltaTime = now - then;
-    then = now;
+function render(now) {
+  console.log('now',now);
+  
+  now *= 0.001;  // convert to seconds
+  console.log('now',now);
+  const deltaTime = now - then;
+  then = now;
 
-    drawScene(gl, programInfo, buffers, deltaTime);
+  drawScene(gl, programInfo, buffers, deltaTime);
 
-    canvas.requestAnimationFrame(render);
-  }
   canvas.requestAnimationFrame(render);
+}
+canvas.requestAnimationFrame(render);
+
 }
 
 //
@@ -164,13 +169,23 @@ function drawScene(gl, programInfo, buffers, deltaTime) {
   // Now move the drawing position a bit to where we want to
   // start drawing the square.
 
-  mat4.translate(modelViewMatrix,     // destination matrix
-                 modelViewMatrix,     // matrix to translate
-                 [-0.0, 0.0, -6.0]);  // amount to translate
-  mat4.rotate(modelViewMatrix,  // destination matrix
-              modelViewMatrix,  // matrix to rotate
-              squareRotation,   // amount to rotate in radians
-              [0, 0, 1]);       // axis to rotate around
+// let xStep = squareRotation % 2-1
+  
+
+mat4.translate(modelViewMatrix,     // destination matrix
+                modelViewMatrix,     // matrix to translate
+                [-0.0, 0, -6.0]);  // amount to translate
+ 
+// 旋转是在这里产生的
+// mat4.rotate(modelViewMatrix,  // destination matrix
+//   modelViewMatrix,  // matrix to rotate
+//   squareRotation,   // amount to rotate in radians
+//   [0, 1, 1]);       // axis to rotate around
+  
+mat4.rotate(modelViewMatrix,  // destination matrix
+            modelViewMatrix,  // matrix to rotate
+            squareRotation,   // amount to rotate in radians
+            [0, 0, 1]);       // axis to rotate around
 
   // Tell WebGL how to pull out the positions from the position
   // buffer into the vertexPosition attribute
