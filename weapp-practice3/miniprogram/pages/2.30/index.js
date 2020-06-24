@@ -60,14 +60,15 @@ onReady: function () {
       // drawColorRectangle(gl)
 
       // 动画
-      drawAnimationRectangle(gl,canvas)
+      // drawAnimationRectangle(gl,canvas)
 
       // 立体的
-      // drawCube(gl, canvas)
+      drawCube(gl, canvas)
 
       // 贴材质
       // drawTextureCube(gl, canvas)
 
+      // ---
 
       // var ext = gl.getExtension('EXT_color_buffer_float');
       // gl.renderbufferStorage(gl.RENDERBUFFER, gl.RGBA16F, 256, 256);
