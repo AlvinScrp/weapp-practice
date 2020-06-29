@@ -63,10 +63,10 @@ onReady: function () {
       // drawAnimationRectangle(gl,canvas)
 
       // 立体的
-      drawCube(gl, canvas)
+      // drawCube(gl, canvas)
 
       // 贴材质
-      // drawTextureCube(gl, canvas)
+      drawTextureCube(gl, canvas)
 
       // ---
 

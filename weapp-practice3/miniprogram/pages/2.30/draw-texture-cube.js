@@ -10,27 +10,26 @@ var cubeRotation = 0.0;
 //
 function drawTextureCube(gl,canvas) {
 
-  const vsSource = `
-    attribute vec4 aVertexPosition;
-    attribute vec2 aTextureCoord;
-    uniform mat4 uModelViewMatrix;
-    uniform mat4 uProjectionMatrix;
-    varying highp vec2 vTextureCoord;
-    void main(void) {
-      gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
-      vTextureCoord = aTextureCoord;
-    }
-  `;
+const vsSource = `
+  attribute vec4 aVertexPosition;
+  attribute vec2 aTextureCoord;
+  uniform mat4 uModelViewMatrix;
+  uniform mat4 uProjectionMatrix;
+  varying highp vec2 vTextureCoord;
+  void main(void) {
+    gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+    vTextureCoord = aTextureCoord;
+  }`;
 
   // Fragment shader program
 
-  const fsSource = `
-    varying highp vec2 vTextureCoord;
-    uniform sampler2D uSampler;
-    void main(void) {
-      gl_FragColor = texture2D(uSampler, vTextureCoord);
-    }
-  `;
+  // 通过texture2D函数我们可以得到一个纹素（texel），这是一个纹理图片中的像素。
+const fsSource = `
+  varying highp vec2 vTextureCoord;
+  uniform sampler2D uSampler;
+  void main(void) {
+    gl_FragColor = texture2D(uSampler, vTextureCoord);
+  }`
 
   // Initialize a shader program; this is where all the lighting
   // for the vertices and so forth is established.
@@ -57,7 +56,8 @@ function drawTextureCube(gl,canvas) {
   // objects we'll be drawing.
   const buffers = initBuffers(gl);
 
-  const texture = loadTexture(gl, '/static/cubetexture.png', canvas);
+  const texture = loadTexture(gl, '/static/cubetexture1.png', canvas);
+  // const texture = loadTexture(gl, '/static/cubetexture.png', canvas);
 
   var then = 0;
 
@@ -142,38 +142,38 @@ function initBuffers(gl) {
   const textureCoordBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffer);
 
-  const textureCoordinates = [
-    // Front
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
-    // Back
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
-    // Top
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
-    // Bottom
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
-    // Right
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
-    // Left
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
-  ];
+const textureCoordinates = [
+  // Front
+  0.0,  0.0,
+  1.0,  0.0,
+  1.0,  1.0,
+  0.0,  1.0,
+  // Back
+  0.0,  0.0,
+  1.0,  0.0,
+  1.0,  1.0,
+  0.0,  1.0,
+  // Top
+  0.0,  0.0,
+  1.0,  0.0,
+  1.0,  1.0,
+  0.0,  1.0,
+  // Bottom
+  0.0,  0.0,
+  1.0,  0.0,
+  1.0,  1.0,
+  0.0,  1.0,
+  // Right
+  0.0,  0.0,
+  1.0,  0.0,
+  1.0,  1.0,
+  0.0,  1.0,
+  // Left
+  0.0,  0.0,
+  1.0,  0.0,
+  1.0,  1.0,
+  0.0,  1.0,
+];
 
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordinates),
                 gl.STATIC_DRAW);
@@ -229,29 +229,46 @@ function loadTexture(gl, url, canvas) {
   const border = 0;
   const srcFormat = gl.RGBA;
   const srcType = gl.UNSIGNED_BYTE;
+
   const pixel = new Uint8Array([0, 0, 255, 255]);  // opaque blue
-  gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
-                width, height, border, srcFormat, srcType,
-                pixel);
+
+  // void gl.texImage2D(target, level, internalformat, width, height, border, format, type, ArrayBufferView? pixels);
+  gl.texImage2D(gl.TEXTURE_2D, level, internalFormat, width, height, border, srcFormat, srcType, pixel);
 
   const image = canvas.createImage()
   image.onload = function() {
     gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
-                  srcFormat, srcType, image);
+    // texImage2D() 方法指定了二维纹理图像。
+    // void gl.texImage2D(target, level, internalformat, width, height, border, format, type, HTMLImageElement source); 
+    gl.texImage2D(gl.TEXTURE_2D, level, internalFormat, srcFormat, srcType, image);
 
+    // 检查宽高是否都是2的幂
     // WebGL1 has different requirements for power of 2 images
     // vs non power of 2 images so check if the image is a
     // power of 2 in both dimensions.
     if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+      console.log('power2');
+      // 1，2，4，8，16，32，64，128，256，512，1024
+      
        // Yes, it's a power of 2. Generate mips.
+      //  生成多级渐远纹理
        gl.generateMipmap(gl.TEXTURE_2D);
     } else {
+      console.log('not power2');
+      // 纹理坐标的范围通常是从(0, 0)到(1, 1)，那如果我们把纹理坐标设置在范围之外会发生什么
+      // GL_REPEAT	对纹理的默认行为。重复纹理图像。
+      // GL_MIRRORED_REPEAT	和GL_REPEAT一样，但每次重复图片是镜像放置的。
+      // GL_CLAMP_TO_EDGE	纹理坐标会被约束在0到1之间，超出的部分会重复纹理坐标的边缘，产生一种边缘被拉伸的效果。
+      // GL_CLAMP_TO_BORDER	超出的坐标为用户指定的边缘颜色。
+      // 
        // No, it's not a power of 2. Turn of mips and set
        // wrapping to clamp to edge
-       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      //  texParameter[fi]()方法用于设置纹理参数.
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+//  纹理缩小滤波器
+// 对于纹理放大而言，线性滤镜取原图中相邻像素并使用线性插值获得中间值来填充新点的颜色，比如黑白像素之间插入灰度颜色点，这样显然会获得更好的平滑过滤。
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     }
   };
   image.src = url;
@@ -324,6 +341,7 @@ function drawScene(gl, programInfo, buffers, texture, deltaTime) {
     const normalize = false;
     const stride = 0;
     const offset = 0;
+
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
     gl.vertexAttribPointer(
         programInfo.attribLocations.vertexPosition,
@@ -339,21 +357,24 @@ function drawScene(gl, programInfo, buffers, texture, deltaTime) {
   // Tell WebGL how to pull out the texture coordinates from
   // the texture coordinate buffer into the textureCoord attribute.
   {
-    const numComponents = 2;
+    const numComponents = 2;//st二维坐标
     const type = gl.FLOAT;
     const normalize = false;
     const stride = 0;
     const offset = 0;
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.textureCoord);
-    gl.vertexAttribPointer(
-        programInfo.attribLocations.textureCoord,
-        numComponents,
-        type,
-        normalize,
-        stride,
-        offset);
-    gl.enableVertexAttribArray(
-        programInfo.attribLocations.textureCoord);
+
+gl.bindBuffer(gl.ARRAY_BUFFER, buffers.textureCoord);
+
+gl.vertexAttribPointer(
+    programInfo.attribLocations.textureCoord,
+    numComponents,
+    type,
+    normalize,
+    stride,
+    offset);
+
+gl.enableVertexAttribArray(
+    programInfo.attribLocations.textureCoord);
   }
 
   // Tell WebGL which indices to use to index the vertices
@@ -369,6 +390,7 @@ function drawScene(gl, programInfo, buffers, texture, deltaTime) {
       programInfo.uniformLocations.projectionMatrix,
       false,
       projectionMatrix);
+
   gl.uniformMatrix4fv(
       programInfo.uniformLocations.modelViewMatrix,
       false,
@@ -382,6 +404,7 @@ function drawScene(gl, programInfo, buffers, texture, deltaTime) {
   // Bind the texture to texture unit 0
   gl.bindTexture(gl.TEXTURE_2D, texture);
 
+  // uniform[1234][fi][v]() 方法指定了uniform 变量的值。
   // Tell the shader we bound the texture to texture unit 0
   gl.uniform1i(programInfo.uniformLocations.uSampler, 0);
 
@@ -389,6 +412,7 @@ function drawScene(gl, programInfo, buffers, texture, deltaTime) {
     const vertexCount = 36;
     const type = gl.UNSIGNED_SHORT;
     const offset = 0;
+
     gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
   }
 
