@@ -1,7 +1,7 @@
 // miniprogram/pages/2.30/index.js
-import {
-  createScopedThreejs
-} from 'threejs-miniprogram'
+// import {
+//   createScopedThreejs
+// } from 'threejs-miniprogram'
 
 import drawRectangle from './draw-rectangle'
 import drawColorRectangle from './draw-color-rectangle'

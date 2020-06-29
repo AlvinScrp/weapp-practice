@@ -269,6 +269,9 @@ gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 //  纹理缩小滤波器
 // 对于纹理放大而言，线性滤镜取原图中相邻像素并使用线性插值获得中间值来填充新点的颜色，比如黑白像素之间插入灰度颜色点，这样显然会获得更好的平滑过滤。
 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+// gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+// gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
     }
   };
   image.src = url;
