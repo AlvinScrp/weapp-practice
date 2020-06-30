@@ -1,7 +1,5 @@
 {
   "pages": [
-    "pages/2.30/index",
-    "pages/2.30/cube/index",
     "pages/2.22/index",
     "pages/2.22/web-view/index",
     "pages/2.16/index",
