@@ -30,13 +30,13 @@ wx.createSelectorQuery()
     let action = e.currentTarget.dataset.action
     this.fadeToAction(action)
   },
-  touchStart(e) {
-    this.canvas.dispatchTouchEvent({...e, type:'touchstart'})
-  },
-  touchMove(e) {
-    this.canvas.dispatchTouchEvent({...e, type:'touchmove'})
-  },
-  touchEnd(e) {
-    this.canvas.dispatchTouchEvent({...e, type:'touchend'})
-  }
+touchStart(e) {
+  this.canvas.dispatchTouchEvent({...e, type:'touchstart'})
+},
+touchMove(e) {
+  this.canvas.dispatchTouchEvent({...e, type:'touchmove'})
+},
+touchEnd(e) {
+  this.canvas.dispatchTouchEvent({...e, type:'touchend'})
+}
 })

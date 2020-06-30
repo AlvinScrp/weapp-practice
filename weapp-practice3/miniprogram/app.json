@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/2.30/index",
     "pages/2.30/threejs/index",
+    "pages/2.30/index",
     "pages/2.30/cube/index"
   ],
   "window": {
