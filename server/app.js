@@ -268,3 +268,5 @@ app.listen(3000);
 在终端中测试jwt阻断的脚本
 curl -X GET -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibHkiLCJpYXQiOjE1OTEyMTMxNTksImV4cCI6MTU5MTIxNjc1OX0.SOU3xdOdFLcrJ0Y9KIeBGRXYXGmqYUOIhbrh_dnOh3s" "http://localhost:3000/user/home"
 */
+
+
