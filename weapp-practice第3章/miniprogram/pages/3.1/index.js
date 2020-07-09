@@ -1,5 +1,7 @@
 // miniprogram/pages/3.1/index.js
 
+
+
 Page({
 
   /**
@@ -9,10 +11,68 @@ Page({
     showLoginPanel:false
   },
 
+  // 3.1 测试一个网络请求，及返回
+  startOneRequest(){
+    // 正常
+    wx.request({
+      url:'http://localhost:3000/hi',
+      success(res) {
+        if (res.errMsg === "request:ok") console.log("res1",res)
+      },
+      fail(err) {
+        if (err.errMsg === "request:fail") console.log("err1",err)
+      },
+      complete(resOrErr) {
+        console.log("resOrErr1",resOrErr)
+      }
+    })
+
+    // 错误
+    wx.request({
+      url:'http://localhost:3000/err',
+      success(res) {
+        if (res.errMsg === "request:ok") console.log("res2",res)
+      },
+      fail(err) {
+        if (err.errMsg === "request:fail") console.log("err2",err)
+      },
+      complete(resOrErr) {
+        console.log("resOrErr2",resOrErr)
+      }
+    })
+
+    // 取消
+    let reqTask = wx.request({
+      url:'http://localhost:3000/err',
+      success(res) {
+        if (res.errMsg === "request:ok") console.log("res3",res)
+      },
+      fail(err) {
+        if (err.errMsg === "request:fail") console.log("err3",err)
+      },
+      complete(resOrErr) {
+        // 被取消时，也会被调用
+        console.log("resOrErr3",resOrErr)
+      }
+    })
+    const headersReceivedCallback = function(headers){
+      // "use strict"
+      reqTask.offHeadersReceived(headersReceivedCallback)
+      console.log('headers',headers);
+      // Protected resource = 18 chars
+      // 能拿到这个长度，可能数据已经返回了，可以基于其它逻辑实施abort
+      if (~~headers.header['Content-Length']<19) reqTask.abort()
+    }
+    reqTask.onHeadersReceived(headersReceivedCallback)
+    // reqTask.abort()
+  },
+
   async requestHomeApi(e){
     const app = getApp()
     // 三个异步操作
     // const app = getApp()
+
+  
 
     let res1 = await app.wxp.getSystemInfo()
     if (res1) console.log(res1)
