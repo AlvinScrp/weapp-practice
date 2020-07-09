@@ -1,13 +1,14 @@
 //app.js
-import Event from './lib/event'
-import wxp from './lib/wxp'
-
-// 
+// import Event from './lib/event'
+// import wxp from './lib/wxp'
+import { promisifyAll } from 'miniprogram-api-promise'
+const wxp = {}
+promisifyAll(wx, wxp)
 
 App({
   wxp:wxp,
   globalData:{},
-  globalEvent:new Event(),
+  // globalEvent:new Event(),
   onLaunch: async function () {
     
     if (!wx.cloud) {

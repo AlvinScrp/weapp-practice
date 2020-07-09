@@ -42,17 +42,17 @@ function loginWithCallback(e,cb){
     if (cb && typeof cb === 'function') cb(token)
   }
 
-const login = () => {
-  wx.login({
-    success(res0) {
-      if (res0.code) {
-        requestLoginApi(res0.code)
-      } else {
-        console.log('登录失败！' + res.errMsg)
+  const login = () => {
+    wx.login({
+      success(res0) {
+        if (res0.code) {
+          requestLoginApi(res0.code)
+        } else {
+          console.log('登录失败！' + res.errMsg)
+        }
       }
-    }
-  })
-}
+    })
+  }
 
   wx.checkSession({
     success() {
