@@ -30,6 +30,57 @@ Page({
   data: {
   },
 
+  // 3.5 
+  startLoginAndRequestWithPromise(e) {
+    // 调用user/home接口
+    const requestUserHome = (token) => {
+      wx.request({
+        url: 'http://localhost:3000/user/home?name=ly',
+        header: {
+          'Authorization': `Bearer ${token}`
+        },
+        success(res) {
+          if (res.errMsg === "request:ok") console.log("/user/home res", res)
+        },
+        fail(err) {
+          if (err.errMsg === "request:fail") console.log("/user/home err", err)
+        },
+        complete(resOrErr) {
+          console.log("/user/home resOrErr", resOrErr)
+        }
+      })
+    }
+
+    loginWithCallback(e).then((token) => {
+      requestUserHome(token)
+    })
+  },
+
+  // 3.5
+  async startLoginAndRequestWithPromise2(e) {
+    // 调用user/home接口
+    let token = await loginWithCallback(e)
+    let res = await getApp().wxp.request({
+      url: 'http://localhost:3000/user/home?name=ly',
+      header: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).catch(err=>{
+      console.log('err', err);
+    })
+    console.log('res', res);
+  },
+
+  // 3.5
+  async startLoginAndRequestWithPromise3(e) {
+    // 调用user/home接口
+    let token = await loginWithCallback(e)
+    let res = await getApp().wxp.request2({
+      url: 'http://localhost:3000/user/home?name=ly'
+    })
+    console.log('res', res)
+  },
+
   // 3.4 any
   any(e){
     const app = getApp()

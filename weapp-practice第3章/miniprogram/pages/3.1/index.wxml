@@ -11,7 +11,9 @@
     <button bindtap="any" type="primary">any</button>
     <button bindtap="all" type="primary">all</button>
     <button bindtap="race" type="primary">race</button>
-    <button bindgetuserinfo="startLoginAndRequestWithPromise" open-type="getUserInfo" type="primary">先登陆后请求</button>
+    <button bindgetuserinfo="startLoginAndRequestWithPromise" open-type="getUserInfo" type="primary">先登陆后请求(promise)</button>
+    <button bindgetuserinfo="startLoginAndRequestWithPromise2" open-type="getUserInfo" type="primary">先登陆后请求2(promise)</button>
+    <button bindgetuserinfo="startLoginAndRequestWithPromise3" open-type="getUserInfo" type="primary">先登陆后请求3(promise)</button>
 	</view>
 </view>
 

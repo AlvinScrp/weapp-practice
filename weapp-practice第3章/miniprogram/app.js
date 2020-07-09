@@ -5,6 +5,17 @@ import { promisifyAll } from 'miniprogram-api-promise'
 const wxp = {}
 promisifyAll(wx, wxp)
 
+wxp.request2 = function(args){
+  let token = wx.getStorageSync('token')
+  if (token){
+    if (!args.header) args.header = {}
+    args.header['Authorization'] = `Bearer ${token}`
+  }
+  return wxp.request(args).catch(function(err) {
+    console.log('err',err)
+ })
+}
+
 App({
   wxp:wxp,
   globalData:{},
