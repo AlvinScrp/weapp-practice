@@ -1,26 +1,7 @@
 // miniprogram/pages/3.1/index.js
 import loginWithCallback from '../../lib/login'
 
-// 模拟一个
-Promise.any = (arr)=>{
-  let numTotal = arr.length
-  let numSettled = 0
-  let resolved = false 
-  return new Promise((resolve, reject)=>{
-    for(let j=0;j<numTotal;j++){
-      let p = arr[j]
-      p.then(res=>{
-        resolved = true 
-        resolve(res)
-      },err=>{
-        console.log('any err', err);
-      }).finally((res)=>{
-        numSettled++
-        if (numSettled >= numTotal && !resolved) reject('all failed')
-      })
-    }
-  })
-}
+
 
 Page({
 
@@ -82,18 +63,21 @@ Page({
   },
 
   // 3.4 any
-  any(e){
-    const app = getApp()
-    let promise1 = app.wxp.request({url: 'http://localhost:3000/'}),
-        promise2 = app.wxp.request({url: 'http://localhost:3000/hi'}),
-        promise3 = app.wxp.request({url: 'http://localhost:3000/user/home'});
-    let promise = Promise.any([promise1,promise2,promise3])
-    promise.then(res=>{
-      console.log('any promise res', res);
-    },err=>{
-      console.log('any promise err', err);
-    })
-  },
+any(e){
+  const app = getApp()
+  let promise1 = app.wxp.request({url: 'http://localhost:30001/'}).catch(err=>{
+        console.log(err)
+        throw err
+      }),
+      promise2 = app.wxp.request({url: 'http://localhost:3000/hi'}).catch(console.log),
+      promise3 = app.wxp.request({url: 'http://localhost:3000/user/home'}).catch(console.log)
+  let promise = Promise.any([promise1,promise2,promise3])
+  promise.then(res=>{
+    console.log('any promise res', res);
+  },err=>{
+    console.log('any promise err', err);
+  })
+},
 
   all(e){
     const app = getApp()

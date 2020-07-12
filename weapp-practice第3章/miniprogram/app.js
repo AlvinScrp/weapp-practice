@@ -1,20 +1,7 @@
 //app.js
+import "./lib/any"
 // import Event from './lib/event'
-// import wxp from './lib/wxp'
-import { promisifyAll } from 'miniprogram-api-promise'
-const wxp = {}
-promisifyAll(wx, wxp)
-
-wxp.request2 = function(args){
-  let token = wx.getStorageSync('token')
-  if (token){
-    if (!args.header) args.header = {}
-    args.header['Authorization'] = `Bearer ${token}`
-  }
-  return wxp.request(args).catch(function(err) {
-    console.log('err',err)
- })
-}
+import wxp from './lib/wxp'
 
 App({
   wxp:wxp,

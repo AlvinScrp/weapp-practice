@@ -1,7 +1,6 @@
 // miniprogram/pages/3.1/index.js
 import loginWithCallback from '../../../lib/login'
 
-
 Page({
 
   /**
@@ -34,6 +33,7 @@ Page({
       requestUserHome(token)
     })
   },
+
 
   /**
    * 生命周期函数--监听页面加载

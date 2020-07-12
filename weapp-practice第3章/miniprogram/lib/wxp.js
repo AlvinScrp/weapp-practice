@@ -6,7 +6,7 @@ promisifyAll(wx, wxp)
 // compatible usage
 // wxp.getSystemInfo({success(res) {console.log(res)}})
 
-// 捕捉错误
+// 捕捉错误 3.6
 wxp.request2 = function(args){
   let token = wx.getStorageSync('token')
   if (token){
@@ -18,6 +18,7 @@ wxp.request2 = function(args){
  })
 }
 
+// 3.7
 // 整合登录
 wxp.request3 = function(args){
   let token = wx.getStorageSync('token')
