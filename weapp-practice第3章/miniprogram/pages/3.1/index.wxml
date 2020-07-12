@@ -6,6 +6,15 @@
 </view>
 
 <view class="page-section">
+	<text class="page-section__title">3.7 接口调用融合登陆</text>
+	<view class="btn-area">
+		<button bindtap="showLoginPanel" type="primary">手动开启登陆</button>
+<view style="height:20px;"></view>
+<LoginPanel show="{{showLoginPanel}}"></LoginPanel>
+	</view>
+</view>
+
+<view class="page-section">
 	<text class="page-section__title">3.4 Promise</text>
 	<view class="btn-area">
     <button bindtap="any" type="primary">any</button>
@@ -37,9 +46,4 @@
 
 
 
-
-<!-- <button bindtap="showLoginPanel" type="primary">开启登陆</button>
-<view style="height:20px;"></view>
-<button bindtap="requestHomeApi" type="primary">请求user/home接口</button>
-
-<LoginPanel show="{{showLoginPanel}}"></LoginPanel> -->
+<!-- <button bindtap="requestHomeApi" type="primary">请求user/home接口</button> -->

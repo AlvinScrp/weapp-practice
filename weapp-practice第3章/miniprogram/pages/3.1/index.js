@@ -9,6 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    showLoginPanel:false
   },
 
   // 3.5 
@@ -501,27 +502,28 @@ any(e){
     })
   },
 
+  // 3.7 
   async requestHomeApi(e) {
     const app = getApp()
-    // 三个异步操作
-    // const app = getApp()
 
-
-
+    // 普通接口
     let res1 = await app.wxp.getSystemInfo()
     if (res1) console.log(res1)
 
     // Uncaught (in promise) thirdScriptError
+    // 使用request2
     let res2 = await app.wxp.request2({
       url: 'http://localhost:3000/hi',
     })
     if (res2) console.log(res2)
 
+    // 一个需要鉴权的接口
     let res3 = await app.wxp.request2({
       url: 'http://localhost:3000/user/home',
     })
     if (res3) console.log('res3', res3)
 
+    // 使用request3
     let res4 = await app.wxp.request3({
       url: 'http://localhost:3000/user/home',
     })
