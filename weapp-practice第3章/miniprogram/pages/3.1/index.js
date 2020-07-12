@@ -530,6 +530,18 @@ any(e){
     if (res4) console.log('res4', res4)
   },
 
+  // 测试返回对象
+  requestHomeApiByReq4(e){
+    getApp().wxp.request4({
+      url: 'http://localhost:3000/user/home',
+      onReturnObject(rtn){
+        // rtn.abort()
+      }
+    }).catch(err=>{
+      console.log(err);
+    })
+  },
+
   showLoginPanel(e) {
     this.setData({
       showLoginPanel: true

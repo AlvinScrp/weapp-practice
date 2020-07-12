@@ -9,6 +9,8 @@
 	<text class="page-section__title">3.7 接口调用融合登陆</text>
 	<view class="btn-area">
 		<button bindtap="showLoginPanel" type="primary">手动开启登陆</button>
+    <button bindtap="requestHomeApi" type="primary">请求user/home接口</button>
+    <button bindtap="requestHomeApiByReq4" type="primary">请求接口by req4</button>
 <view style="height:20px;"></view>
 <LoginPanel show="{{showLoginPanel}}"></LoginPanel>
 	</view>
@@ -46,4 +48,3 @@
 
 
 
-<!-- <button bindtap="requestHomeApi" type="primary">请求user/home接口</button> -->
