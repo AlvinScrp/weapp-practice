@@ -74,7 +74,7 @@ Component({
       })
       this.close()
       this.triggerEvent('loginSuccess')
-      // getApp().globalEvent.emit('loginSuccess')
+      getApp().globalEvent.emit('loginSuccess')
 
     },
     login2(e) {
