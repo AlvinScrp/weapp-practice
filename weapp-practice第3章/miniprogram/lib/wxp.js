@@ -18,30 +18,30 @@ wxp.request2 = function(args){
  })
 }
 
-// 3.7
+// 3.9
 // 整合登录
-wxp.request3 = function(args){
-  let token = wx.getStorageSync('token')
-  if (!token){
-    let pages = getCurrentPages()
-    let currentPage = pages[pages.length-1]
-    // 展示登陆浮窗
-    currentPage.setData({
-      showLoginPanel:true
-    })
-    return new Promise((resolve, reject) => {
-      getApp().globalEvent.once('loginSuccess',function(e){
-        wxp.request2(args).then(function(result){
-          resolve(result)
-        }).catch(function(reason) {
-          console.log('reason',reason);
-        })
-      })
-    })
-  }
-  return wxp.request2(args).catch(function(reason) {
-    console.log('reason',reason);
- })
-}
+// wxp.request3 = function(args){
+//   let token = wx.getStorageSync('token')
+//   if (!token){
+//     let pages = getCurrentPages()
+//     let currentPage = pages[pages.length-1]
+//     // 展示登陆浮窗
+//     currentPage.setData({
+//       showLoginPanel:true
+//     })
+//     return new Promise((resolve, reject) => {
+//       getApp().globalEvent.once('loginSuccess',function(e){
+//         wxp.request2(args).then(function(result){
+//           resolve(result)
+//         }).catch(function(reason) {
+//           console.log('reason',reason);
+//         })
+//       })
+//     })
+//   }
+//   return wxp.request2(args).catch(function(reason) {
+//     console.log('reason',reason);
+//  })
+// }
 
 export default wxp

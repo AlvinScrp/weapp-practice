@@ -1,12 +1,12 @@
 //app.js
 import "./lib/any"
-// import Event from './lib/event'
+import Event from './lib/event'
 import wxp from './lib/wxp'
 
 App({
   wxp:wxp,
   globalData:{},
-  // globalEvent:new Event(),
+  globalEvent:new Event(),
   onLaunch: async function () {
     
     if (!wx.cloud) {

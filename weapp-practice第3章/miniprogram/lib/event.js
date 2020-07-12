@@ -5,13 +5,14 @@ class Event {
 	}
 	on(key, func) {
 		(this.cache[key] || (this.cache[key] = [])).push(func);
-	}
+  }
+  // apply、call、bind差别
 	once(key, func) {
 		function on() {
 			this.off(key, on);
 			func.apply(this, arguments);
 		}
-		this.on.call(this, key, on);
+		this.on.apply(this, [key, on]);
 	}
 	off(key) {
 		this.cache[key] = null;
