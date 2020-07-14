@@ -4,11 +4,11 @@ import Event from './lib/event'
 import wxp from './lib/wxp'
 
 App({
-  wxp:wxp,
-  globalData:{},
-  globalEvent:new Event(),
+  wxp: wxp,
+  globalData: {},
+  globalEvent: new Event(),
   onLaunch: async function () {
-    
+
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {
@@ -23,5 +23,19 @@ App({
     }
 
     this.globalData = {}
+  },
+  testHeight() {
+    // 64、44
+    // 右上角胶囊按钮
+var data = wx.getMenuButtonBoundingClientRect()
+console.log('胶囊按钮', data);
+console.log('胶囊按钮高度：', data.height) //32
+console.log('上边界坐标：', data.top) //24
+console.log('下边界坐标：', data.bottom) //56
+
+let res = wx.getSystemInfoSync()
+console.log("screenHeight", res.screenHeight);
+console.log("statusBarHeight", res.statusBarHeight); 
+console.log("windowHeight", res.windowHeight);
   }
 })
