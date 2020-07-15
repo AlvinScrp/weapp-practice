@@ -1,4 +1,16 @@
-// miniprogram/pages/3-10/index3.js
+// Component({
+//   pageLifetimes: {
+//     show() {
+//       if (typeof this.getTabBar === 'function' &&
+//         this.getTabBar()) {
+//         this.getTabBar().setData({
+//           selected: 0
+//         })
+//       }
+//     }
+//   }
+// })
+// miniprogram/pages/3.10/index.js
 Page({
 
   /**
@@ -13,6 +25,7 @@ Page({
    */
   onLoad: function (options) {
     getApp().testHeight()
+    
   },
 
   /**
@@ -26,7 +39,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    // 
+    if (typeof this.getTabBar === 'function' &&
+    this.getTabBar()) {
+    this.getTabBar().setData({
+      selected: 2
+    })
+    }
   },
 
   /**

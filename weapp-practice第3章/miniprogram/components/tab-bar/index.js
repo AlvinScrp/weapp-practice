@@ -6,37 +6,33 @@ Component({
         }
     },
     data: {
-        tabBar: [
-        {
-          "current": 0,
-          "pagePath": "../../pages/index/index",
-          "text": "首页",
-          "iconClass":"icon-homefill",
-          "iconTopClass":""
-        },
-        {
-          "current": 0,
-          "pagePath": "../../pages/post/index",
-          "text": "发布",
-          "iconClass":"cu-btn icon-add bg-green shadow",
-          "iconTopClass":"add-action"
-
-        },
-        {
-          "current": 0,
-          "pagePath": "../../pages/my/my",
-          "text": "我的",
-          "iconClass":"icon-my",
-          "iconTopClass":""
-        },
-      ]
+      selected: 0,
+      list: [{
+        pagePath: "/pages/3-10/index",
+        iconPath: "/components/tab-bar/component.png",
+        selectedIconPath: "/components/tab-bar/component-on.png",
+        text: "index",
+        iconClass:"icon-homefill",
+        iconTopClass:""
+      }, {
+        pagePath: "/pages/3-10/index2",
+        iconPath: "/components/tab-bar/component.png",
+        selectedIconPath: "/components/tab-bar/component-on.png",
+        text: "index",
+        iconClass:"cu-btn icon-add bg-green shadow",
+        iconTopClass:"add-action"
+      },{
+        pagePath: "/pages/3-10/index3",
+        iconPath: "/components/tab-bar/component.png",
+        selectedIconPath: "/components/tab-bar/component-on.png",
+        text: "自定义",
+        iconClass:"icon-my",
+        iconTopClass:""
+      }]
     },
     observers: {
       "idx": function (id) {
-        var otabbar = this.data.tabBar;
-        otabbar[id]['iconPath'] = otabbar[id]['selectedIconPath']//换当前的icon
-        otabbar[id]['current'] = 1;
-        this.setData({ tabBar: otabbar});
+        this.setData({ selected: id});
       }
     },
     methods: {

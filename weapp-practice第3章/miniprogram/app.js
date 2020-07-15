@@ -33,6 +33,7 @@ console.log('胶囊按钮高度：', data.height) //32
 console.log('上边界坐标：', data.top) //24
 console.log('下边界坐标：', data.bottom) //56
 
+// 48
 let res = wx.getSystemInfoSync()
 console.log("screenHeight", res.screenHeight);
 console.log("statusBarHeight", res.statusBarHeight); 

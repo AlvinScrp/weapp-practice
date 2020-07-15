@@ -1,4 +1,16 @@
-// miniprogram/pages/3-10/index2.js
+// Component({
+//   pageLifetimes: {
+//     show() {
+//       if (typeof this.getTabBar === 'function' &&
+//         this.getTabBar()) {
+//         this.getTabBar().setData({
+//           selected: 0
+//         })
+//       }
+//     }
+//   }
+// })
+// miniprogram/pages/3.10/index.js
 Page({
 
   /**
@@ -12,7 +24,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    getApp().testHeight()
+    
   },
 
   /**
@@ -26,7 +39,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    // 
+    if (typeof this.getTabBar === 'function' &&
+    this.getTabBar()) {
+    this.getTabBar().setData({
+      selected: 1
+    })
+    }
   },
 
   /**
