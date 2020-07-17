@@ -9,8 +9,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    showLoginPanel:false
+    showLoginPanel:false,
+    showLoginPanel2:false
   },
+
+
 
   // 3.5 
   startLoginAndRequestWithPromise(e) {
@@ -502,6 +505,14 @@ any(e){
     })
   },
 
+  // 3.6
+  async requestOneHomeApi(e){
+    let res3 = await getApp().wxp.request2({
+      url: 'http://localhost:3000/user/home',
+    })
+    if (res3) console.log('res3', res3)
+  },
+
   // 3.9
   async requestHomeApi(e) {
     const app = getApp()
@@ -535,7 +546,7 @@ any(e){
     getApp().wxp.request4({
       url: 'http://localhost:3000/user/home',
       onReturnObject(rtn){
-        // rtn.abort()
+        rtn.abort()
       }
     }).catch(err=>{
       console.log(err);
@@ -548,7 +559,40 @@ any(e){
     })
   },
 
+  showLoginPanel2(e) {
+    this.setData({
+      showLoginPanel2: true
+    })
+  },
 
+  // 3.9
+  async testRequest3(e){
+    const app = getApp()
+    // 一个需要鉴权的接口
+    let res3 = await app.wxp.request2({
+      url: 'http://localhost:3000/user/home',
+    })
+    if (res3) console.log('res3', res3)
+
+    // 使用request3
+    let res4 = await app.wxp.request3({
+      url: 'http://localhost:3000/user/home',
+    })
+    if (res4) console.log('res4', res4)
+  },
+
+  // 3.8
+  testEvent(e){
+    const ge = getApp().globalEvent 
+    function func1(a,b){
+      console.log("a+b",a+b);
+      return a+b
+    }
+    ge.on("event1", func1)
+    ge.emit("event1",1,2)
+    ge.off("event1")
+    ge.emit("event1",1,2)
+  },
 
   /**
    * 生命周期函数--监听页面加载

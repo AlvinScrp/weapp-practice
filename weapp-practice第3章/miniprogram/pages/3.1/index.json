@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "LoginPanel":"../../components/login"
+    "LoginPanel":"../../components/login",
+    "LoginPanel2":"../../components/login2"
   }
 }
