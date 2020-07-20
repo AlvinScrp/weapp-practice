@@ -6,9 +6,9 @@ import wxp from './lib/wxp'
 
 // getApp().globalEvent
 App({
-  wxp: wxp,
-  globalData: {},
-  globalEvent: new Event(),
+  wxp: (wx.wxp = wxp),
+  globalData: (wx.globalData = {}),
+  globalEvent: (wx.globalEvent = new Event()),
   onLaunch: async function () {
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
