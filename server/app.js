@@ -142,6 +142,8 @@ router.use(async (ctx, next) => {
             // 如果签名不对，这里会报错，走到catch分支
             let payload = await util.promisify(jsonwebtoken.verify)(token, JWT_SECRET);
             console.log('payload', payload);
+            let {openId,nickName, avatarUrl} = payload
+            console.log("openId,nickName, avatarUrl",openId,nickName, avatarUrl);
             // 404 bug
             await next()
         } catch (err) {
@@ -227,25 +229,68 @@ router.post("/wexin-login1", async (ctx) => {
 })
 
 // 这是正规的登陆方法
+// 添加一个参数，sessionKeyIsValid，代表sessionKey是否还有效
 router.post("/wexin-login2", async (ctx) => {
     console.log('request.body',ctx.request.body);
     let { code,
         userInfo,
         encryptedData,
-        iv } = ctx.request.body
+        iv,
+        sessionKeyIsValid } = ctx.request.body
 
-    const token = await weixinAuth.getAccessToken(code);
-    const sessionKey = token.data.session_key;
-    console.log('sessionKey',sessionKey);
+    console.log("sessionKeyIsValid",sessionKeyIsValid);
 
+    let sessionKey
+    // 如果客户端有token，则传来，解析
+    if (sessionKeyIsValid){
+      let token = ctx.request.header.authorization;
+      token = token.split(' ')[1]
+      // token有可能是空的
+      if (token){
+        let payload = await util.promisify(jsonwebtoken.verify)(token, JWT_SECRET).catch(err=>{
+          console.log('err',err);
+        })
+        console.log('payload', payload);
+        sessionKey = payload.sessionKey
+      }
+    }
+    // 除了尝试从token中获取，还可以从数据库中或服务器redis缓存中获取
+    
+    // 如果从token中没有取到，则从服务器上取一次
+    if (!sessionKey){
+      const token = await weixinAuth.getAccessToken(code)
+      // 目前微信的 session_key, 有效期三天
+      sessionKey = token.data.session_key;
+      console.log('sessionKey',sessionKey);
+    }
+
+    let decryptedUserInfo
     var pc = new WXBizDataCrypt(miniProgramAppId, sessionKey)
-    var decryptedUserInfo = pc.decryptData(encryptedData, iv)
+    try {
+      // 有可能因为sessionKey不与code匹配，而出错
+      decryptedUserInfo = pc.decryptData(encryptedData, iv)
+    } catch (error) {
+      console.log("err",error);
+      // 通知前端再重新拉取code
+      ctx.status = 200
+      ctx.body = {
+          code: 200,
+          msg: '需要重试',
+          data: 'retry'
+      }
+      return
+    }
     console.log('解密后 decryptedUserInfo.openId: ', decryptedUserInfo.openId)
 
-    let authorizationToken = jsonwebtoken.sign(
-        { name: decryptedUserInfo.nickName }, 
+    // 添加上openId与sessionKey
+    let authorizationToken = jsonwebtoken.sign({ 
+          nickName: decryptedUserInfo.nickName,
+          avatarUrl:decryptedUserInfo.avatarUrl,
+          openId:decryptedUserInfo.openId,
+          sessionKey:sessionKey
+        }, 
         JWT_SECRET,
-        { expiresIn: '1d' }
+        { expiresIn: '3d' }//修改为3天，这是sessionKey的有效时间
     )
     Object.assign(decryptedUserInfo, {authorizationToken})
 

@@ -36,32 +36,47 @@ Component({
         iv
       } = e.detail
 
-      let token = null
-      let tokenIsValid = false
-      try {
-        await getApp().wxp.checkSession()
-        token = wx.getStorageSync('token')
-        if (token) {
-          tokenIsValid = true
-        }
-      } catch (error) {}
+      // 本地token与微信服务器上的session要分别对待
+      let tokenIsValid = false, sessionIsValid = false
+      let res0 = await getApp().wxp.checkSession().catch(err=>{
+        // 清理登陆状态，会触发该错误
+        // checkSession:fail 系统错误，错误码：-13001,session time out…d relogin
+        console.log("err",err);
+        tokenIsValid = false
+      })
+      console.log("res0", res0);
+      if (res0 && res0.errMsg === "checkSession:ok") sessionIsValid = true
+      let token = wx.getStorageSync('token')
+      if (token) tokenIsValid = true
 
-      if (!tokenIsValid) {
+      // sessionIsValid=true
+      // tokenIsValid=false
+
+      if (!tokenIsValid || !sessionIsValid) {
         let res1 = await getApp().wxp.login()
         let code = res1.code
         let res = await getApp().wxp.request({
           url: 'http://localhost:3000/user/wexin-login2',
           method: 'POST',
           header: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${token || ''}`
           },
           data: {
             code,
             userInfo,
             encryptedData,
-            iv
+            iv,
+            sessionKeyIsValid:sessionIsValid
           }
         })
+        
+        if (res.data.data == "retry"){
+          console.log("msg",res.data.msg);
+          this.login(e)
+          return
+        }
+        // Error: Illegal Buffer at WXBizDataCrypt.decryptData
         console.log('登录接口请求成功', res.data)
         token = res.data.data.authorizationToken
         wx.setStorageSync('token', token)
@@ -128,7 +143,7 @@ Component({
             if (res0.code) {
               requestLoginApi(res0.code)
             } else {
-              console.log('登录失败！' + res.errMsg)
+              console.log('登录失败！' + res0.errMsg)
             }
           }
         })
