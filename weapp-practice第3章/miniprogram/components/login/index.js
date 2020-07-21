@@ -49,9 +49,6 @@ Component({
       let token = wx.getStorageSync('token')
       if (token) tokenIsValid = true
 
-      // sessionIsValid=true
-      // tokenIsValid=false
-
       if (!tokenIsValid || !sessionIsValid) {
         let res1 = await getApp().wxp.login()
         let code = res1.code
@@ -74,7 +71,14 @@ Component({
         })
         
         if (res.statusCode == 500){
-          if (retryNum < 3) this.login.apply(this, [e, ++retryNum])
+          if (retryNum < 3){
+            this.login.apply(this, [e, ++retryNum])
+          }else{
+            wx.showModal({
+              title: '登录失败',
+              content: '请退出小程序，清空记录并重试',
+            })
+          }
           return
         }
         // Error: Illegal Buffer at WXBizDataCrypt.decryptData

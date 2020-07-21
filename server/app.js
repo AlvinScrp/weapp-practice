@@ -255,10 +255,11 @@ router.post("/wexin-login2", async (ctx) => {
           console.log('err',err);
         })
         console.log('payload', payload);
-        sessionKey = payload.sessionKey
+        if (payload) sessionKey = payload.sessionKey
       }
     }
-    // 除了尝试从token中获取，还可以从数据库中或服务器redis缓存中获取
+    // 除了尝试从token中获取sessionKey，还可以从数据库中或服务器redis缓存中获取
+    // 如果在db或redis中存储，可以与cookie结合起来使用，
     // 目前没有这样做，sessionKey仍然存在丢失的时候，又缺少一个wx.clearSession方法
     
     // 如果从token中没有取到，则从服务器上取一次
