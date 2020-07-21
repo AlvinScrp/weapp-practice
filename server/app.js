@@ -143,6 +143,7 @@ router.use(async (ctx, next) => {
             let payload = await util.promisify(jsonwebtoken.verify)(token, JWT_SECRET);
             console.log('payload', payload);
             let {openId,nickName, avatarUrl} = payload
+            ctx['user'] = {openId,nickName, avatarUrl}
             console.log("openId,nickName, avatarUrl",openId,nickName, avatarUrl);
             // 404 bug
             await next()
@@ -186,6 +187,8 @@ router.get('/login', function (ctx) {
 // 测试jwt阻断，在小程序中也有调用，为了测试
 router.all('/home', async function (ctx) {
     let name = ctx.request.query.name || ''
+    let user = ctx.user 
+    console.log("user", user);
     ctx.status = 200;
     ctx.body = {
         code: 200,
