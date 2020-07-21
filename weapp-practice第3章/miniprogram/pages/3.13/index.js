@@ -1,38 +1,27 @@
-// miniprogram/pages/3.12/index.js
+// miniprogram/pages/3.13/index.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    initData:{}
+
   },
 
-  async onPageNavigating(e){
-    let res = await wx.wxp.request({
-      url: 'http://localhost:3000/hi?name=index2',
+  async extendPageTest(){
+    this.hi('weapp')
+    // 使用request3
+    let res4 = await wx.wxp.request4({
+      url: 'http://localhost:3000/user/home',
     })
-    e.detail.eventCallback({
-      openType:"initData",
-      openData:{
-        a:res.data
-      }
-    })
+    if (res4) console.log('res4', res4)
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    const eventChannel = this.getOpenerEventChannel()
-    if (eventChannel.on){
-      eventChannel.on('initData', (data)=> {
-        console.log("data",data)
-        this.setData({
-          initData:data
-        })
-      })
-    }
+
   },
 
   /**

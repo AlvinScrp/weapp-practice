@@ -1,0 +1,16 @@
+<!--miniprogram/pages/3.13/index.wxml-->
+<text>miniprogram/pages/3.13/index.wxml</text>
+
+<view class="page-head">
+	<text class="page-head__title">登录</text>
+	<text class="page-head__desc"></text>
+</view>
+
+<view class="page-section">
+	<text class="page-section__title">3.13 Page扩展</text>
+	<view class="btn-area">
+		<button bindtap="extendPageTest" type="primary">testRequest3</button>
+	</view>
+</view>
+
+<LoginPanel show="{{showLoginPanel}}"></LoginPanel>

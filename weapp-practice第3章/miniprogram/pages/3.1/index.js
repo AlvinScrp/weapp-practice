@@ -553,7 +553,7 @@ any(e){
     })
   },
 
-  showLoginPanel(e) {
+  showLoginPanel: async function(e) {
     this.setData({
       showLoginPanel: true
     })

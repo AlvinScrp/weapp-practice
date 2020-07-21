@@ -29,7 +29,7 @@ Component({
         visible: false
       })
     },
-    async login(e) {
+    async login(e, retryNum = 0) {
       let {
         userInfo,
         encryptedData,
@@ -55,6 +55,8 @@ Component({
       if (!tokenIsValid || !sessionIsValid) {
         let res1 = await getApp().wxp.login()
         let code = res1.code
+        console.log("code",code);
+        
         let res = await getApp().wxp.request({
           url: 'http://localhost:3000/user/wexin-login2',
           method: 'POST',
@@ -71,9 +73,8 @@ Component({
           }
         })
         
-        if (res.data.data == "retry"){
-          console.log("msg",res.data.msg);
-          this.login(e)
+        if (res.statusCode == 500){
+          if (retryNum < 3) this.login.apply(this, [e, ++retryNum])
           return
         }
         // Error: Illegal Buffer at WXBizDataCrypt.decryptData

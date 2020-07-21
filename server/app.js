@@ -187,6 +187,7 @@ router.get('/login', function (ctx) {
 // 测试jwt阻断，在小程序中也有调用，为了测试
 router.all('/home', async function (ctx) {
     let name = ctx.request.query.name || ''
+    // 取出并打印user对象
     let user = ctx.user 
     console.log("user", user);
     ctx.status = 200;
@@ -258,31 +259,20 @@ router.post("/wexin-login2", async (ctx) => {
       }
     }
     // 除了尝试从token中获取，还可以从数据库中或服务器redis缓存中获取
+    // 目前没有这样做，sessionKey仍然存在丢失的时候，又缺少一个wx.clearSession方法
     
     // 如果从token中没有取到，则从服务器上取一次
     if (!sessionKey){
       const token = await weixinAuth.getAccessToken(code)
-      // 目前微信的 session_key, 有效期三天
+      // 目前微信的 session_key, 有效期3天
       sessionKey = token.data.session_key;
       console.log('sessionKey',sessionKey);
     }
-
     let decryptedUserInfo
     var pc = new WXBizDataCrypt(miniProgramAppId, sessionKey)
-    try {
-      // 有可能因为sessionKey不与code匹配，而出错
-      decryptedUserInfo = pc.decryptData(encryptedData, iv)
-    } catch (error) {
-      console.log("err",error);
-      // 通知前端再重新拉取code
-      ctx.status = 200
-      ctx.body = {
-          code: 200,
-          msg: '需要重试',
-          data: 'retry'
-      }
-      return
-    }
+    // 有可能因为sessionKey不与code匹配，而出错
+    // 通过错误，通知前端再重新拉取code
+    decryptedUserInfo = pc.decryptData(encryptedData, iv)
     console.log('解密后 decryptedUserInfo.openId: ', decryptedUserInfo.openId)
 
     // 添加上openId与sessionKey

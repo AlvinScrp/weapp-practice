@@ -1,4 +1,5 @@
 //app.js
+require("./lib/extend-page")
 import "./lib/any"
 // import Event from './lib/event'
 import Event from './lib/event2'

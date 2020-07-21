@@ -1,5 +1,9 @@
 <!--miniprogram/pages/3.12/index.wxml-->
 <text>miniprogram/pages/3.12/index.wxml</text>
+
+
+
+
 <view>{{initData.a}}</view>
 
 <view style="width:100%;height:300px;">...</view>
