@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/3.15/index",
     "pages/3.1/index",
     "pages/3.13/index",
     "pages/3.12/index",
@@ -44,5 +45,10 @@
         "text": "自定义"
       }
     ]
+  },
+"permission": {
+  "scope.userLocation": {
+    "desc": "位置信息用途说明"
   }
+}
 }
