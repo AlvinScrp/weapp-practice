@@ -1,0 +1,16 @@
+<!--miniprogram/pages/index/index.wxml-->
+<text>miniprogram/pages/index/index.wxml</text>
+
+<van-button type="primary">按钮</van-button>
+
+<van-area
+  area-list="{{ areaList }}"
+  columns-placeholder="{{ ['请选择', '请选择', '请选择'] }}"
+  title="标题" bind:confirm="onAreaConfirm"
+/>
+
+<van-circle
+  value="30"
+  text="30%"
+  size="120"
+/>
