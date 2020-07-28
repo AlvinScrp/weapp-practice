@@ -50,8 +50,8 @@ router.use(async (ctx, next) => {
             // 如果签名不对，这里会报错，走到catch分支
             let payload = await util.promisify(jsonwebtoken.verify)(token, config.jwtSecret);
             console.log('payload', payload);
-            let {openId,nickName, avatarUrl} = payload
-            ctx['user'] = {openId,nickName, avatarUrl}
+            let {openId,nickName, avatarUrl,uid} = payload
+            ctx['user'] = {openId,nickName, avatarUrl, uid}
             console.log("openId,nickName, avatarUrl",openId,nickName, avatarUrl);
             // 404 bug
             await next()
@@ -194,18 +194,6 @@ router.post("/wexin-login2", async (ctx) => {
     decryptedUserInfo = pc.decryptData(encryptedData, iv)
     console.log('解密后 decryptedUserInfo.openId: ', decryptedUserInfo.openId)
 
-    // 添加上openId与sessionKey
-    let authorizationToken = jsonwebtoken.sign({ 
-          nickName: decryptedUserInfo.nickName,
-          avatarUrl:decryptedUserInfo.avatarUrl,
-          openId:decryptedUserInfo.openId,
-          sessionKey:sessionKey
-        }, 
-        config.jwtSecret,
-        { expiresIn: '3d' }//修改为3天，这是sessionKey的有效时间
-    )
-    Object.assign(decryptedUserInfo, {authorizationToken})
-
     let user = await User.findOne({where:{openId:decryptedUserInfo.openId}})
     if (!user){//如果用户没有查到，则创建
       let createRes = await User.create(decryptedUserInfo)
@@ -226,6 +214,19 @@ router.post("/wexin-login2", async (ctx) => {
       console.log("created record",sessionKeyRecord);
     }
     ctx.session.sessionKeyRecordId = sessionKeyRecord.id
+
+    // 添加上openId与sessionKey
+    let authorizationToken = jsonwebtoken.sign({ 
+        uid: user.id,
+        nickName: decryptedUserInfo.nickName,
+        avatarUrl:decryptedUserInfo.avatarUrl,
+        openId:decryptedUserInfo.openId,
+        sessionKey:sessionKey
+      }, 
+      config.jwtSecret,
+      { expiresIn: '3d' }//修改为3天，这是sessionKey的有效时间
+    )
+    Object.assign(decryptedUserInfo, {authorizationToken})
 
     ctx.status = 200
     ctx.body = {
