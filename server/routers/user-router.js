@@ -5,6 +5,8 @@ const util = require('util');
 const WeixinAuth = require("../lib/koa2-weixin-auth")
 const WXBizDataCrypt = require('../lib/WXBizDataCrypt')
 const config  = require("../config")
+const User = require("../models/user-model")
+const SessionKey = require("../models/session-key-model")
 
 // jwt 实现
 // const JWT_SECRET = 'JWTSECRET'
@@ -169,14 +171,22 @@ router.post("/wexin-login2", async (ctx) => {
     // 除了尝试从token中获取sessionKey，还可以从数据库中或服务器redis缓存中获取
     // 如果在db或redis中存储，可以与cookie结合起来使用，
     // 目前没有这样做，sessionKey仍然存在丢失的时候，又缺少一个wx.clearSession方法
-    
+    if (sessionKeyIsValid && !sessionKey && ctx.session.sessionKeyRecordId){
+      // 如果还不有找到历史上有效的sessionKey，从db中取一下
+      let sesskonKeyRecordOld = await SessionKey.findOne({where:{
+        id:ctx.session.sessionKeyRecordId
+      }})
+      if (sesskonKeyRecordOld) sessionKey = sesskonKeyRecordOld.sessionKey
+      console.log("从db中查找sessionKey3", sessionKey);
+    }
     // 如果从token中没有取到，则从服务器上取一次
     if (!sessionKey){
       const token = await weixinAuth.getAccessToken(code)
       // 目前微信的 session_key, 有效期3天
       sessionKey = token.data.session_key;
-      console.log('sessionKey',sessionKey);
+      console.log('sessionKey2',sessionKey);
     }
+
     let decryptedUserInfo
     var pc = new WXBizDataCrypt(config.miniProgram.appId, sessionKey)
     // 有可能因为sessionKey不与code匹配，而出错
@@ -195,6 +205,27 @@ router.post("/wexin-login2", async (ctx) => {
         { expiresIn: '3d' }//修改为3天，这是sessionKey的有效时间
     )
     Object.assign(decryptedUserInfo, {authorizationToken})
+
+    let user = await User.findOne({where:{openId:decryptedUserInfo.openId}})
+    if (!user){//如果用户没有查到，则创建
+      let createRes = await User.create(decryptedUserInfo)
+      console.log("createRes",createRes);
+      if (createRes) user = createRes.dataValues
+    }
+    let sessionKeyRecord = await SessionKey.findOne({where:{uid:user.id}})
+    if (sessionKeyRecord){
+      await sessionKeyRecord.update({
+        sessionKey:sessionKey
+      })
+    }else{
+      let sessionKeyRecordCreateRes = await SessionKey.create({
+        uid:user.id,
+        sessionKey:sessionKey
+      })
+      sessionKeyRecord = sessionKeyRecordCreateRes.dataValues
+      console.log("created record",sessionKeyRecord);
+    }
+    ctx.session.sessionKeyRecordId = sessionKeyRecord.id
 
     ctx.status = 200
     ctx.body = {
