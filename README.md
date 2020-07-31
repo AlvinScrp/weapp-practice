@@ -38,7 +38,6 @@
 
 ### 第四章
 
-- 4.2：server
 - 4.1：第4章/miniprogram/pages/4.1
 
 ### 第三章

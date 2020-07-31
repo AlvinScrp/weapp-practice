@@ -10,16 +10,9 @@ const logger = require('koa-logger')
 const WeixinAuth = require("./koa2-weixin-auth");
 const koaBody = require('koa-body');
 const WXBizDataCrypt = require('./WXBizDataCrypt')
-
+const views = require('koa-views')
 const path = require('path')
 const serve = require('koa-static-server')
-
-// const views = require('koa-views')
-const render = require('koa-art-template')
-// npm install html-minifier -S
-// -S就是--save的简写
-const htmlMinifier = require('html-minifier')
-const dateFormat = require("./lib/date-format")
 
 const app = new Koa();
 app.use(logger())
@@ -29,27 +22,9 @@ app.use(serve({rootDir: 'static', rootPath: '/static'}))
 
 
 // 加载模板引擎
-// app.use(views(path.join(__dirname, './view'), {
-//     extension: 'ejs'
-//   }))
-render(app, {
-  root: path.join(__dirname, './views'),
-  minimize: true,
-  htmlMinifier: htmlMinifier,
-  htmlMinifierOptions: {
-    collapseWhitespace: true,
-    minifyCSS: true,
-    minifyJS: true,
-    // 运行时自动合并：rules.map(rule => rule.test)
-    ignoreCustomFragments: []
-  },
-  escape: true,
-  extname: '.html',
-  debug: process.env.NODE_ENV !== 'production',
-  imports:{
-    dateFormat
-  },
-})
+app.use(views(path.join(__dirname, './view'), {
+    extension: 'ejs'
+  }))
 
 // log
 app.use(async (ctx, next) => {
@@ -227,10 +202,8 @@ router.all('/web-view', async function (ctx) {
     let token = ctx.request.query.token 
     if (token) ctx.cookies.set('Authorization', `Bearer ${token}`, {httpOnly:false});
     let title = 'web view from koa'
-    await ctx.render('index2', {
+    await ctx.render('index', {
         title,
-        arr:[1,2,3],
-        now:new Date()
     })
 });
 

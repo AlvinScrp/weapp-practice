@@ -1,7 +1,3 @@
-
-/* @import '@vant/weapp/common/index.wxss'; */
-@import '/miniprogram_npm/@vant/weapp/common/index.wxss'
-
 /**app.wxss**/
 .container {
   display: flex;
