@@ -4,7 +4,7 @@ module.exports = app => {
   let files = fs.readdirSync(__dirname + '/');
   let jsFiles = files.filter((f)=>{
       return f.endsWith('-router.js');
-  }, files);
+  }, files)
 
   for (let f of jsFiles) {
     console.log(`import file ${f}...`)

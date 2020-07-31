@@ -4,8 +4,11 @@ const db = require("./mysql-db")
 module.exports = db.define('user', {
   id: {
     type: Sequelize.INTEGER(11),
+    // 允许为空
     allowNull: false,
+    // 主键
     primaryKey: true,
+    // 自增
     autoIncrement: true,
   },
   nickName: {

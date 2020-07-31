@@ -4,7 +4,6 @@ import "./lib/any"
 // import Event from './lib/event'
 import Event from './lib/event2'
 import wxp from './lib/wxp'
-import "weapp-cookie"
 
 // getApp().globalEvent
 App({

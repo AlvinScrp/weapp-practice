@@ -15,18 +15,9 @@ wxp.request2 = function (args) {
     if (!args.header) args.header = {}
     args.header['Authorization'] = `Bearer ${token}`
   }
-  return new Promise((resolve, reject)=> {
-    let rtnObj = wx.requestWithCookie(
-      Object.assign(args, {
-        success: resolve,
-        fail: reject
-      })
-    )
-    if (args.onReturnObject) args.onReturnObject(rtnObj)
+  return wxp.request(args).catch(function (reason) {
+    console.log('reason', reason)
   })
-  // return wxp.request(args).catch(function (reason) {
-  //   console.log('reason', reason)
-  // })
 }
 
 // 
