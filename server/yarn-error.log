@@ -1,0 +1,63 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn
+
+PATH: 
+  /Library/Frameworks/Python.framework/Versions/3.7/bin:/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/Applications/ffmpeg/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home/bin:/Applications/ffmpeg/bin:/usr/local/mysql/bin:/usr/local/allure-2.7.0/bin::/usr/local/mysql/bin:/usr/local/allure-2.7.0/bin
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  12.17.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@koa%2frouter: ETIMEDOUT
+      at Timeout._onTimeout (/usr/local/lib/node_modules/yarn/lib/cli.js:141408:19)
+      at listOnTimeout (internal/timers.js:549:17)
+      at processTimers (internal/timers.js:492:7)
+
+npm manifest: 
+  {
+    "name": "server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "dependencies": {
+      "@koa/router": "^9.0.1",
+      "art-template": "^4.13.2",
+      "ejs": "^3.1.3",
+      "html-minifier": "^4.0.0",
+      "jsonwebtoken": "^8.5.1",
+      "koa": "^2.12.0",
+      "koa-art-template": "^1.1.1",
+      "koa-body": "^4.1.3",
+      "koa-jwt": "^4.0.0",
+      "koa-logger": "^3.2.1",
+      "koa-session": "^6.0.0",
+      "koa-session-local": "^1.0.4",
+      "koa-static": "^5.0.0",
+      "koa-static-server": "^1.5.2",
+      "koa-views": "^6.2.3",
+      "koa2-weixin-auth": "^1.0.2",
+      "nodemon": "^2.0.4"
+    },
+    "devDependencies": {
+      "mysql2": "^2.1.0",
+      "sequelize": "^6.3.3"
+    },
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "dev": "nodemon app.js"
+    },
+    "author": "",
+    "license": "ISC"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

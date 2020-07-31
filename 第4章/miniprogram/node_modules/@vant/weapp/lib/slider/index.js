@@ -25,15 +25,11 @@ component_1.VantComponent({
     value: {
       type: Number,
       value: 0,
-      observer: function (val) {
-        if (val !== this.value) {
-          this.updateValue(val);
-        }
-      },
+      observer: 'updateValue',
     },
     barHeight: {
       type: null,
-      value: 2,
+      value: '2px',
     },
   },
   created: function () {
@@ -43,7 +39,7 @@ component_1.VantComponent({
     onTouchStart: function (event) {
       if (this.data.disabled) return;
       this.touchStart(event);
-      this.startValue = this.format(this.value);
+      this.startValue = this.format(this.data.value);
       this.dragStatus = 'start';
     },
     onTouchMove: function (event) {
@@ -81,8 +77,8 @@ component_1.VantComponent({
       value = this.format(value);
       var min = this.data.min;
       var width = ((value - min) * 100) / this.getRange() + '%';
-      this.value = value;
       this.setData({
+        value: value,
         barStyle:
           '\n          width: ' +
           width +

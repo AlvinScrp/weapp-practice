@@ -192,19 +192,18 @@ component_1.VantComponent({
       }
       var stack = [];
       var indexes = [];
-      var columnsNum = this.data.columnsNum;
-      if (columnsNum >= 1) {
+      if (this.data.columnsNum >= 1) {
         stack.push(picker.setColumnValues(0, province, false));
         indexes.push(this.getIndex('province', code));
       }
-      if (columnsNum >= 2) {
+      if (this.data.columnsNum >= 2) {
         stack.push(picker.setColumnValues(1, city, false));
-        indexes.push(this.getIndex('city', code));
+        indexes.push(this.getIndex('province', code));
         if (city.length && code.slice(2, 4) === '00') {
           code = city[0].code;
         }
       }
-      if (columnsNum === 3) {
+      if (this.data.columnsNum === 3) {
         stack.push(
           picker.setColumnValues(
             2,
@@ -212,7 +211,6 @@ component_1.VantComponent({
             false
           )
         );
-        indexes.push(this.getIndex('county', code));
       }
       return Promise.all(stack)
         .catch(function () {})
