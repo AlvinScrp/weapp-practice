@@ -16,7 +16,7 @@
 />
 
 <view class="van-ellipsis">
-  这是一段宽度有限的文字，后面的内容会省略掉。
+  这是一段宽度有限的文字一段宽度有限的文字一段宽度有限的文字，后面的内容会省略掉。
 </view>
 
 <view style="width:100px;" class="van-multi-ellipsis--l2">

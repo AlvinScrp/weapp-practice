@@ -1,142 +1,23 @@
-const Koa = require('koa');
-const session = require('koa-session')
-const store = require('koa-session-local');
-
 const Router = require("@koa/router")
-const koajwt = require('koa-jwt');
-const jsonwebtoken = require('jsonwebtoken');
+const koajwt = require('koa-jwt')
+const jsonwebtoken = require('jsonwebtoken')
 const util = require('util');
-const logger = require('koa-logger')
-const WeixinAuth = require("./koa2-weixin-auth");
-const koaBody = require('koa-body');
-const WXBizDataCrypt = require('./WXBizDataCrypt')
-
-const path = require('path')
-const serve = require('koa-static-server')
-
-// const views = require('koa-views')
-const render = require('koa-art-template')
-// npm install html-minifier -S
-// -S就是--save的简写
-const htmlMinifier = require('html-minifier')
-const dateFormat = require("./lib/date-format")
-
-
-const app = new Koa();
-
-app.use(logger())
-app.use(koaBody());//parse request.body
-// 静态文件，自动跳过koajwt检测了
-app.use(serve({rootDir: 'static', rootPath: '/static'}))
-
-
-// 加载模板引擎
-// app.use(views(path.join(__dirname, './view'), {
-//     extension: 'ejs'
-//   }))
-render(app, {
-  root: path.join(__dirname, './views'),
-  minimize: true,
-  htmlMinifier: htmlMinifier,
-  htmlMinifierOptions: {
-    collapseWhitespace: true,
-    minifyCSS: true,
-    minifyJS: true,
-    // 运行时自动合并：rules.map(rule => rule.test)
-    ignoreCustomFragments: []
-  },
-  escape: true,
-  extname: '.html',
-  debug: process.env.NODE_ENV !== 'production',
-  imports:{
-    dateFormat
-  },
-})
-
-// log
-app.use(async (ctx, next) => {
-    await next();
-    const rt = ctx.response.get('X-Response-Time');
-    console.log(`执行时间：${ctx.method} ${ctx.url} - ${rt}`);
-});
-
-// x-response-time
-app.use(async (ctx, next) => {
-    const start = Date.now();
-    console.log('记录开始时间');
-    await next();
-    const ms = Date.now() - start;
-    ctx.set('X-Response-Time', `${ms}ms`);
-});
-
-// 设置签名的 Cookie 密钥
-app.keys = ['koakeys'];
-// session
-// cookie中设置了HttpOnly属性,那么通过js脚本将无法读取到cookie信息
-// signed = false 时，app.keys 不赋值没有关系；如果 signed: true 时，则需要对 app.keys 赋值，否则会报错。
-const CONFIG = {
-    store: new store(),
-    key: 'koa.sess', /** (string) cookie key (default is koa.sess) */
-    /** (number || 'session') maxAge in ms (default is 1 days) */
-    /** 'session' will result in a cookie that expires when session/browser is closed */
-    /** Warning: If a session cookie is stolen, this cookie will never expire */
-    maxAge: 86400000,
-    autoCommit: true, /** (boolean) automatically commit headers (default true) */
-    overwrite: true, /** (boolean) can overwrite or not (default true) */
-    httpOnly: true, /** (boolean) httpOnly or not (default true) */
-    signed: true, /** (boolean) signed or not (default true) */
-    rolling: false, /** (boolean) Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown. (default is false) */
-    renew: false, /** (boolean) renew session when session is nearly expired, so we can always keep user logged in. (default is false)*/
-    secure: false, /** (boolean) secure cookie*/
-    sameSite: null, /** (string) session cookie sameSite options (default null, don't set it) */
-};
-// Error: Cannot send secure cookie over unencrypted connection
-// 将 secure 改为false，在本地测试
-
-app.use(session(CONFIG, app));
-
-// Cannot set headers after they are sent to the client
-
-// cookie
-app.use(async function (ctx, next) {
-    const n = ~~ctx.cookies.get('view') + 1;
-    ctx.cookies.set('view', n, {httpOnly:false});
-    // 中间件调用next要加await,否则报错404
-    await next();
-});
-
-// use session
-
-
-// 开放一个路由
-const defaultRouter = new Router()
-// 这是一个中间件
-defaultRouter.use(async (ctx,next) => {
-    let n = ~~ctx.session.views +1;
-    ctx.session.views = n;
-    console.log('views'+n)
-    await next()
-});
-defaultRouter.get('/', function (ctx) {
-    let n = ~~ctx.session.views + 1;
-    ctx.session.views = n;
-    ctx.body = 'views' + n;
-});
-defaultRouter.get('/hi', function (ctx) {
-  ctx.body = `hi,Request Body: ${JSON.stringify(ctx.request.body)}`;
-  console.log('hi输出完毕');
-});
-app.use(defaultRouter.routes())
-app.use(defaultRouter.allowedMethods());
+const WeixinAuth = require("../lib/koa2-weixin-auth")
+const WXBizDataCrypt = require('../lib/WXBizDataCrypt')
+const config  = require("../config")
 
 // jwt 实现
+// const JWT_SECRET = 'JWTSECRET'
 
-const JWT_SECRET = 'JWTSECRET'
+// 再开启另一个路由，还可以有一个群组
+const router = new Router({
+  prefix: '/user'
+});
 
 // 错误处理，被koajwt挡住的请求
 // 没有token或者token过期，则会返回401。
 // 与下面的koajwt设置是组合使用的
-app.use(async (ctx, next) => {
+router.use(async (ctx, next) => {
     try {
         await next()
     } catch (err) {
@@ -149,15 +30,12 @@ app.use(async (ctx, next) => {
     }
 })
 // 如果没有验证通过，会返回404   
-app.use(koajwt({ secret: JWT_SECRET }).unless({
+router.use(koajwt({ secret: config.jwtSecret }).unless({
     // Logon interface does not require authentication
     path: ['/user/login', '/user/wexin-login1', '/user/wexin-login2', '/user/web-view']
 }));
 
-// 再开启另一个路由，还可以有一个群组
-const router = new Router({
-    prefix: '/user'
-});
+
 router.use(async (ctx, next) => {
     // console.log('ctx.url', ctx.url, ctx.url.includes('login'));
     // 如果不是登录页，
@@ -168,7 +46,7 @@ router.use(async (ctx, next) => {
             console.log('token', token);
             token = token.split(' ')[1]
             // 如果签名不对，这里会报错，走到catch分支
-            let payload = await util.promisify(jsonwebtoken.verify)(token, JWT_SECRET);
+            let payload = await util.promisify(jsonwebtoken.verify)(token, config.jwtSecret);
             console.log('payload', payload);
             let {openId,nickName, avatarUrl} = payload
             ctx['user'] = {openId,nickName, avatarUrl}
@@ -199,7 +77,7 @@ router.get('/login', function (ctx) {
             msg: 'Login Successful',
             token: "Bearer " + jsonwebtoken.sign(
                 { name: user },  // Encrypt userToken
-                JWT_SECRET,
+                config.jwtSecret,
                 { expiresIn: '1d' }
             )
         }
@@ -238,9 +116,9 @@ router.all('/web-view', async function (ctx) {
 });
 
 // 小程序的机要信息
-const miniProgramAppId = 'wxc3db312ddf9bcb01'
-const miniProgramAppSecret = '6bb4f303f55a5893fac810e2ab56faa1'
-const weixinAuth = new WeixinAuth(miniProgramAppId, miniProgramAppSecret);
+// const miniProgramAppId = 'wxc3db312ddf9bcb01'
+// const miniProgramAppSecret = '6bb4f303f55a5893fac810e2ab56faa1'
+const weixinAuth = new WeixinAuth(config.miniProgram.appId, config.miniProgram.appSecret);
 
 // 这是第一次小程序登陆法
 router.post("/wexin-login1", async (ctx) => {
@@ -281,7 +159,7 @@ router.post("/wexin-login2", async (ctx) => {
       token = token.split(' ')[1]
       // token有可能是空的
       if (token){
-        let payload = await util.promisify(jsonwebtoken.verify)(token, JWT_SECRET).catch(err=>{
+        let payload = await util.promisify(jsonwebtoken.verify)(token, config.jwtSecret).catch(err=>{
           console.log('err',err);
         })
         console.log('payload', payload);
@@ -300,7 +178,7 @@ router.post("/wexin-login2", async (ctx) => {
       console.log('sessionKey',sessionKey);
     }
     let decryptedUserInfo
-    var pc = new WXBizDataCrypt(miniProgramAppId, sessionKey)
+    var pc = new WXBizDataCrypt(config.miniProgram.appId, sessionKey)
     // 有可能因为sessionKey不与code匹配，而出错
     // 通过错误，通知前端再重新拉取code
     decryptedUserInfo = pc.decryptData(encryptedData, iv)
@@ -313,7 +191,7 @@ router.post("/wexin-login2", async (ctx) => {
           openId:decryptedUserInfo.openId,
           sessionKey:sessionKey
         }, 
-        JWT_SECRET,
+        config.jwtSecret,
         { expiresIn: '3d' }//修改为3天，这是sessionKey的有效时间
     )
     Object.assign(decryptedUserInfo, {authorizationToken})
@@ -326,16 +204,4 @@ router.post("/wexin-login2", async (ctx) => {
     }
 })
 
-// 启用这个路由
-app.use(router.routes())
-app.use(router.allowedMethods());
-
-// 服务启动
-app.listen(3000);
-
-/*
-在终端中测试jwt阻断的脚本
-curl -X GET -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibHkiLCJpYXQiOjE1OTEyMTMxNTksImV4cCI6MTU5MTIxNjc1OX0.SOU3xdOdFLcrJ0Y9KIeBGRXYXGmqYUOIhbrh_dnOh3s" "http://localhost:3000/user/home"
-*/
-
-
+module.exports = router

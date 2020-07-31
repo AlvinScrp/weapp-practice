@@ -22,10 +22,7 @@
     "koa2-weixin-auth": "^1.0.2",
     "nodemon": "^2.0.4"
   },
-  "devDependencies": {
-    "mysql2": "^2.1.0",
-    "sequelize": "^6.3.3"
-  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon app.js"

@@ -14,11 +14,18 @@
 
   <p>
     {{each arr }}
-    <span>{{$index}}:{{$value}}</span>
+    <span>arr {{$index}}:{{$value}}</span>
     {{/each}}
   </p>
 
+  <!-- <p>
+    {{each [1,2,3] }}
+    <span>{{$index}}:{{$value}}</span>
+    {{/each}}
+  </p> -->
+
   <p>{{now | dateFormat "yyyy-MM-dd hh:mm:ss"}}</p>
+  <p>{{now | dateFormat "yyyy-MM-dd"}}</p>
 
   <p>Art-Template Welcome to {{title}}</p>
   <input id="name" value="ly" /><br /><br />
