@@ -10,7 +10,7 @@ defaultRouter.use(async (ctx,next) => {
     await next()
 });
 defaultRouter.get('/', function (ctx) {
-    let n = ~~ctx.session.views;
+    let n = ~~ctx.session.views + 1;
     ctx.session.views = n;
     ctx.body = 'views' + n;
 });

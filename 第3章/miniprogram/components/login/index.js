@@ -54,7 +54,7 @@ Component({
         let code = res1.code
         console.log("code",code);
         
-        let res = await getApp().wxp.request({
+        let res = await getApp().wxp.request2({
           url: 'http://localhost:3000/user/wexin-login2',
           method: 'POST',
           header: {

@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
-    "miniprogram-api-promise": "^1.0.4"
+    "miniprogram-api-promise": "^1.0.4",
+    "weapp-cookie": "^1.4.6"
   },
   "devDependencies": {},
   "scripts": {

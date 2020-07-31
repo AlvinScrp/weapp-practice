@@ -2,6 +2,7 @@ const Sequelize = require(  'sequelize')
 const config = require( '../config/mysql-config' )
 
 const db = new Sequelize(config)
+
 // 测试连接
 db
   .authenticate()

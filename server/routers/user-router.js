@@ -50,8 +50,8 @@ router.use(async (ctx, next) => {
             // 如果签名不对，这里会报错，走到catch分支
             let payload = await util.promisify(jsonwebtoken.verify)(token, config.jwtSecret);
             console.log('payload', payload);
-            let {openId,nickName, avatarUrl,uid} = payload
-            ctx['user'] = {openId,nickName, avatarUrl, uid}
+            let {openId,nickName, avatarUrl} = payload
+            ctx['user'] = {openId,nickName, avatarUrl}
             console.log("openId,nickName, avatarUrl",openId,nickName, avatarUrl);
             // 404 bug
             await next()
@@ -101,18 +101,15 @@ router.all('/home', async function (ctx) {
     ctx.status = 200;
     ctx.body = {
         code: 200,
-        msg: `ok,${name}，${ctx.session.sessionKeyRecordId}`
+        msg: `ok,${name}`
     }
 });
 
 // 一个web-view页面，是给小程序加载的
 router.all('/web-view', async function (ctx) {
     let token = ctx.request.query.token 
-    ctx.session.sessionKeyRecordId = ~~ctx.session.sessionKeyRecordId+1
-
     if (token) ctx.cookies.set('Authorization', `Bearer ${token}`, {httpOnly:false});
-    let title = 'web view from koa'+ctx.session.sessionKeyRecordId
-    
+    let title = 'web view from koa'
     await ctx.render('index2', {
         title,
         arr:[1,2,3],
@@ -174,11 +171,7 @@ router.post("/wexin-login2", async (ctx) => {
     // 除了尝试从token中获取sessionKey，还可以从数据库中或服务器redis缓存中获取
     // 如果在db或redis中存储，可以与cookie结合起来使用，
     // 目前没有这样做，sessionKey仍然存在丢失的时候，又缺少一个wx.clearSession方法
-    // 
-    console.log("ctx.session.sessionKeyRecordId", ctx.session.sessionKeyRecordId);
     if (sessionKeyIsValid && !sessionKey && ctx.session.sessionKeyRecordId){
-      let sessionKeyRecordId = ctx.session.sessionKeyRecordId
-      console.log("sessionKeyRecordId", sessionKeyRecordId);
       // 如果还不有找到历史上有效的sessionKey，从db中取一下
       let sesskonKeyRecordOld = await SessionKey.findOne({where:{
         id:ctx.session.sessionKeyRecordId
@@ -201,6 +194,18 @@ router.post("/wexin-login2", async (ctx) => {
     decryptedUserInfo = pc.decryptData(encryptedData, iv)
     console.log('解密后 decryptedUserInfo.openId: ', decryptedUserInfo.openId)
 
+    // 添加上openId与sessionKey
+    let authorizationToken = jsonwebtoken.sign({ 
+          nickName: decryptedUserInfo.nickName,
+          avatarUrl:decryptedUserInfo.avatarUrl,
+          openId:decryptedUserInfo.openId,
+          sessionKey:sessionKey
+        }, 
+        config.jwtSecret,
+        { expiresIn: '3d' }//修改为3天，这是sessionKey的有效时间
+    )
+    Object.assign(decryptedUserInfo, {authorizationToken})
+
     let user = await User.findOne({where:{openId:decryptedUserInfo.openId}})
     if (!user){//如果用户没有查到，则创建
       let createRes = await User.create(decryptedUserInfo)
@@ -220,22 +225,7 @@ router.post("/wexin-login2", async (ctx) => {
       sessionKeyRecord = sessionKeyRecordCreateRes.dataValues
       console.log("created record",sessionKeyRecord);
     }
-    // ctx.cookies.set("sessionKeyRecordId", sessionKeyRecord.id)
     ctx.session.sessionKeyRecordId = sessionKeyRecord.id
-    console.log("sessionKeyRecordId", sessionKeyRecord.id);
-
-    // 添加上openId与sessionKey
-    let authorizationToken = jsonwebtoken.sign({ 
-        uid: user.id,
-        nickName: decryptedUserInfo.nickName,
-        avatarUrl:decryptedUserInfo.avatarUrl,
-        openId:decryptedUserInfo.openId,
-        sessionKey:sessionKey
-      }, 
-      config.jwtSecret,
-      { expiresIn: '3d' }//修改为3天，这是sessionKey的有效时间
-    )
-    Object.assign(decryptedUserInfo, {authorizationToken})
 
     ctx.status = 200
     ctx.body = {

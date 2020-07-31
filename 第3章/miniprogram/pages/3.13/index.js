@@ -9,12 +9,23 @@ Page({
   },
 
   async extendPageTest(){
-    this.hi('weapp')
     // 使用request3
     let res4 = await wx.wxp.request4({
       url: 'http://localhost:3000/user/home',
     })
     if (res4) console.log('res4', res4)
+
+    // res4 = await wx.wxp.request4({
+    //   url: 'http://localhost:3000/',
+    // })
+    // if (res4) console.log('res4', res4)
+
+    wx.requestWithCookie({
+        url: 'http://localhost:3000/',
+        success: function (res) {
+            console.log(res)
+        }
+    })
   },
 
   /**

@@ -18,7 +18,7 @@
 		"useIsolateContext": true,
 		"nodeModules": true,
 		"enhance": true,
-		"useCompilerModule": false,
+		"useCompilerModule": true,
 		"userConfirmedUseCompilerModuleSwitch": true,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
@@ -29,7 +29,7 @@
 		}
 	},
 	"appid": "wxc3db312ddf9bcb01",
-	"projectname": "%E7%AC%AC3%E7%AB%A0%203.15",
+	"projectname": "%E7%AC%AC3%E7%AB%A0",
 	"libVersion": "2.11.3",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},

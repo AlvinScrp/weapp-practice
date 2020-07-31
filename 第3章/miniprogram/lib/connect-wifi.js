@@ -1,6 +1,6 @@
 async function connectWifi() {
   let ssid = '201',
-    pass = '123456789'
+    pass = '20100504'
   let sysInfo = wx.getSystemInfoSync()
   let platform = sysInfo.platform
   // devtools/android/ios 
@@ -66,24 +66,21 @@ async function connectWifi() {
   if (!res.wifiList.length) return "wifi列表为空"
   console.log("res.wifiList", res.wifiList);
 
-  // var signalStrength = 0;
+  var signalStrength = 0;
   var bssid = '';
 
   for (var i = 0; i < res.wifiList.length; i++) {
     let wifi = res.wifiList[i]
-    if (wifi.SSID == ssid) {
-      bssid = wifi.BSSID
+    if (wifi['SSID'] == ssid) {
+      bssid = wifi['BSSID']
       break
     }
   }
   if (!bssid) return '未查询到目标wifi'
-  let res1 = await wx.wxp.connectWifi({
+  let res1 = await wx.connectWifi({
     SSID: ssid,
     BSSID: bssid,
     password: pass
-  }).catch(err => {
-    console.log("err", err);
-    return `运行错误：${err}`
   })
   if (res1) {
     console.log("wifi连接成功");

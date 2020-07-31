@@ -11,7 +11,7 @@ Page({
 
   async startToConnect() {
     let res = await connectWifi()
-    console.log("startToConnect result",res)
+    console.log(res)
   },
 
   /**
