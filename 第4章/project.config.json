@@ -18,18 +18,18 @@
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
 		"uploadWithSourceMap": true,
+		"compileHotReLoad": false,
 		"babelSetting": {
 			"ignore": [],
 			"disablePlugins": [],
 			"outputPath": ""
 		},
-		"useCompilerModule": true,
-		"userConfirmedUseCompilerModuleSwitch": false,
-		"compileHotReLoad": false,
-		"useIsolateContext": true
+		"useIsolateContext": true,
+		"useCompilerModule": false,
+		"userConfirmedUseCompilerModuleSwitch": false
 	},
 	"appid": "wxc3db312ddf9bcb01",
-	"projectname": "%E7%AC%AC4%E7%AB%A04.1",
+	"projectname": "%E7%AC%AC4%E7%AB%A0",
 	"libVersion": "2.8.1",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},

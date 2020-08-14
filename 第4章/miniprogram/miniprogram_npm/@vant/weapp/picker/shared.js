@@ -15,7 +15,7 @@ exports.pickerProps = {
   },
   visibleItemCount: {
     type: Number,
-    value: 6,
+    value: 5,
   },
   itemHeight: {
     type: Number,

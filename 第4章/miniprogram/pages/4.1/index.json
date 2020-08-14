@@ -2,7 +2,6 @@
   "usingComponents": {
     "van-button": "@vant/weapp/button/index",
     "van-area": "@vant/weapp/area/index",
-    "van-circle": "@vant/weapp/circle/index",
-    "van-popup": "@vant/weapp/popup/index"
+    "van-circle": "@vant/weapp/circle/index"
   }
 }

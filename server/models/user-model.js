@@ -1,38 +1,38 @@
-const Sequelize = require( 'sequelize' )
+const DataTypes = require( 'sequelize' )
 const db = require("./mysql-db")
 
 module.exports = db.define('user', {
   id: {
-    type: Sequelize.INTEGER(11),
+    type: DataTypes.INTEGER(11),
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
   },
   nickName: {
-    type: Sequelize.STRING(50),
+    type: DataTypes.STRING(50),
     allowNull: false
   },
   avatarUrl: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false
   },
   gender: {
-    type: Sequelize.INTEGER
+    type: DataTypes.INTEGER
   },
   language: {
-    type: Sequelize.STRING(10)
+    type: DataTypes.STRING(10)
   },
   city: {
-    type: Sequelize.STRING(20)
+    type: DataTypes.STRING(20)
   },
   province: {
-    type: Sequelize.STRING(20)
+    type: DataTypes.STRING(20)
   },
   country: {
-    type: Sequelize.STRING(10)
+    type: DataTypes.STRING(10)
   },
   openId: {
-    type: Sequelize.STRING(32),
+    type: DataTypes.STRING(32),
     allowNull: false
   }
 },{

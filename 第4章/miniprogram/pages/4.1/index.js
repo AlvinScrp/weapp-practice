@@ -7,35 +7,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    areaList:area,
-    show:false,
-    progress:1
-  },
-
-  incressProgress(e){
-    let progress = this.data.progress
-    progress += 20
-    console.log("progress",progress)
-    progress = Math.min(100, progress)
-    this.setData({
-      progress:progress
-    })
-    
-  },
-
-  onClose(e){
-    this.setData({ show: false })
-  },
-
-  onTap(e){
-    this.setData({
-      show:true
-    })
+    areaList:area
   },
 
   onAreaConfirm(e){
     console.log(e.detail);
-    this.onClose()
   },
 
   /**
