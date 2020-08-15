@@ -6,7 +6,9 @@ const router = new Router({
 })
 
 router.get("/categories", async function(ctx){
-  let categories = await GoodsCatetory.findAll()
+  let categories = await GoodsCatetory.findAll({
+    attributes:["id","category_name"]
+  })
   ctx.status = 200
   ctx.body = {
     coce:200,
