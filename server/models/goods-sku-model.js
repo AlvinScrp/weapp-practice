@@ -12,8 +12,8 @@ module.exports = db.define('goods_sku', {
     type: DataTypes.INTEGER(20),
     allowNull: false
   },
-  goods_attr_path: {//规格搭配路径，例如"1,3"
-    type: DataTypes.STRING(255),
+  goods_attr_path: {//规格搭配路径，goods_attr_value路径，例如"[1,3]"
+    type: DataTypes.JSON,
     allowNull: false
   },
   price: {//售价，单位分

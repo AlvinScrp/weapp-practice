@@ -44,6 +44,10 @@ module.exports = db.define('table1', {
   money:{
     type:DataTypes.DECIMAL(10,2),
     defaultValue:'0.0'
+  },
+  field1:{
+    type:DataTypes.JSON,
+    defaultValue:'{}'
   }
 },{
   tableName: 'table1',

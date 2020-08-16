@@ -119,3 +119,113 @@ begin
 end $
 delimiter ;
 call procInitGoodsInfo();
+
+-- 初始化规格表
+use practice;
+
+-- delete FROM practice.goods_attr_key where id>0;
+-- delete FROM practice.goods_attr_value where id>0;
+-- delete FROM practice.goods_sku where id>0;
+
+set @arr := Json_object("颜色",json_array("蓝色","粉色"),"尺码",json_array("120x150*240","120x180*300","120x200*360"));
+-- select @arr2 :=  JSON_KEYS(@arr);
+-- select @arr3 := json_extract(@arr,'$.颜色');
+-- select json_extract(@arr3,'$[0]');
+-- select json_extract(@arr2,'$[0]');
+
+select * from goods_attr_key;
+select * from goods_attr_value;
+select * from goods_sku;
+
+drop procedure if exists procInitAttrKeyValues;
+delimiter $
+create procedure procInitAttrKeyValues()
+begin
+	-- 局部变量与会话变量 
+	declare i int default 0;
+    declare j int default 0;
+    
+    declare len int default 0;
+    declare flag int default 0;
+    declare goods_id int;
+    
+    
+    declare goods_list_cursor cursor for select id from goods;
+    declare continue handler for not found set flag = 1;
+    
+    start transaction;
+    
+    select @attr_keys :=  JSON_KEYS(@arr);
+    set @attr_keys_len = json_length(@attr_keys);
+    
+    open goods_list_cursor;
+    fetch goods_list_cursor into goods_id;
+    while (flag<>1) do
+		set i = 0;
+        
+		while i < @attr_keys_len do
+			-- 循环拿出两个规格名称
+			select @attr_key := json_extract(@attr_keys, concat('$[',i,']'));
+			insert into goods_attr_key(goods_id,attr_name,createdAt,updatedAt) 	
+				values(goods_id,@attr_key,now(),now());
+			select @goods_attr_key_id := @@IDENTITY;
+            
+            select @goods_attr_values := json_extract(@arr,concat('$.',@attr_key,''));
+            set @goods_attr_values_len := json_length(@goods_attr_values);
+            
+            set j = 0;
+            
+            while (j<@goods_attr_values_len) do
+				set @goods_attr_value := json_extract(@goods_attr_values,concat('$[',j,']'));
+				insert into goods_attr_value(goods_id,attr_key_id,attr_value,createdAt,updatedAt) 
+					values(goods_id,@goods_attr_key_id,@goods_attr_value,now(),now());
+
+				set j = j+1;
+            end while;
+            
+			set i = i+1;
+		end while;
+
+        fetch goods_list_cursor into goods_id;
+    end while;
+    close goods_list_cursor;
+    
+    call procInitGoodsSku();
+    
+    -- rollback;
+	
+    commit;
+end $
+
+call procInitAttrKeyValues();
+
+
+-- 初始化sku表
+use practice;
+
+drop procedure if exists procInitGoodsSku;
+delimiter $
+create procedure procInitGoodsSku()
+begin
+	declare goods_attr_value1 int;
+    declare goods_attr_value2 int;
+    declare flag int default 0;
+    declare goods_id int;
+	declare goods_attr_values_cursor cursor for select a.goods_id, a.id,b.id FROM goods_attr_value as a 
+		left join goods_attr_value as b on a.attr_key_id != b.attr_key_id 
+        and a.goods_id = b.goods_id 
+        and a.attr_key_id < b.attr_key_id;
+    declare continue handler for not found set flag = 1;
+    
+    open goods_attr_values_cursor;
+    fetch goods_attr_values_cursor into goods_id, goods_attr_value1, goods_attr_value2;
+    while (flag<>1) do
+		select @goods_attr_path := json_array(goods_attr_value1, goods_attr_value2);
+        set @price := floor(rand()*10000 + 100);
+        set @stock := floor(rand()*100 + 1);
+		insert into goods_sku(goods_id,goods_attr_path,price,stock,createdAt,updatedAt) 
+			values(goods_id,@goods_attr_path,@price,@stock,now(),now());
+		fetch goods_attr_values_cursor into goods_id, goods_attr_value1, goods_attr_value2;
+    end while;
+    close goods_attr_values_cursor;
+end $
