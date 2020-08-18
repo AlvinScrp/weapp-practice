@@ -46,7 +46,7 @@ CALL procInitBrand();
 -- 初始化基本商品表
 use practice;
 
-SET @arr := JSON_ARRAY("夏凉被","冬暖被","秋躺椅");
+-- SET @arr := JSON_ARRAY("夏凉被","冬暖被","秋躺椅");
 
 DROP PROCEDURE IF EXISTS procInitGoods;
 --设置$作为分隔符
@@ -55,6 +55,8 @@ CREATE PROCEDURE procInitGoods()
 BEGIN
     DECLARE i INT DEFAULT 0;
     DECLARE len int default 10;
+    SET @arr := JSON_ARRAY("夏凉被","冬暖被","秋躺椅");
+
     WHILE i<len DO	
 		select @brand_name := brand_name, @brand_id := id from brand order by rand() limit 1;
 		select @spu_no := concat( @brand_id, year(now()), uuid() );
@@ -69,7 +71,7 @@ BEGIN
 END $
 CALL procInitGoods();
 
-SELECT * FROM goods;
+-- SELECT * FROM goods;
 
 
 -- 初始化商品描述表
@@ -229,3 +231,25 @@ begin
     end while;
     close goods_attr_values_cursor;
 end $
+
+-- 初始化商品表，修改分类id随机方式
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procInitGoods`()
+BEGIN
+    DECLARE i INT DEFAULT 0;
+    DECLARE len int default 50;
+    declare goods_category_id int;
+    SET @arr := JSON_ARRAY("夏凉被","冬暖被","秋躺椅");
+    
+    WHILE i<len DO	
+		select @brand_name := brand_name, @brand_id := id from brand order by rand() limit 1;
+		select @spu_no := concat( @brand_id, year(now()), uuid() );
+        
+        select @goods_name := concat( JSON_EXTRACT(@arr, CONCAT('$[', FLOOR(rand()*3), ']')), floor(rand()*1000) );
+        select @start_price := 1000 * rand();
+        set goods_category_id = (select id from goods_category order by rand() limit 1);
+        insert into goods(spu_no,goods_name,start_price,category_id,brand_id,createdAt,updatedAt) 
+			    values(@spu_no,@goods_name,@start_price,goods_category_id,@brand_id,now(),now());
+        
+        SET i = i+1;
+    END WHILE;
+END

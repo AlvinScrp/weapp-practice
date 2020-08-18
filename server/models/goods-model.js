@@ -13,7 +13,7 @@ module.exports = db.define('goods', {
     allowNull: false//DataTypes.UUIDV4
   },
   goods_name: {//商品名称
-    type: DataTypes.STRING(50),
+    type: DataTypes.TEXT("tiny"),
     allowNull: false
   },
   start_price: {//起始售价，最低价
