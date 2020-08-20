@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/category/index",
     "pages/4.1/index"
   ],
   "window": {
@@ -9,5 +10,8 @@
     "navigationBarTitleText": "第4章",
     "navigationBarTextStyle": "black"
   },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "useExtendedLib": {
+    "weui": true
+  }
 }
