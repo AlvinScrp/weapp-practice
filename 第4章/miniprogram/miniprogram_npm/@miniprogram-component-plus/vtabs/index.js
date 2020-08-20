@@ -147,6 +147,9 @@ Component({
         attached: function attached() {}
     },
     methods: {
+        hello(a){
+            return a+1
+        },
         calcHeight: function calcHeight() {
             var length = this.data.vtabs.length;
             var _contentHeight = this.data._contentHeight;

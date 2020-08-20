@@ -77,10 +77,10 @@ CALL procInitGoods();
 -- 初始化商品描述表
 use practice;
 
-set @links := JSON_ARRAY("https://gitee.com/rixingyike/my-images/raw/master/yishulun/20200814230735.png",
-"https://gitee.com/rixingyike/my-images/raw/master/yishulun/20200814230726.png",
-"https://gitee.com/rixingyike/my-images/raw/master/yishulun/20200814230740.png");
-set @links_count := json_length(@links);
+-- set @links := JSON_ARRAY("https://gitee.com/rixingyike/my-images/raw/master/yishulun/20200814230735.png",
+-- "https://gitee.com/rixingyike/my-images/raw/master/yishulun/20200814230726.png",
+-- "https://gitee.com/rixingyike/my-images/raw/master/yishulun/20200814230740.png");
+-- set @links_count := json_length(@links);
 
 drop procedure if exists procInitGoodsInfo; 
 delimiter $
@@ -96,6 +96,11 @@ begin
     
     declare list_cursor cursor for select id, goods_name from goods; 
     declare continue handler for not found set flag=1;
+
+    set @links := JSON_ARRAY("https://gitee.com/rixingyike/my-images/raw/master/yishulun/20200814230735.png",
+    "https://gitee.com/rixingyike/my-images/raw/master/yishulun/20200814230726.png",
+    "https://gitee.com/rixingyike/my-images/raw/master/yishulun/20200814230740.png");
+    set @links_count := json_length(@links);
     
     open list_cursor;  # 打开游标
     fetch list_cursor into goods_id,str_goods_name;
@@ -121,6 +126,7 @@ begin
 end $
 delimiter ;
 call procInitGoodsInfo();
+
 
 -- 初始化规格表
 use practice;
