@@ -97,9 +97,12 @@ begin
     declare list_cursor cursor for select id, goods_name from goods; 
     declare continue handler for not found set flag=1;
 
-    set @links := JSON_ARRAY("https://gitee.com/rixingyike/my-images/raw/master/yishulun/20200814230735.png",
-    "https://gitee.com/rixingyike/my-images/raw/master/yishulun/20200814230726.png",
-    "https://gitee.com/rixingyike/my-images/raw/master/yishulun/20200814230740.png");
+    -- set @links := JSON_ARRAY("https://gitee.com/rixingyike/my-images/raw/master/yishulun/20200814230735.png",
+    -- "https://gitee.com/rixingyike/my-images/raw/master/yishulun/20200814230726.png",
+    -- "https://gitee.com/rixingyike/my-images/raw/master/yishulun/20200814230740.png");
+    set @links := JSON_ARRAY("https://cloud-1252822131.cos.ap-beijing.myqcloud.com/img/20200820221945.png",
+    "https://cloud-1252822131.cos.ap-beijing.myqcloud.com/img/20200820222013.png",
+    "https://cloud-1252822131.cos.ap-beijing.myqcloud.com/img/20200820222033.png");
     set @links_count := json_length(@links);
     
     open list_cursor;  # 打开游标
