@@ -1,16 +1,17 @@
-<mp-vtabs 
-  vtabs="{{vtabs}}" 
-  activeTab="{{activeTab}}" 
-  bindtabclick="onTabCLick"
-  bindchange="onChange"
-  class="test"
->
-  <block wx:for="{{vtabs}}" wx:key="title" >
-    <mp-vtabs-content tabIndex="{{index}}">
-      <view class="vtabs-content-item">我是第{{index + 1}}项： {{item.title}}</view>
-      <view wx:for="{{goodsListMap[item.id]}}" wx:for-index="index2" wx:for-item="item2" wx:key="id" >
-        <view>{{item2.goods_name}}</view>
-      </view>
-    </mp-vtabs-content>
-  </block>
+<mp-vtabs vtabs="{{vtabs}}" activeTab="{{activeTab}}" bindtabclick="onTabCLick" bindchange="onChange" class="test" id="category-vtabs">
+	<block wx:for="{{vtabs}}" wx:key="title">
+		<mp-vtabs-content id="category-vtabs-content{{index}}" tabIndex="{{index}}">
+			<view class="vtabs-content-item">
+        <view style="background-color: inherit;text-align: center;">{{item.title}}</view>
+				<view wx:for="{{goodsListMap[item.id]}}" wx:for-index="index2" wx:for-item="item2" wx:key="id">
+					<van-card price="{{item2.start_price}}" desc="" title="{{item2.goods_name}}" thumb="{{ item2.goods_infos[0].content }}">
+						<view slot="footer">
+							<van-icon size="24px" name="shopping-cart-o" />
+						</view>
+					</van-card>
+
+				</view>
+			</view>
+		</mp-vtabs-content>
+	</block>
 </mp-vtabs>

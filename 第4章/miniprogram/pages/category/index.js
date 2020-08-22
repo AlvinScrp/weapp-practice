@@ -23,8 +23,8 @@ Page({
     let vtabs = []
     for(let j=0;j<categories.length;j++){
       let item = categories[j]
-      // this.getGoodsListByCategory(item.id,j)
-      await this.getGoodsListByCategory(item.id)
+      if (j<3) this.getGoodsListByCategory(item.id,j)
+      // this.getGoodsListByCategory(item.id)
       vtabs.push({title: item.category_name, id: item.id})
     }
   //   const vtabs = categories.map(item => {
@@ -32,9 +32,20 @@ Page({
   //     return ({title: item.category_name,id:item.id})
   // })
     this.setData({vtabs})
+
+    // const categoryVtabsComponent = this.selectComponent("#category-vtabs")
+    // console.log( categoryVtabsComponent.hello(1) );
+    
   },
 
-  async getGoodsListByCategory(categoryId){
+  // calcChildHeight
+  reClacHeight(index){
+    const categoryVtabsComponent = this.selectComponent("#category-vtabs")
+    const vtabContnet = this.selectComponent(`#category-vtabs-content${index}`)
+    categoryVtabsComponent.calcChildHeight(vtabContnet)
+  },
+
+  async getGoodsListByCategory(categoryId, index){
     let goodsList = await wx.wxp.request({
       url: `http://localhost:3000/goods/goods?page_size=10&page_index=1&category_id=${categoryId}`,
     })
@@ -44,16 +55,27 @@ Page({
     this.setData({
       [`goodsListMap[${categoryId}]`]:goodsList
     })
+    this.reClacHeight(index)
+  },
+
+  onCategoryChanged(index){
+    let cate = this.data.vtabs[index]
+    let category_id = cate.id 
+    if (!this.data.goodsListMap[category_id]){
+      this.getGoodsListByCategory(category_id, index)
+    }
   },
 
   onTabCLick(e) {
     const index = e.detail.index
     console.log('tabClick', index)
+    this.onCategoryChanged(index)
   },
 
   onChange(e) {
     const index = e.detail.index
     console.log('change', index)
+    this.onCategoryChanged(index)
   }
 
 })
