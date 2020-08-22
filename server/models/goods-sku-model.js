@@ -1,31 +1,32 @@
 const DataTypes = require( 'sequelize' )//修改类型名称从Sequelize变成DataTypes
 const db = require("./mysql-db")
 
-module.exports = db.define('goods_sku', {
-  id: {
-    type: DataTypes.INTEGER(11),
-    allowNull: false,// 是否允许为空
-    primaryKey: true, // 是否主键
-    autoIncrement: true,// 是否自增
+module.exports= db.define("goods_sku",
+{
+  id:{
+    type:DataTypes.INTEGER(11),
+    allowNull:false,
+    primaryKey:true,
+    autoIncrement:true
   },
-  goods_id: {
-    type: DataTypes.INTEGER(20),
-    allowNull: false
+  goods_id:{
+    type:DataTypes.INTEGER(20),
+    allowNull:false
   },
-  goods_attr_path: {//规格搭配路径，goods_attr_value路径，例如"[1,3]"
-    type: DataTypes.JSON,
-    allowNull: false
+  goods_attr_path:{//[1,2]
+    type:DataTypes.JSON,
+    allowNull:false
   },
-  price: {//售价，单位分
-    type: DataTypes.INTEGER,
-    allowNull: false
+  price:{//分
+    type:DataTypes.INTEGER(11),
+    allowNull:false
   },
-  stock: {//库存
-    type: DataTypes.INTEGER,
-    allowNull: false
+  stock:{
+    type:DataTypes.INTEGER(4),
+    allowNull:false,
+    defaultValue:0
   }
 },{
-	freezeTableName: true, 
-  timestamps: true
+  freezeTableName:true,
+  timestamps:true
 })
-

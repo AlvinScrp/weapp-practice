@@ -1,8 +1,5 @@
 //app.js
-import wxp from './lib/wxp'
-
 App({
-  wxp: (wx.wxp = wxp),
   onLaunch: function () {
     
     if (!wx.cloud) {

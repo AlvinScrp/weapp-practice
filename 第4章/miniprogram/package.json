@@ -4,10 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
-    "@miniprogram-component-plus/vtabs": "^1.0.0",
-    "@miniprogram-component-plus/vtabs-content": "^1.0.0",
-    "@vant/weapp": "^1.4.0",
-    "miniprogram-api-promise": "^1.0.4"
+    "@vant/weapp": "^1.4.0"
   },
   "devDependencies": {},
   "scripts": {
