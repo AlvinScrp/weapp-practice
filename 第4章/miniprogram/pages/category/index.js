@@ -2,13 +2,14 @@ Page({
   data: {
     vtabs: [],
     activeTab: 0,
+    goodsListMap:{}
   },
 
   async onLoad() {
     let categories = await wx.wxp.request({
       url: 'http://localhost:3000/goods/categories',
     })
-    console.log(categories);
+    // console.log(categories);
     
     if (categories) categories = categories.data.data
     // const titles = ['热搜推荐', '手机数码', '家用电器',
@@ -19,9 +20,30 @@ Page({
     //   '家居建材', '计生情趣', '医药保健', 
     //   '时尚钟表', '珠宝饰品', '礼品鲜花', 
     //   '图书音像', '房产', '电脑办公']
-
-    const vtabs = categories.map(item => ({title: item.category_name,id:item.id}))
+    let vtabs = []
+    for(let j=0;j<categories.length;j++){
+      let item = categories[j]
+      // this.getGoodsListByCategory(item.id,j)
+      await this.getGoodsListByCategory(item.id)
+      vtabs.push({title: item.category_name, id: item.id})
+    }
+  //   const vtabs = categories.map(item => {
+  //     this.getGoodsListByCategory(item.id)
+  //     return ({title: item.category_name,id:item.id})
+  // })
     this.setData({vtabs})
+  },
+
+  async getGoodsListByCategory(categoryId){
+    let goodsList = await wx.wxp.request({
+      url: `http://localhost:3000/goods/goods?page_size=10&page_index=1&category_id=${categoryId}`,
+    })
+    console.log("goodsList",goodsList);
+    
+    if (goodsList) goodsList = goodsList.data.data.rows
+    this.setData({
+      [`goodsListMap[${categoryId}]`]:goodsList
+    })
   },
 
   onTabCLick(e) {
