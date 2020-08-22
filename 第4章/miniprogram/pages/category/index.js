@@ -6,12 +6,14 @@ Page({
   },
 
   async onLoad() {
-    let categories = await wx.wxp.request({
+    let categoriesData = await wx.wxp.request({
       url: 'http://localhost:3000/goods/categories',
     })
-    // console.log(categories);
+    if (categoriesData){
+      categoriesData = categoriesData.data.data;
+    }
+    console.log(categoriesData);
     
-    if (categories) categories = categories.data.data
     // const titles = ['热搜推荐', '手机数码', '家用电器',
     //   '生鲜果蔬', '酒水饮料', '生活美食', 
     //   '美妆护肤', '个护清洁', '女装内衣', 
@@ -21,49 +23,18 @@ Page({
     //   '时尚钟表', '珠宝饰品', '礼品鲜花', 
     //   '图书音像', '房产', '电脑办公']
     let vtabs = []
-    for(let j=0;j<categories.length;j++){
-      let item = categories[j]
+    // const vtabs = categoriesData.map(item => {
+    //   this.getGoodsListByCategory(item.id)
+    //   return {title: item.category_name, id: item.id}
+    // })
+    for(let j=0;j<categoriesData.length;j++){
+      let item = categoriesData[j]
       if (j<3) this.getGoodsListByCategory(item.id,j)
-      // this.getGoodsListByCategory(item.id)
+      // await this.getGoodsListByCategory(item.id)
       vtabs.push({title: item.category_name, id: item.id})
     }
-  //   const vtabs = categories.map(item => {
-  //     this.getGoodsListByCategory(item.id)
-  //     return ({title: item.category_name,id:item.id})
-  // })
     this.setData({vtabs})
-
-    // const categoryVtabsComponent = this.selectComponent("#category-vtabs")
-    // console.log( categoryVtabsComponent.hello(1) );
-    
-  },
-
-  // calcChildHeight
-  reClacHeight(index){
-    const categoryVtabsComponent = this.selectComponent("#category-vtabs")
-    const vtabContnet = this.selectComponent(`#category-vtabs-content${index}`)
-    categoryVtabsComponent.calcChildHeight(vtabContnet)
-  },
-
-  async getGoodsListByCategory(categoryId, index){
-    let goodsList = await wx.wxp.request({
-      url: `http://localhost:3000/goods/goods?page_size=10&page_index=1&category_id=${categoryId}`,
-    })
-    console.log("goodsList",goodsList);
-    
-    if (goodsList) goodsList = goodsList.data.data.rows
-    this.setData({
-      [`goodsListMap[${categoryId}]`]:goodsList
-    })
-    this.reClacHeight(index)
-  },
-
-  onCategoryChanged(index){
-    let cate = this.data.vtabs[index]
-    let category_id = cate.id 
-    if (!this.data.goodsListMap[category_id]){
-      this.getGoodsListByCategory(category_id, index)
-    }
+ 
   },
 
   onTabCLick(e) {
@@ -76,6 +47,41 @@ Page({
     const index = e.detail.index
     console.log('change', index)
     this.onCategoryChanged(index)
+  },
+
+  onCategoryChanged(index){
+    let cate = this.data.vtabs[index]
+    let categoryId = cate.id
+    if (!this.data.goodsListMap[categoryId]){
+      this.getGoodsListByCategory(categoryId,index)
+    }
+  },
+
+  // 重新计算高度
+  reClacChildHeight(index){
+    // calcChildHeight
+    const goodsContent = this.selectComponent(`#goods-content${index}`)
+    console.log(goodsContent);
+    
+    const categoryVtabs = this.selectComponent('#category-vtabs')
+    categoryVtabs.calcChildHeight(goodsContent)
+  },
+
+  async getGoodsListByCategory(categoryId,index){
+    let goodsData = await wx.wxp.request({
+      url: `http://localhost:3000/goods/goods?page_index=1&page_size=20&category_id=${categoryId}`,
+    })
+    if (goodsData){
+      goodsData = goodsData.data.data.rows;
+    }
+    // console.log(goodsData);
+    this.setData({
+      [`goodsListMap[${categoryId}]`]:goodsData
+    })
+    // this.data.goodsListMap[categoryId] = goodsData
+    this.reClacChildHeight(index)
   }
 
 })
+
+

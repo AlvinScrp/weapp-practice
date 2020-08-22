@@ -103,11 +103,11 @@ Component({
         vtabs: { type: Array, value: [] },
         tabBarClass: { type: String, value: '' },
         activeClass: { type: String, value: '' },
-        tabLineColor: { type: String, value: '#ff0000' },
-        tabInactiveTextColor: { type: String, value: '#000000' },
-        tabActiveTextColor: { type: String, value: '#ff0000' },
-        tabInactiveBgColor: { type: String, value: '#eeeeee' },
-        tabActiveBgColor: { type: String, value: '#ffffff' },
+        tabBarLineColor: { type: String, value: '#ff0000' },
+        tabBarInactiveTextColor: { type: String, value: '#000000' },
+        tabBarActiveTextColor: { type: String, value: '#ff0000' },
+        tabBarInactiveBgColor: { type: String, value: '#eeeeee' },
+        tabBarActiveBgColor: { type: String, value: '#ffffff' },
         activeTab: { type: Number, value: 0 },
         animation: { type: Boolean, value: true }
     },
@@ -126,7 +126,17 @@ Component({
         '../vtabs-content/index': {
             type: 'child',
             linked: function linked(target) {
-                this.calcChildHeight(target)
+                var _this = this;
+
+                target.calcHeight(function (rect) {
+                    _this.data._contentHeight[target.data.tabIndex] = rect.height;
+                    if (_this._calcHeightTimer) {
+                        clearTimeout(_this._calcHeightTimer);
+                    }
+                    _this._calcHeightTimer = setTimeout(function () {
+                        _this.calcHeight();
+                    }, 100);
+                });
             },
             unlinked: function unlinked(target) {
                 delete this.data._contentHeight[target.data.tabIndex];
@@ -137,19 +147,6 @@ Component({
         attached: function attached() {}
     },
     methods: {
-        calcChildHeight:function(target){
-            var _this = this;
-
-            target.calcHeight(function (rect) {
-                _this.data._contentHeight[target.data.tabIndex] = rect.height;
-                if (_this._calcHeightTimer) {
-                    clearTimeout(_this._calcHeightTimer);
-                }
-                _this._calcHeightTimer = setTimeout(function () {
-                    _this.calcHeight();
-                }, 100);
-            });
-        },
         calcHeight: function calcHeight() {
             var length = this.data.vtabs.length;
             var _contentHeight = this.data._contentHeight;
