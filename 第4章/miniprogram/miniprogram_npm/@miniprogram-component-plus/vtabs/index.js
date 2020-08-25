@@ -91,7 +91,7 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+const windowHeight = wx.getSystemInfoSync().windowHeight
 
 Component({
     options: {
@@ -183,16 +183,23 @@ Component({
             if (_heightRecords.length === 0) return;
             var length = this.data.vtabs.length;
             var scrollTop = e.detail.scrollTop;
-            var index = 0;
-            if (scrollTop >= _heightRecords[0]) {
+            var index = -1;
+            if (scrollTop >= _heightRecords[this.data.activeTab]-windowHeight-50){
+                // 滚动到底部还有50个px时
+                this.triggerEvent('scrolltoindexlower', { index: this.data.activeTab });
+            }
+            // const windowHeight = wx.getSystemInfoSync().windowHeight
+            if (scrollTop >= _heightRecords[0]-windowHeight) {
                 for (var i = 1; i < length; i++) {
-                    if (scrollTop >= _heightRecords[i - 1] && scrollTop < _heightRecords[i]) {
+                    if (scrollTop >= _heightRecords[i - 1]-windowHeight && scrollTop < (_heightRecords[i]-windowHeight)) {
                         index = i;
                         break;
                     }
                 }
+            }else{
+                index = 0
             }
-            if (index !== this.data.activeTab) {
+            if (index > -1 && index !== this.data.activeTab) {
                 this.triggerEvent('change', { index: index });
                 this.setData({ activeTab: index });
             }

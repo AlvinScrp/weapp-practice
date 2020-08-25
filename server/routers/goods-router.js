@@ -45,7 +45,8 @@ router.get("/goods", async (ctx) => {
       model: GoodsInfo,
       attributes: ['content', 'kind', 'goods_id'], 
       where: {'kind':0}
-    }]
+    }],
+    distinct:true
   })
   ctx.status = 200
   ctx.body = {

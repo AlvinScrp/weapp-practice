@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/category/index",
+    "pages/recycle/index",
     "pages/4.1/index"
   ],
   "window": {
