@@ -56,4 +56,25 @@ router.get("/goods", async (ctx) => {
   }
 })
 
+router.get("/goods/:id", async (ctx) => {
+  let goodsId = Number(ctx.params.id)
+  Goods.hasMany(GoodsInfo, {foreignKey: 'goods_id', targetKey: 'id'});
+
+  let goods = await Goods.findOne({
+    where:{
+      id:goodsId
+    },
+    include: [{ 
+      model: GoodsInfo,
+      attributes: ['content', 'kind', 'goods_id']
+    }],
+  })
+  ctx.status = 200
+  ctx.body = {
+      code: 200,
+      msg: 'ok',
+      data: goods
+  }
+})
+
 module.exports = router

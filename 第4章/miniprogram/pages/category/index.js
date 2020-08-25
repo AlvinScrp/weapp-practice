@@ -7,6 +7,28 @@ Page({
     loading:true
   },
 
+  async onTapGoods(e){
+    wx.showLoading({
+      title: 'Loading..',
+    })
+    let goodsId = e.currentTarget.dataset.id 
+    let goods = await wx.wxp.request({
+      url: `http://localhost:3000/goods/goods/${goodsId}`,
+    })
+    console.log(goods);
+    
+    if (goods){
+      goods = goods.data.data 
+      wx.navigateTo({
+        url: `/pages/goods/index?goodsId=${goodsId}`,
+        success: function(res) {
+          res.eventChannel.emit('goodsData', { data: goods })
+        }
+      })
+    }
+    wx.hideLoading()
+  },
+
   async onLoad() {
     let categoriesData = await wx.wxp.request({
       url: 'http://localhost:3000/goods/categories',

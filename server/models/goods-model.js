@@ -16,6 +16,10 @@ module.exports = db.define('goods', {
     type: DataTypes.TEXT("tiny"),
     allowNull: false
   },
+  goods_desc: {//商品描述
+    type: DataTypes.TEXT("tiny"),
+    allowNull: false
+  },
   start_price: {//起始售价，最低价
     type: DataTypes.DECIMAL(9,2),
     allowNull: false
