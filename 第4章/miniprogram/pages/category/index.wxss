@@ -1,4 +1,5 @@
 @import '../../common.wxss';
+@import "./index.skeleton.wxss";
 
 page{
     background-color: #FFFFFF;

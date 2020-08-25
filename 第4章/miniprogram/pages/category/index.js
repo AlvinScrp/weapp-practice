@@ -3,7 +3,8 @@ Page({
     vtabs: [],
     activeTab: 0,
     goodsListMap:{},
-    lastIndexForLoadMore:-1
+    lastIndexForLoadMore:-1,
+    loading:true
   },
 
   async onLoad() {
@@ -34,8 +35,10 @@ Page({
       // await this.getGoodsListByCategory(item.id)
       vtabs.push({title: item.category_name, id: item.id})
     }
-    this.setData({vtabs})
- 
+    this.setData({
+      vtabs,
+      loading:false
+    })
   },
 
   onTabCLick(e) {
