@@ -1,2 +1,28 @@
 <!--miniprogram/pages/goods/index.wxml-->
-<text>miniprogram/pages/goods/index.wxml</text>
+<!-- <text>miniprogram/pages/goods/index.wxml</text> -->
+<swiper indicator-dots style="height:300px;">
+	<block wx:for="{{goodsImages}}" wx:key="*this">
+		<swiper-item>
+			<van-image lazy-load slot="loading" fit="cover" width="100%" height="300" src="{{item.content}}" />
+		</swiper-item>
+	</block>
+</swiper>
+<!-- 标题及价格 -->
+<view style="background-color:white;padding: 10px 15px 0;font-family:'微软雅黑'">
+  <view style="color:#C0A769;">
+    <text style="font-size:11px;">￥</text>
+    <text style="font-size:18px;">{{goodsData.start_price}}</text>
+  </view>
+  <van-row>
+    <van-col span="16">
+      <view style="color:black;font-size:16px;">{{goodsData.goods_name}}</view>
+    </van-col>
+    <van-col span="8" style="text-align:right;">
+      <van-button style="font-size:11px;background-color:#F5F9FA;color:#767A7B;border-radius:30px;padding: 5px 10px;margin-right: -20px;" plain type="info" class="iconfont icon-share"> 分享</van-button>
+    </van-col>
+  </van-row>
+  <view style="color:#939697;font-size:11px;">{{goodsData.goods_desc}}</view>
+</view>
+<van-cell-group border="{{false}}">
+  <van-cell style="font-size:13px;" title="全程护航，请放心购买" is-link />
+</van-cell-group>

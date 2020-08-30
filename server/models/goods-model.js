@@ -16,6 +16,10 @@ module.exports = db.define("goods",{
     type:DataTypes.STRING(50),
     allowNull:false
   },
+  goods_desc:{
+    type:DataTypes.TEXT("tiny"),
+    allowNull:false
+  },
   start_price:{
     type:DataTypes.DECIMAL(9,2),
     allowNull:false
