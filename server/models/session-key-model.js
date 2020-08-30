@@ -2,7 +2,6 @@ const DataTypes = require( 'sequelize' )
 const db = require("./mysql-db")
 const User = require("./user-model")
 
-
 module.exports = db.define('session_key', {
   id: {
     type: DataTypes.INTEGER(11),

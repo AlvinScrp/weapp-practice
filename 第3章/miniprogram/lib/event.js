@@ -1,4 +1,3 @@
-// 这个文件需要被 event2.js代替
 class Event {
 	cache;
 	constructor() {
@@ -17,7 +16,7 @@ class Event {
 	}
 	off(key) {
 		this.cache[key] = null;
-  }
+	}
 	emit(key, ...args) {
 		const stack = this.cache[key];
 		if (stack && stack.length > 0) {

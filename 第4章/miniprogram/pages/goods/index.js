@@ -22,7 +22,6 @@ Page({
       this.setData({
         goodsData:res.data,
         goodsImages
-        
       })
     })
   },
