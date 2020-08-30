@@ -18,11 +18,11 @@
       <view style="color:black;font-size:16px;">{{goodsData.goods_name}}</view>
     </van-col>
     <van-col span="8" style="text-align:right;">
-      <van-button style="font-size:11px;background-color:#F5F9FA;color:#767A7B;border-radius:30px;padding: 5px 10px;margin-right: -20px;" plain type="info" class="iconfont icon-share"> 分享</van-button>
+      <view class="iconfont icon-share share"> 分享</view>
     </van-col>
   </van-row>
   <view style="color:#939697;font-size:11px;">{{goodsData.goods_desc}}</view>
 </view>
 <van-cell-group border="{{false}}">
-  <van-cell style="font-size:13px;" title="全程护航，请放心购买" is-link />
+  <van-cell class="buydesc" title="全程护航，请放心购买" is-link />
 </van-cell-group>
