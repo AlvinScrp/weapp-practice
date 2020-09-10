@@ -9,20 +9,44 @@
 </swiper>
 <!-- 标题及价格 -->
 <view style="background-color:white;padding: 10px 15px 0;font-family:'微软雅黑'">
-  <view style="color:#C0A769;">
-    <text style="font-size:11px;">￥</text>
-    <text style="font-size:18px;">{{goodsData.start_price}}</text>
-  </view>
-  <van-row>
-    <van-col span="16">
-      <view style="color:black;font-size:16px;">{{goodsData.goods_name}}</view>
-    </van-col>
-    <van-col span="8" style="text-align:right;">
-      <view class="iconfont icon-share share"> 分享</view>
-    </van-col>
-  </van-row>
-  <view style="color:#939697;font-size:11px;">{{goodsData.goods_desc}}</view>
+	<view style="color:#C0A769;">
+		<text style="font-size:11px;">￥</text>
+		<text style="font-size:18px;">{{goodsData.start_price}}</text>
+	</view>
+	<van-row>
+		<van-col span="16">
+			<view style="color:black;font-size:16px;">{{goodsData.goods_name}}</view>
+		</van-col>
+		<van-col span="8" style="text-align:right;">
+			<view class="iconfont icon-share share"> 分享</view>
+		</van-col>
+	</van-row>
+	<view style="color:#939697;font-size:11px;">{{goodsData.goods_desc}}</view>
 </view>
 <van-cell-group border="{{false}}">
-  <van-cell class="buydesc" title="全程护航，请放心购买" is-link />
+	<van-cell class="buydesc" title="全程护航，请放心购买" is-link />
+</van-cell-group>
+
+<van-cell-group title=" ">
+	<van-cell value="" is-link>
+		<view slot="title">
+			<text style="float: left;padding-right: 10px;font-size: 13px;color: gray;">运费</text>
+			<view>免运费</view>
+		</view>
+	</van-cell>
+</van-cell-group>
+
+<van-cell-group title=" ">
+	<van-cell value="" is-link>
+		<view slot="title">
+			<text style="float: left;padding-right: 10px;font-size: 13px;color: gray;">服务</text>
+			<view>收货后结算</view>
+		</view>
+	</van-cell>
+  <van-cell value="" is-link>
+		<view slot="title">
+			<text style="float: left;padding-right: 10px;font-size: 13px;color: gray;">规格</text>
+			<view>选择</view>
+		</view>
+	</van-cell>
 </van-cell-group>
