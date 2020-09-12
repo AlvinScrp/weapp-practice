@@ -138,7 +138,7 @@ use practice;
 -- delete FROM practice.goods_attr_value where id>0;
 -- delete FROM practice.goods_sku where id>0;
 
-set @arr := Json_object("颜色",json_array("蓝色","粉色"),"尺码",json_array("120x150*240","120x180*300","120x200*360"));
+-- set @arr := Json_object("颜色",json_array("蓝色","粉色"),"尺码",json_array("120x150*240","120x180*300","120x200*360"));
 -- select @arr2 :=  JSON_KEYS(@arr);
 -- select @arr3 := json_extract(@arr,'$.颜色');
 -- select json_extract(@arr3,'$[0]');
@@ -166,6 +166,7 @@ begin
     
     start transaction;
     
+    set @arr := Json_object("颜色",json_array("蓝色","粉色"),"尺码",json_array("120x150*240","120x180*300","120x200*360"));
     select @attr_keys :=  JSON_KEYS(@arr);
     set @attr_keys_len = json_length(@attr_keys);
     

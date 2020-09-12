@@ -2,6 +2,9 @@ const Router = require("@koa/router")
 const GoodsCatetory = require("../models/goods-category-model")
 const Goods = require("../models/goods-model")
 const GoodsInfo = require("../models/goods-info-model")
+const GoodsSku = require("../models/goods-sku-model")
+const GoodsAttrKey = require("../models/goods-attr-key-model")
+const GoodsAttrValue = require("../models/goods-attr-value-model")
 
 const router = new Router({
   prefix:"/goods"
@@ -71,6 +74,37 @@ router.get("/goods/:id", async (ctx) => {
       code: 200,
       msg: 'ok',
       data: goods
+  }
+})
+
+router.get("/goods/:id/sku", async (ctx) => {
+  let goodsId = Number(ctx.params.id)
+  GoodsAttrKey.hasMany(GoodsAttrValue, {foreignKey: 'attr_key_id', targetKey: 'id'});
+
+  let goodsSku = await GoodsSku.findAll({
+    where:{
+      goods_id:goodsId
+    }
+  })
+  let goodsAttrKeys = await GoodsAttrKey.findAll({
+    where:{
+      goods_id:goodsId
+    },
+    attributes: ['id','attr_key', 'goods_id'],
+    include: [{ 
+      model: GoodsAttrValue,
+      attributes: ['id','attr_value', 'attr_key_id', 'goods_id']
+    }],
+  })
+  
+  ctx.status = 200
+  ctx.body = {
+      code: 200,
+      msg: 'ok',
+      data: {
+        goodsSku,
+        goodsAttrKeys
+      }
   }
 })
 
