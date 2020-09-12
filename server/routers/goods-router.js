@@ -95,6 +95,7 @@ router.get("/goods/:id/sku", async (ctx) => {
       model: GoodsAttrValue,
       attributes: ['id','attr_value', 'attr_key_id', 'goods_id']
     }],
+    distinct:true
   })
   
   ctx.status = 200
