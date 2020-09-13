@@ -47,7 +47,9 @@
 	<van-cell value="" is-link bind:click="showSkuPanelPopup">
 		<view slot="title">
 			<text style="float: left;padding-right: 10px;font-size: 13px;color: gray;">规格</text>
-			<view>选择</view>
+			<view>
+				{{selectedGoodsSkuObject.text || "选择"}}
+			</view>
 		</view>
 	</van-cell>
 </van-cell-group>
@@ -70,34 +72,27 @@
 			<image style="width:100px;height:100px;border-radius:5px;" src="{{goodsImages[0].content}}" />
 		</view>
 		<view style="flex:1;padding-left:10px;color: gray;padding-top: 10px;">
-			<view>价格：元</view>
-			<view>库存：</view>
+			<view>价格：{{selectedGoodsSku.price/100}}元</view>
+			<view>库存：{{selectedGoodsSku.stock}}</view>
 			<view>规格：
+				<text wx:for="{{goodsSkuData.goodsAttrKeys}}" wx:key="attr_key" style="padding-right:5px;">{{selectedAttrValue[item.attr_key].attr_value}}</text>
 			</view>
 		</view>
 	</view>
 
+	<block wx:for="{{goodsSkuData.goodsAttrKeys}}" wx:key="attr_key">
+		<van-cell-group title=" ">
+			<van-cell>
+				<view slot="title">
+					<view class="van-cell-text">{{item.attr_key}}</view>
+					<block wx:for="{{item.goods_attr_values}}" wx:for-item="item2" wx:key="attr_value">
+						<van-tag bindtap="onTapSkuTag" data-attrvalue="{{item2}}" data-attrkey="{{item.attr_key}}" plain="{{item2.id!=selectedAttrValue[item.attr_key].id}}" type="primary">{{item2.attr_value}}</van-tag>
+					</block>
+				</view>
+			</van-cell>
+		</van-cell-group>
+	</block>
 
-	<van-cell-group title=" ">
-		<van-cell>
-			<view slot="title">
-				<view class="van-cell-text">颜色</view>
-				<van-tag plain type="primary">蓝色</van-tag>
-				<van-tag type="primary">红色</van-tag>
-			</view>
-		</van-cell>
-	</van-cell-group>
-
-	<van-cell-group title=" ">
-		<van-cell>
-			<view slot="title">
-				<view class="van-cell-text">尺寸</view>
-				<van-tag plain type="primary">蓝色</van-tag>
-				<van-tag type="primary">红色</van-tag>
-			</view>
-		</van-cell>
-	</van-cell-group>
-
-	<van-button type="primary" size="large">确定</van-button>
+	<van-button bindtap="onConfirmGoodsSku" type="primary" size="large">确定</van-button>
 
 </van-popup>
