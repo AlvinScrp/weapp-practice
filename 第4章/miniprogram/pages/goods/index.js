@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    showLoginPanel:false,
     showSkuPanel: false,
     goodsId:0,
     goodsData:{},
@@ -15,6 +16,18 @@ Page({
     selectedAttrValue:{},
     selectedGoodsSkuObject:{}
   },
+
+    // 测试返回对象
+    requestHomeApiByReq4(e){
+      getApp().wxp.request4({
+        url: 'http://localhost:3000/user/home',
+        onReturnObject(rtn){
+          // rtn.abort()
+        }
+      }).catch(err=>{
+        console.log(err);
+      })
+    },
 
     // 显示规格面板
     showSkuPanelPopup() {
