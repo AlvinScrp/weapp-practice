@@ -3,7 +3,7 @@
 <swiper indicator-dots style="height:300px;">
 	<block wx:for="{{goodsImages}}" wx:key="*this">
 		<swiper-item>
-			<van-image lazy-load slot="loading" fit="cover" width="100%" height="300" src="{{item.content}}" />
+			<van-image lazy-load loading="loading" fit="cover" width="100%" height="300" src="{{item.content}}" />
 		</swiper-item>
 	</block>
 </swiper>
@@ -23,9 +23,6 @@
 	</van-row>
 	<view style="color:#939697;font-size:11px;">{{goodsData.goods_desc}}</view>
 </view>
-<van-cell-group border="{{false}}">
-	<van-cell class="buydesc" title="全程护航，请放心购买" is-link />
-</van-cell-group>
 
 <van-cell-group border="{{false}}">
 	<van-cell class="buydesc" title="全程护航，请放心购买" is-link />
@@ -54,6 +51,18 @@
 		</view>
 	</van-cell>
 </van-cell-group>
+
+<view style="padding:10px 10px 100px;">
+  <van-image wx:for="{{goodsImages}}" wx:key="content" lazy-load loading="loading" fit="cover" width="100%" height="300" src="{{item.content}}" />
+  <text>{{goodsContentInfo.content}}</text>
+</view>
+
+<van-goods-action>
+  <van-goods-action-icon icon="cart-o" text="购物车" info="0" />
+  <van-goods-action-icon icon="shop-o" text="店铺" />
+  <van-goods-action-button text="加入购物车" type="warning" />
+  <van-goods-action-button text="立即购买" />
+</van-goods-action>
 
 <van-popup show="{{showSkuPanel}}" closeable position="bottom" round custom-style="min-height:200px;background-color: #efefef;" bind:close="onCloseSkuPanel">
 	<view style="width:100%;background-color: #efefef;display:flex;padding:10px 10px 0;">

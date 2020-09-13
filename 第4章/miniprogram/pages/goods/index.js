@@ -9,6 +9,7 @@ Page({
     goodsId:0,
     goodsData:{},
     goodsImages: [],
+    goodsContentInfo:{}
   },
 
     // 显示规格面板
@@ -30,9 +31,12 @@ Page({
     eventChannel.on('goodsData', (res)=> {
       console.log(res)
       let goodsImages = res.data.goods_infos.filter(item=>(item.kind == 0))
+      let goodsContentInfo = res.data.goods_infos.filter(item=>(item.kind == 1))[0]
+
       this.setData({
         goodsData:res.data,
-        goodsImages
+        goodsImages,
+        goodsContentInfo
       })
     })
   },
