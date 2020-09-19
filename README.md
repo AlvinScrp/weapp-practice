@@ -114,9 +114,5 @@
 
 2020年5月25日
 
-小程序APPID：
-wxb036cafe2994d7d0
-小程序路径：
-
-二维码链接：
+微信圈子：
 https://wsad.weixin.qq.com/group/BgAAWdJxKGLjjFA9CqcH9hoyqQ
