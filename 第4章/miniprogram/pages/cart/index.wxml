@@ -10,7 +10,7 @@
 <van-checkbox-group value="{{ cartIdSelectedResult }}" bind:change="onSelectGoodsItem">
 
 	<view class="goods-card-container">
-		<view style="width:30px;display:flex;align-items:center;justify-content:cneter;">
+		<view style="width:30px;display:flex;align-items:center;justify-content:center;">
 			<van-checkbox icon-size="17px" shape="square" name="1"></van-checkbox>
 		</view>
 		<view style="flex:1;background:white;">
@@ -23,7 +23,7 @@
 	</view>
 
   <view class="goods-card-container">
-		<view style="width:30px;display:flex;align-items:center;justify-content:cneter;">
+		<view style="width:30px;display:flex;align-items:center;justify-content:center;">
 			<van-checkbox icon-size="17px" shape="square" name="2"></van-checkbox>
 		</view>
 		<view style="flex:1;background:white;">
