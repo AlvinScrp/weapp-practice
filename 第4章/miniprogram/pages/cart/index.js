@@ -5,9 +5,39 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    cartIdSelectedResult:[],
+    allIsSelected:false,
+    editMode:false
   },
 
+  changeEditMode(){
+    let editMode = !this.data.editMode
+    this.setData({
+      editMode
+    })
+  },
+
+  onSelectGoodsItem(e){
+    let cartIdSelectedResult = e.detail
+    this.setData({
+      cartIdSelectedResult,
+    });
+  },
+  onSelectAll(event) {
+    let allIsSelected = event.detail
+    let cartIdSelectedResult = this.data.cartIdSelectedResult
+    cartIdSelectedResult.length = 0
+
+    if (allIsSelected){
+      cartIdSelectedResult.push("1")
+      cartIdSelectedResult.push("2")
+    }
+
+    this.setData({
+      allIsSelected,
+      cartIdSelectedResult
+    });
+  },
   /**
    * 生命周期函数--监听页面加载
    */
