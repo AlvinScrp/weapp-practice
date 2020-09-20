@@ -1,5 +1,0 @@
-/* miniprogram/pages/index/index.wxss */
-Page{
-  background-color: white;
-  padding-bottom: 500px;
-}

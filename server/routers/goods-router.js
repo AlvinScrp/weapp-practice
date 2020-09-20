@@ -5,8 +5,6 @@ const GoodsInfo = require("../models/goods-info-model")
 const GoodsSku = require("../models/goods-sku-model")
 const GoodsAttrKey = require("../models/goods-attr-key-model")
 const GoodsAttrValue = require("../models/goods-attr-value-model")
-const db = require('../models/mysql-db')
-const DataTypes = require('sequelize')
 
 const router = new Router({
   prefix:"/goods"
@@ -109,42 +107,5 @@ router.get("/goods/:id/sku", async (ctx) => {
       }
   }
 })
-
-// get /user/my/carts
-// router.get('/my/carts', async (ctx)=>{
-//   // let {uid:user_id} = ctx.user 
-//   // 如果不指定关联的外键，可以推断出外断为goodId
-//   // {foreignKey: 'attr_key_id', targetKey: 'id'}
-//   // error  goods is not associated to goods-carts!
-//   // Goods.hasOne(GoodsCarts)
-//   let user_id = 2
-
-//   let res = await db.query(
-//     `SELECT a.goods_sku_id,a.goods_id,a.goods_sku_desc,b.goods_attr_path,b.price,b.stock,c.goods_name,c.goods_desc 
-//     FROM goods_carts as a 
-//     left outer join goods_sku as b on a.goods_sku_id = b.id 
-//     left outer join goods as c on a.goods_id = c.id 
-//     where a.user_id = :user_id`, { replacements: { user_id:user_id }, type: db.QueryTypes.SELECT})
-
-//     if (res){
-//       for (let j=0;j<res.length;j++){
-//         let item = res[j]
-//         let goods_attr_path = item.goods_attr_path
-//         let attr_values = await db.query("select id,attr_value from goods_attr_value where find_in_set(id,:attr_value_ids)", { replacements: { attr_value_ids:goods_attr_path.join(',') }, type: db.QueryTypes.SELECT})
-//         item.attr_values = attr_values
-//         item.sku_desc = goods_attr_path.map(attr_value_id =>{
-//           return attr_values.find(item => item.id == attr_value_id).attr_value
-//         }).join(' ')
-//       }
-//     }
-  
-//   ctx.status = 200
-//   ctx.body = {
-//     code: 200,
-//     msg: 'ok',
-//     data: res
-//   }
-
-// })
 
 module.exports = router
