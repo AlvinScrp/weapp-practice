@@ -7,7 +7,8 @@ Page({
   data: {
     cartIdSelectedResult:[],
     allIsSelected:false,
-    editMode:false
+    editMode:false,
+    carts:[]
   },
 
   changeEditMode(){
@@ -41,8 +42,17 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-
+  onLoad: async function (options) {
+    let res = await getApp().wxp.request4({
+      url:'http://localhost:3000/user/my/carts',
+      method:'get'
+    })
+    if (res.data.msg == "ok"){
+      let carts = res.data.data 
+      this.setData({
+        carts
+      })
+    }
   },
 
   /**

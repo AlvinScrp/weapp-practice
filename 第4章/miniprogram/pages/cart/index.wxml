@@ -7,35 +7,23 @@
 	</van-cell>
 </van-cell-group>
 
+<block wx:for="{{carts}}" wx:key="id">
 <van-checkbox-group value="{{ cartIdSelectedResult }}" bind:change="onSelectGoodsItem">
 
 	<view class="goods-card-container">
 		<view style="width:30px;display:flex;align-items:center;justify-content:center;">
-			<van-checkbox icon-size="17px" shape="square" name="1"></van-checkbox>
+			<van-checkbox icon-size="17px" shape="square" name="{{item.id}}"></van-checkbox>
 		</view>
 		<view style="flex:1;background:white;">
-			<van-card custom-class="goods-card" price="10.00" desc="描述信息" title="商品标题" thumb="">
+			<van-card custom-class="goods-card" price="{{item.price*item.num/100}}元" desc="{{item.goods_sku_desc}}" title="{{item.goods_name}}" thumb="">
 				<view slot="footer">
-					<van-stepper value="1" step="1" />
+					<van-stepper value="{{item.num}}" step="1" />
 				</view>
 			</van-card>
 		</view>
 	</view>
-
-  <view class="goods-card-container">
-		<view style="width:30px;display:flex;align-items:center;justify-content:center;">
-			<van-checkbox icon-size="17px" shape="square" name="2"></van-checkbox>
-		</view>
-		<view style="flex:1;background:white;">
-			<van-card custom-class="goods-card" price="10.00" desc="描述信息" title="商品标题" thumb="">
-				<view slot="footer">
-					<van-stepper value="1" step="1" />
-				</view>
-			</van-card>
-		</view>
-	</view>
-
 </van-checkbox-group>
+</block>
 
 <van-submit-bar wx:if="{{!editMode}}" price="{{ 3050 }}" button-text="提交订单">
 	<van-checkbox value="{{ allIsSelected }}" bind:change="onSelectAll" shape="square">全选</van-checkbox>

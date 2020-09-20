@@ -8,6 +8,7 @@ const config = require("../config")
 const User = require("../models/user-model")
 const SessionKey = require("../models/session-key-model")
 const GoodsCarts = require("../models/goods-carts-model")
+const db = require("../models/mysql-db")
 
 // jwt 实现
 // const JWT_SECRET = 'JWTSECRET'
@@ -248,11 +249,41 @@ router.post("/wexin-login2", async (ctx) => {
   }
 })
 
+// get /user/my/carts
+router.get("/my/carts", async (ctx)=>{
+  let {uid:user_id} = ctx.user 
+  let res = await db.query(`SELECT a.id,a.goods_sku_id,a.goods_id,a.num,b.goods_sku_desc,b.goods_attr_path,b.price,b.stock,c.goods_name,c.goods_desc 
+  FROM goods_carts as a 
+  left outer join goods_sku as b on a.goods_sku_id = b.id 
+  left outer join goods as c on a.goods_id = c.id 
+  where a.user_id = :user_id;`,{ replacements: { user_id }, type: db.QueryTypes.SELECT})
+
+  // 使用循环查询找到匹配的规格
+  if (res){
+    for (let j=0;j<res.length;j++){
+      let item = res[j]
+      let goods_attr_path = item.goods_attr_path
+      let attr_values = await db.query("select id,attr_value from goods_attr_value where find_in_set(id,:attr_value_ids)", { replacements: { attr_value_ids:goods_attr_path.join(',') }, type: db.QueryTypes.SELECT})
+      item.attr_values = attr_values
+      item.sku_desc = goods_attr_path.map(attr_value_id =>{
+        return attr_values.find(item => item.id == attr_value_id).attr_value
+      }).join(' ')
+    }
+  }
+
+  ctx.status = 200
+  ctx.body = {
+    code: 200,
+    msg: 'ok',
+    data: res
+  }
+})
+
 // post /user/my/carts
 router.post("/my/carts", async (ctx) => {
   let { uid: user_id } = ctx.user
   console.log('ctx.request.body',ctx.request.body);
-  let { goods_id, goods_sku_id } = ctx.request.body
+  let { goods_id, goods_sku_id, goods_sku_desc } = ctx.request.body
   let num = 1
 
   let hasExistRes = await GoodsCarts.findOne({
@@ -284,6 +315,7 @@ router.post("/my/carts", async (ctx) => {
       user_id,
       goods_id,
       goods_sku_id,
+      goods_sku_desc,
       num
     })
     ctx.status = 200

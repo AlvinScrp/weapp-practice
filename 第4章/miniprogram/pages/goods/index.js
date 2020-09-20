@@ -39,9 +39,11 @@ Page({
       }
       let goods_id = this.data.goodsId
       let goods_sku_id = this.data.selectedGoodsSkuObject.sku.id 
+      let goods_sku_desc = this.data.selectedGoodsSkuObject.text
       let data = {
         goods_id,
-        goods_sku_id
+        goods_sku_id,
+        goods_sku_desc
       }
       let res = await getApp().wxp.request4({
         url:'http://localhost:3000/user/my/carts',

@@ -17,6 +17,10 @@ module.exports= db.define("goods_sku",
     type:DataTypes.JSON,
     allowNull:false
   },
+  goods_sku_desc:{
+    type:DataTypes.TEXT('tiny'),
+    allowNull:false,
+  },
   price:{//分
     type:DataTypes.INTEGER(11),
     allowNull:false
