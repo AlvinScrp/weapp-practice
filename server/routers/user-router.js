@@ -295,6 +295,7 @@ router.post("/my/carts", async (ctx)=>{
   let {goods_id,goods_sku_id,goods_sku_desc} = ctx.request.body
   let {uid:user_id} = ctx.user 
 
+  // findOne如果有，返回对象，如果没有返回undefined
   let hasExistRes = await GoodsCarts.findOne({
     where:{
       goods_id,
