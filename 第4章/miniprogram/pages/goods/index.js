@@ -18,15 +18,41 @@ Page({
   },
 
     // 测试返回对象
-    requestHomeApiByReq4(e){
-      getApp().wxp.request4({
-        url: 'http://localhost:3000/user/home',
-        onReturnObject(rtn){
-          // rtn.abort()
-        }
-      }).catch(err=>{
-        console.log(err);
+    // requestHomeApiByReq4(e){
+    //   getApp().wxp.request4({
+    //     url: 'http://localhost:3000/user/home',
+    //     onReturnObject(rtn){
+    //       // rtn.abort()
+    //     }
+    //   }).catch(err=>{
+    //     console.log(err);
+    //   })
+    // },
+
+    async addToCart(e){
+      if (!this.data.selectedGoodsSkuObject.sku){
+        wx.showModal({
+          title: '请选择商品规格',
+          showCancel: false
+        })
+        return
+      }
+      let goods_id = this.data.goodsId
+      let goods_sku_id = this.data.selectedGoodsSkuObject.sku.id 
+      let data = {
+        goods_id,
+        goods_sku_id
+      }
+      let res = await getApp().wxp.request4({
+        url:'http://localhost:3000/user/my/carts',
+        method:'post',
+        data
       })
+      if (res.data.msg == 'ok'){
+        wx.showToast({
+          title: '已添加',
+        })
+      }
     },
 
     // 显示规格面板
