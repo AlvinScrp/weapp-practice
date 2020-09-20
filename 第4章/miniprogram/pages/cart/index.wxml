@@ -17,7 +17,7 @@
 		<view style="flex:1;background:white;">
 			<van-card custom-class="goods-card" price="{{item.price*item.num/100}}元" desc="{{item.goods_sku_desc}}" title="{{item.goods_name}}" thumb="{{item.goods_image}}">
 				<view slot="footer">
-					<van-stepper value="{{item.num}}" step="1" />
+					<van-stepper data-num="{{item.num}}" data-id="{{item.id}}" bind:change="onCartGoodsNumChanged" value="{{item.num}}" step="1" />
 				</view>
 			</van-card>
 		</view>

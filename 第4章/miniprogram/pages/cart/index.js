@@ -55,6 +55,25 @@ Page({
     }
   },
 
+  async onCartGoodsNumChanged(e){
+    let cartGoodsId = e.currentTarget.dataset.id 
+    let oldNum = parseInt( e.currentTarget.dataset.num )
+    // console.log('e.detail', typeof e.detail, cartGoodsId, oldNum)
+    let num = e.detail
+    let data = {num}
+
+    let res = await getApp().wxp.request4({
+      url:`http://localhost:3000/user/my/carts/${cartGoodsId}`,
+      method:'put',
+      data 
+    })
+    if (res.data.msg == 'ok'){
+      wx.showToast({
+        title: num > oldNum ? '增加成功' : '减少成功',
+      })
+    }
+  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
