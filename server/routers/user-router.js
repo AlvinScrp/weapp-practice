@@ -252,7 +252,8 @@ router.post("/wexin-login2", async (ctx) => {
 // get /user/my/carts
 router.get("/my/carts", async (ctx)=>{
   let {uid:user_id} = ctx.user 
-  let res = await db.query(`SELECT a.id,a.goods_sku_id,a.goods_id,a.num,b.goods_sku_desc,b.goods_attr_path,b.price,b.stock,c.goods_name,c.goods_desc 
+  let res = await db.query(`SELECT (select d.content from goods_info as d where d.goods_id = a.goods_id and d.kind = 0 limit 1) as goods_image,
+  a.id,a.goods_sku_id,a.goods_id,a.num,b.goods_sku_desc,b.goods_attr_path,b.price,b.stock,c.goods_name,c.goods_desc 
   FROM goods_carts as a 
   left outer join goods_sku as b on a.goods_sku_id = b.id 
   left outer join goods as c on a.goods_id = c.id 
@@ -276,6 +277,40 @@ router.get("/my/carts", async (ctx)=>{
     code: 200,
     msg: 'ok',
     data: res
+  }
+})
+
+// put /user/my/carts/:id
+router.put("/my/carts/:id", async (ctx)=>{
+  let id = Number(ctx.params.id)
+  let {num} = ctx.request.body 
+
+  let hasExistRes = await GoodsCarts.findOne({
+    where:{
+      id
+    }
+  })
+  if (hasExistRes){
+    let res = await GoodsCarts.update({
+      num
+    },{
+      where:{
+        id
+      }
+    })
+    ctx.status = 200
+    ctx.body = {
+      code: 200,
+      msg: res[0]>0?'ok':'',
+      data: res
+    }
+  }else{
+    ctx.status = 200
+    ctx.body = {
+      code: 200,
+      msg: '',
+      data: res
+    }
   }
 })
 

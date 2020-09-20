@@ -15,7 +15,7 @@
 			<van-checkbox icon-size="17px" shape="square" name="{{item.id}}"></van-checkbox>
 		</view>
 		<view style="flex:1;background:white;">
-			<van-card custom-class="goods-card" price="{{item.price*item.num/100}}元" desc="{{item.goods_sku_desc}}" title="{{item.goods_name}}" thumb="">
+			<van-card custom-class="goods-card" price="{{item.price*item.num/100}}元" desc="{{item.goods_sku_desc}}" title="{{item.goods_name}}" thumb="{{item.goods_image}}">
 				<view slot="footer">
 					<van-stepper value="{{item.num}}" step="1" />
 				</view>
