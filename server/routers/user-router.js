@@ -314,6 +314,24 @@ router.put("/my/carts/:id", async (ctx)=>{
   }
 })
 
+// delete /user/my/carts
+router.delete("/my/carts", async (ctx)=>{
+  console.log('ctx.request.body ', ctx.request.body );
+  let {ids} = ctx.request.body 
+  // desctroy返回的不是数据，而是成功删除的数目
+  let res = await GoodsCarts.destroy({
+    where:{
+      id:ids
+    }
+  })
+  ctx.status = 200
+    ctx.body = {
+      code: 200,
+      msg: res>0?'ok':'',
+      data: res
+    }
+})
+
 // post /user/my/carts
 router.post("/my/carts", async (ctx) => {
   let { uid: user_id } = ctx.user

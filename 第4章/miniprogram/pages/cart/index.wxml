@@ -9,13 +9,12 @@
 
 <block wx:for="{{carts}}" wx:key="id">
 <van-checkbox-group value="{{ cartIdSelectedResult }}" bind:change="onSelectGoodsItem">
-
 	<view class="goods-card-container">
 		<view style="width:30px;display:flex;align-items:center;justify-content:center;">
 			<van-checkbox icon-size="17px" shape="square" name="{{item.id}}"></van-checkbox>
 		</view>
 		<view style="flex:1;background:white;">
-			<van-card custom-class="goods-card" price="{{item.price*item.num/100}}元" desc="{{item.goods_sku_desc}}" title="{{item.goods_name}}" thumb="{{item.goods_image}}">
+			<van-card custom-class="goods-card" price="{{item.price*item.num/100}}元" desc="{{item.sku_desc}}" title="{{item.goods_name}}" thumb="{{item.goods_image}}">
 				<view slot="footer">
 					<van-stepper data-num="{{item.num}}" data-id="{{item.id}}" bind:change="onCartGoodsNumChanged" value="{{item.num}}" step="1" />
 				</view>
@@ -25,7 +24,7 @@
 </van-checkbox-group>
 </block>
 
-<van-submit-bar wx:if="{{!editMode}}" price="{{ 3050 }}" button-text="提交订单">
+<van-submit-bar bind:submit="onCartConfirm" wx:if="{{!editMode}}" price="{{ totalPrice }}" button-text="提交订单">
 	<van-checkbox value="{{ allIsSelected }}" bind:change="onSelectAll" shape="square">全选</van-checkbox>
 	<view wx:if="{{false}}" slot="tip">您的收货地址</view>
 </van-submit-bar>
@@ -40,3 +39,5 @@
 		<van-button bindtap="removeCartGoods" size="mini" slot="right-icon" plain type="info">删除</van-button>
 	</van-cell>
 </van-cell-group>
+
+<LoginPanel show="{{showLoginPanel}}"></LoginPanel>

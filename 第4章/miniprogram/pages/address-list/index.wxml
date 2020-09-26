@@ -1,0 +1,42 @@
+<!--miniprogram/pages/address-list/index.wxml-->
+<!-- <text>miniprogram/pages/address-list/index.wxml</text> -->
+<van-cell-group>
+  <van-cell title="获取微信收货地址" is-link>
+    <van-icon slot="icon" color="green" name="chat-o" style="margin-right:10px;" />
+  </van-cell>
+</van-cell-group>
+
+<van-radio-group value="{{ radio }}" bind:change="onChange">
+  <van-cell-group title=" ">
+    <van-cell use-label-slot>
+      <view slot="icon" class="vertical-align" style="margin-right:10px">
+        <van-radio icon-size="16px" name="1"></van-radio>
+      </view>
+      <view slot="title">
+        <view class="van-cell-text">姓名，13878670000</view>
+      </view>
+      <view slot="label">
+        <view class="van-cell-text">收货地址：</view>
+      </view>
+      <view slot="right-icon" class="vertical-align">
+        <van-icon name="edit" />
+      </view>
+    </van-cell>
+    <van-cell use-label-slot>
+      <view slot="icon" class="vertical-align" style="margin-right:10px">
+        <van-radio icon-size="16px" name="1"></van-radio>
+      </view>
+      <view slot="title">
+        <view class="van-cell-text">姓名，13878670000</view>
+      </view>
+      <view slot="label">
+        <view class="van-cell-text">收货地址：</view>
+      </view>
+      <view slot="right-icon" class="vertical-align">
+        <van-icon name="edit" />
+      </view>
+    </van-cell>
+  </van-cell-group>
+</van-radio-group>
+
+<van-button custom-class="add-button" type="primary" size="large">新增收货地址</van-button>
