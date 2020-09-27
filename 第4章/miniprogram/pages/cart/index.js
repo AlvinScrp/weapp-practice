@@ -9,11 +9,30 @@ Page({
     cartIdSelectedResult:[],
     allIsSelected:false,
     editMode:false,
-    carts:[]
+    carts:[],
+    totalPrice:0
+  },
+
+  // 计算总价
+  calcTotalPrice(){
+    let totalPrice = 0
+    let carts = this.data.carts
+    let ids = this.data.cartIdSelectedResult
+    ids.forEach(id=>{
+      carts.some(item=>{
+        if (item.id == id){
+          totalPrice += item.price * item.num
+          return true 
+        }
+        return false
+      })
+    })
+    this.setData({
+      totalPrice
+    })
   },
 
   onSubmit(e){
-  
     let ids = this.data.cartIdSelectedResult
     if (ids.length == 0){
       wx.showModal({
@@ -33,10 +52,11 @@ Page({
         return false 
       })
     })
+    let totalPrice = this.data.totalPrice
     wx.navigateTo({
       url: '/pages/confirm-order/index',
       success:res=>{
-        res.eventChannel.emit('cartData', {data:cartData})
+        res.eventChannel.emit('cartData', {data:cartData,totalPrice})
       }
     })
   },
@@ -53,6 +73,7 @@ Page({
     this.setData({
       cartIdSelectedResult,
     });
+    this.calcTotalPrice()
   },
   onSelectAll(event) {
     let allIsSelected = event.detail
@@ -70,6 +91,7 @@ Page({
       allIsSelected,
       cartIdSelectedResult
     });
+    this.calcTotalPrice()
   },
   /**
    * 生命周期函数--监听页面加载
@@ -116,7 +138,16 @@ Page({
       wx.showToast({
         title: num > oldNum ? '增加成功' : '减少成功',
       })
+      let carts = this.data.carts
+      carts.some(item=>{
+        if (item.id == cartGoodsId){
+          item.num = num 
+          return true 
+        }
+        return false
+      })
     }
+    this.calcTotalPrice()
   },
 
   async removeCartGoods(e){

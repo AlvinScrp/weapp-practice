@@ -5,7 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    carts:[]
+    carts:[],
+    totalPrice:0
   },
 
   /**
@@ -15,10 +16,24 @@ Page({
     let eventChannel = this.getOpenerEventChannel()
     eventChannel.on('cartData', res=>{
       this.setData({
-        carts:res.data
+        carts:res.data,
+        totalPrice:res.totalPrice
       })
+      // this.calcTotalPrice()
     })
   },
+
+   // 计算总价
+  //  calcTotalPrice(){
+  //   let totalPrice = 0
+  //   let carts = this.data.carts
+  //   carts.forEach(item=>{
+  //     totalPrice += item.price * item.num
+  //   })
+  //   this.setData({
+  //     totalPrice
+  //   })
+  // },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
