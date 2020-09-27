@@ -5,9 +5,15 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    selectedAddressId:0
   },
 
+  onAddressIdChange(e){
+    let id = e.detail 
+    this.setData({
+      selectedAddressId:id
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

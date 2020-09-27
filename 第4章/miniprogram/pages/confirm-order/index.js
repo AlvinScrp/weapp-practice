@@ -23,6 +23,12 @@ Page({
     })
   },
 
+  toSelectAddress(){
+    wx.navigateTo({
+      url: '/pages/address-list/index',
+    })
+  },
+
    // 计算总价
   //  calcTotalPrice(){
   //   let totalPrice = 0
