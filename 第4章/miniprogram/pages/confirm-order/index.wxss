@@ -2,3 +2,9 @@
 .goods-card{
   background-color: #fefefe !important;
 }
+page{
+  padding-bottom: 100px;
+}
+.total-price .van-cell__value{
+  color: rgb(224, 159, 75) !important;
+}
