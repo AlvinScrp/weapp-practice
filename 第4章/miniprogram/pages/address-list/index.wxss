@@ -1,12 +1,1 @@
 /* miniprogram/pages/address-list/index.wxss */
-.vertical-align{
-  display: flex;align-items: center;
-}
-.add-button{
-  width:100%;
-  position: fixed !important;
-  bottom: 0;
-}
-page{
-  height: 100%;
-}

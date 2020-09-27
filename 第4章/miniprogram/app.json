@@ -1,19 +1,19 @@
 {
   "pages": [
     "pages/cart/index",
-    "pages/address-list/index",
     "pages/confirm-order/index",
     "pages/category/index",
     "pages/goods/index",
     "pages/index/index",
     "pages/my/index",
+    "pages/address-list/index",
     "pages/new-address/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "第4章",
+    "navigationBarTitleText": "商城小程序",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {

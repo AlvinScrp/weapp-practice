@@ -5,43 +5,20 @@ Page({
    * 页面的初始数据
    */
   data: {
-    carts:[],
-    userMessage:'',
-    totalPrice:0
+    carts:[]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    const eventChannel = this.getOpenerEventChannel()
-    eventChannel.on('cartData', (res)=> {
-      // console.log(res)
-
+    let eventChannel = this.getOpenerEventChannel()
+    eventChannel.on('cartData', res=>{
       this.setData({
         carts:res.data
       })
-      this.calcTotalPrice()
     })
   },
-
-  // 准备跳转地址列表表，选取地址
-  toSelectAddress(){
-    wx.navigateTo({
-      url: '/pages/address-list/index',
-    })
-  },
-    // 重新计算总价
-    calcTotalPrice(){
-      let totalPrice = 0
-      let carts = this.data.carts
-      carts.forEach(item=>{
-        totalPrice += item.price * item.num 
-      })
-      this.setData({
-        totalPrice
-      })
-    },
 
   /**
    * 生命周期函数--监听页面初次渲染完成

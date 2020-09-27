@@ -188,7 +188,7 @@ Component({
             var length = this.data.vtabs.length;
             var scrollTop = e.detail.scrollTop;
             var index = -1;
-            if (scrollTop >= _heightRecords[this.data.activeTab]-windowHeight-50){
+            if (scrollTop >= _heightRecords[this.data.activeTab]-windowHeight-150){
                 // 滚动到底部还有50个px时
                 this.triggerEvent('scrolltoindexlower', { index: this.data.activeTab });
             }

@@ -5,13 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    radio: 0,
-  },
-  
-  onChange(event) {
-    this.setData({
-      radio: event.detail,
-    });
+
   },
 
   /**
