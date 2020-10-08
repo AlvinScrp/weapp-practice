@@ -1,0 +1,2 @@
+<!--component/test/test.wxml-->
+<text class="skeleton-class">test 组件：颜色来自页面</text>

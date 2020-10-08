@@ -1,0 +1,4 @@
+/* component/add/ad d.wxss */
+.text {
+  color: red;
+}

@@ -1,0 +1,23 @@
+<!-- 第一个问题 -->
+<!-- 自定义 -->
+<view class="progress">
+  <view class="active" style="width: {{number}}%"></view>
+</view>
+<view class="tips">{{tips}}</view>
+
+<!-- 使用官方组件 -->
+<view class="progress-box">
+  <progress active active-mode="forwards" stroke-width="20rpx" border-radius="20rpx" percent="{{number}}" show-info />
+</view>
+<!-- 问题：怎么样内部进度有圆角效果？ -->
+
+
+<!-- 第二个问题 -->
+
+<view class="progress-box">
+  <button bindtap="reloadProgress">重新加载1</button>
+</view>
+
+<view class="progress-box">
+  <button bindtap="reloadProgress2">重新加载2</button>
+</view>

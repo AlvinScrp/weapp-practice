@@ -1,0 +1,29 @@
+.progress {
+  width: 500rpx;
+  height: 20rpx;
+  border-radius: 20rpx;
+  border: 2rpx solid #DDD;
+  margin: 400rpx auto 32rpx;
+  overflow: hidden;
+}
+
+.active {
+  width: 0%;
+  height: 20rpx;
+  border-radius: 20rpx;
+  background: #00cc88;
+  transition: all .3s;
+}
+
+.tips {
+  width: 100%;
+  text-align: center;
+  color: #9c9c9c;
+  font-size: 26rpx;
+}
+.progress-box{
+  padding: 20px;
+}
+/* .wx-progress-inner-bar {
+  border-radius: 20rpx;
+} */
