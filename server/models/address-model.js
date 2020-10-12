@@ -18,14 +18,19 @@ module.exports = db.define("address",{
   },
   telNumber:{
     type:DataTypes.STRING(50),
-    allowNull:false,
-    unique: true
+    allowNull:false
+    // ,unique: true
   },
   addressInfo:{
     type:DataTypes.STRING(200),
     allowNull:false
   }
 },{
+  
+  indexes:[{
+    unique: true,// 唯一索引
+    fields:['tel_number']
+  }],
   underscored: true,//
   freezeTableName:true,
   timestamps:true

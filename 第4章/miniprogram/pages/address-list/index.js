@@ -22,6 +22,13 @@ Page({
     ]
   },
 
+  // 跳转到新增地址页
+  navigateToNewAddressPage(){
+    wx.navigateTo({
+      url: '/pages/new-address/index'
+    })
+  },
+
   // 从微信获取收货地址
   getAddressFromWeixin() {
     if (wx.canIUse('chooseAddress.success.userName')) {
