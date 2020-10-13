@@ -6,26 +6,52 @@ Page({
    */
   data: {
     selectedAddressId: 0,
-    addressList:[
-      {
-        id:0,
-        user_name:'张三',
-        tel_number:'13800000000',
-        address_info:'新港中路397号'
-      },
-      {
-        id:1,
-        user_name:'李四',
-        tel_number:'13800000000',
-        address_info:'新港中路123号'
+    addressList:[]
+  },
+
+  edit(e){
+    console.log(e.currentTarget.dataset.id);
+    let id = e.currentTarget.dataset.id
+    let addressList = this.data.addressList
+    let address = addressList.find(item=>item.id == id)
+    wx.navigateTo({
+      url: '/pages/new-address/index',
+      success:(res)=>{
+        res.eventChannel.emit('editAddress', address)
+        res.eventChannel.on('savedNewAddress', this.onSavedAddress)
       }
-    ]
+    })
   },
 
   // 跳转到新增地址页
   navigateToNewAddressPage(){
     wx.navigateTo({
-      url: '/pages/new-address/index'
+      url: '/pages/new-address/index',
+      success:(res)=>{
+        res.eventChannel.on('savedNewAddress', this.onSavedAddress)
+      }
+    })
+  },
+
+  // 编辑回来回调这个方法
+  onSavedAddress(address){
+    console.log(address);
+          
+    let addressList = this.data.addressList
+    if (address.id){
+      addressList.some((item,index)=>{
+        if (item.id == address.id){
+          addressList[index] = address
+          return true 
+        }
+      })
+    }else{
+      addressList.push(address)
+    }
+    
+    this.setData({
+      addressList,
+      selectedAddressId:address.id
     })
   },
 
@@ -33,11 +59,11 @@ Page({
   getAddressFromWeixin() {
     if (wx.canIUse('chooseAddress.success.userName')) {
       wx.chooseAddress({
-        success: (res) => {
+        success: async (res) => {
           console.log(res);
 
           let addressList = this.data.addressList
-          let addressContained = addressList.find(item=>item.tel_number == res.telNumber)
+          let addressContained = addressList.find(item=>item.telNumber == res.telNumber)
           console.log(addressContained);
           
           if (addressContained){
@@ -47,17 +73,31 @@ Page({
             return 
           }
 
-          let item = {
-            id:addressList.length,
-            user_name:res.userName,
-            tel_number:res.telNumber,
-            address_info:`${res.provinceName}${res.cityName}${res.countyName}${res.detailInfo}`
+          let data = {
+            userName:res.userName,
+            telNumber:res.telNumber,
+            detailInfo:res.detailInfo,
+            region: [res.provinceName,res.cityName,res.countyName]
           }
-          addressList.push(item)
-          this.setData({
-            addressList,
-            selectedAddressId:item.id
+          let res1 = await wx.wxp.request4({
+            url: 'http://localhost:3000/user/my/address',
+            method:'post',
+            data
           })
+          console.log(res1);
+          if (res1.data.msg == 'ok'){
+            let item = res1.data.data 
+            addressList.push(item)
+            this.setData({
+              addressList,
+              selectedAddressId:item.id
+            })
+          }else{
+            wx.showToast({
+              title: '添加不成功，是不是添加过了？',
+            })
+          }
+          
         }
       })
     } else {
@@ -66,6 +106,17 @@ Page({
       })
     }
 
+  },
+
+  confirm(e){
+    let selectedAddressId = this.data.selectedAddressId
+    let addressList = this.data.addressList
+    let item = addressList.find(item=>item.id == selectedAddressId)
+    let opener = this.getOpenerEventChannel()
+    opener.emit('selectAddress', item)
+    wx.navigateBack({
+      delta: 1,
+    })
   },
 
   onAddressIdChange(e) {
@@ -77,8 +128,17 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-
+  onLoad: async function (options) {
+    let res = await wx.wxp.request4({
+      url: 'http://localhost:3000/user/my/address',
+      method:'get'
+    })
+    let addressList = res.data.data 
+    let selectedAddressId = addressList[0].id
+    this.setData({
+      addressList,
+      selectedAddressId
+    })
   },
 
   /**

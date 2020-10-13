@@ -1,6 +1,13 @@
 <!--miniprogram/pages/address-list/index.wxml-->
 <!-- <text>miniprogram/pages/address-list/index.wxml</text> -->
-
+<wxs module="fn">
+  module.exports={
+    // 将数组合并为字符串
+    join:function(arr){
+      return arr.join('')
+    }
+  }
+</wxs>
 <van-cell-group>
   <van-cell bind:click="getAddressFromWeixin" is-link title="获取微信收货地址" border="{{ false }}">
     <van-icon style="padding-right:10px;" color="green" slot="icon" name="chat-o" />
@@ -15,16 +22,21 @@
           <van-radio size="17px" name="{{item.id}}"></van-radio>
         </view>
         <view slot="title">
-          {{item.user_name}}，{{item.tel_number}}
+          {{item.userName}}，{{item.telNumber}}
         </view>
         <view slot="label">
-          快递地址：{{item.address_info}}
+          快递地址：{{fn.join(item.region)}}{{item.detailInfo}}
         </view>
-        <van-icon slot="right-icon" name="edit" />
+        <van-icon data-id="{{item.id}}" bind:click="edit" slot="right-icon" name="edit" />
       </van-cell>
     </block>
   </van-cell-group>
 
 </van-radio-group>
 
-<van-button bind:click="navigateToNewAddressPage" custom-class="new-address" type="primary" size="large">新增收货地址</van-button>
+
+
+<view class="address-btns">
+  <van-button bind:click="confirm" type="default" size="large">确定</van-button>
+<van-button custom-class="new-address" bind:click="navigateToNewAddressPage" type="primary" size="large">新增收货地址</van-button>
+</view>

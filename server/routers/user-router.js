@@ -396,11 +396,11 @@ router.get("/my/address", async (ctx)=>{
 })
 
 // post /user/my/address
-router.post("/my/carts", async (ctx) => {
+router.post("/my/address", async (ctx) => {
   let res = null 
   let { uid: userId } = ctx.user
   // console.log('ctx.request.body',ctx.request.body);
-  let { userName, telNumber, addressInfo } = ctx.request.body
+  let { userName, telNumber, detailInfo, region } = ctx.request.body
   let hasExistRes = await Address.findOne({
     where: {
       telNumber,
@@ -411,7 +411,62 @@ router.post("/my/carts", async (ctx) => {
       userId,
       telNumber,
       userName,
-      addressInfo
+      addressInfo,
+      region
+    })
+  }
+  ctx.status = 200
+  ctx.body = {
+    code: 200,
+    msg: res ? 'ok' : '',
+    data: res
+  }
+})
+
+// put /user/my/address
+router.put("/my/address", async (ctx) => {
+  // let { uid: userId } = ctx.user
+  // console.log('ctx.request.body',ctx.request.body);
+  let { id, userName, telNumber, detailInfo, region } = ctx.request.body
+  let res = await Address.update({
+    telNumber,
+    userName,
+    detailInfo,
+    region
+  },{
+    where:{
+      id
+    }
+  })
+  ctx.status = 200
+  ctx.body = {
+    code: 200,
+    msg: res[0]>0 ? 'ok' : '',
+    data: res
+  }
+})
+
+// put /user/my/address
+router.put("/my/address", async (ctx) => {
+  let res = null 
+  let { uid: userId } = ctx.user
+  // console.log('ctx.request.body',ctx.request.body);
+  let { id, userName, telNumber, detailInfo, region } = ctx.request.body
+  let hasExistRes = await Address.findOne({
+    where: {
+      telNumber,
+    }
+  })
+  if (hasExistRes) {
+    res = await Address.userName({
+      telNumber,
+      userName,
+      detailInfo,
+      region
+    },{
+      where:{
+        id
+      }
     })
   }
   ctx.status = 200

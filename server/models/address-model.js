@@ -21,7 +21,11 @@ module.exports = db.define("address",{
     allowNull:false
     // ,unique: true
   },
-  addressInfo:{
+  region:{//省市区
+    type:DataTypes.JSON,
+    allowNull:false
+  },
+  detailInfo:{//地址详情
     type:DataTypes.STRING(200),
     allowNull:false
   }
