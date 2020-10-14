@@ -1,0 +1,27 @@
+
+
+<!-- 使用recycle-view扩展组件-->
+<view class="page-section">
+	<view class="page-section-title">使用recycle-view扩展组件</view>
+<recycle-view height="200" batch="{{batchSetRecycleData}}" id="recycleId" batch-key="batchSetRecycleData" style="background:white;">
+	<recycle-item wx:for="{{recycleList}}" wx:key="index" class='item'>
+		<view>
+			{{item.id}}: {{item.name}}
+		</view>
+	</recycle-item>
+</recycle-view>
+</view>
+
+
+
+
+
+
+
+<view class="page-section-title"></view>
+<view class="page-section-title"></view>
+<view class="page-section-title"></view>
+
+
+
+
