@@ -37,6 +37,6 @@
 
 
 <view class="address-btns">
-  <van-button bind:click="confirm" type="default" size="large">确定</van-button>
+  <van-button bind:click="confirm" type="default" size="large">选择</van-button>
 <van-button custom-class="new-address" bind:click="navigateToNewAddressPage" type="primary" size="large">新增收货地址</van-button>
 </view>

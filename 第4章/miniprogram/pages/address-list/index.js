@@ -128,17 +128,8 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: async function (options) {
-    let res = await wx.wxp.request4({
-      url: 'http://localhost:3000/user/my/address',
-      method:'get'
-    })
-    let addressList = res.data.data 
-    let selectedAddressId = addressList[0].id
-    this.setData({
-      addressList,
-      selectedAddressId
-    })
+  onLoad: function (options) {
+    
   },
 
   /**
@@ -151,8 +142,17 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-
+  onShow: async function () {
+    let res = await wx.wxp.request4({
+      url: 'http://localhost:3000/user/my/address',
+      method:'get'
+    })
+    let addressList = res.data.data 
+    let selectedAddressId = addressList[0].id
+    this.setData({
+      addressList,
+      selectedAddressId
+    })
   },
 
   /**
