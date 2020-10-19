@@ -68,10 +68,18 @@ Page({
 
   // 编辑回来回调这个方法
   onSavedAddress(address) {
-    console.log(address);
-
+    // console.log(address);
     let addressList = this.data.addressList
-    addressList.push(address)
+    let hasExist = addressList.some((item,index)=>{
+      if (item.id == address.id){
+        addressList[index] = address
+        return true 
+      }
+      return false 
+    })
+    if (!hasExist){
+      addressList.push(address)
+    }
 
     this.setData({
       addressList,
@@ -92,6 +100,20 @@ Page({
     this.setData({
       selectedAddressId: event.detail,
     });
+  },
+
+  edit(e){
+    console.log(e.currentTarget.dataset.id);
+    let id = e.currentTarget.dataset.id
+    let addressList = this.data.addressList
+    let address = addressList.find(item=>item.id == id)
+    wx.navigateTo({
+      url: '/pages/new-address/index',
+      success:(res)=>{
+        res.eventChannel.emit('editAddress', address)
+        res.eventChannel.on('savedNewAddress', this.onSavedAddress)
+      }
+    })
   },
 
   /**
