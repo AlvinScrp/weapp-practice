@@ -9,6 +9,7 @@ const User = require("../models/user-model")
 const SessionKey = require("../models/session-key-model")
 const GoodsCarts = require("../models/goods-carts-model")
 const db = require("../models/mysql-db")
+const Address = require("../models/address-model")
 
 // jwt 实现
 // const JWT_SECRET = 'JWTSECRET'
@@ -378,6 +379,23 @@ router.post("/my/carts", async (ctx) => {
       data: res
     }
   }
+})
+
+// get /user/my/adddress
+router.get("/my/address",async (ctx)=>{
+  let {user_id:userId} = ctx.user
+  let addressList = await Address.findAll({
+    where:{
+      userId,
+    }
+  })
+
+  ctx.status = 200
+    ctx.body = {
+      code: 200,
+      msg: 'ok',
+      data: addressList
+    }
 })
 
 module.exports = router
