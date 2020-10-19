@@ -1,6 +1,6 @@
 // miniprogram/pages/cart/index.js
-Page({
 
+Page({
   /**
    * 页面的初始数据
    */
@@ -12,16 +12,15 @@ Page({
     carts:[],
     totalPrice:0
   },
-
-  // 计算总价
+  // 重新计算总价
   calcTotalPrice(){
     let totalPrice = 0
-    let carts = this.data.carts
     let ids = this.data.cartIdSelectedResult
+    let carts = this.data.carts
     ids.forEach(id=>{
       carts.some(item=>{
         if (item.id == id){
-          totalPrice += item.price * item.num
+          totalPrice += item.price * item.num 
           return true 
         }
         return false
@@ -31,36 +30,6 @@ Page({
       totalPrice
     })
   },
-
-  onSubmit(e){
-    let ids = this.data.cartIdSelectedResult
-    if (ids.length == 0){
-      wx.showModal({
-        title: '还未选择商品',
-        showCancel: false
-      })
-      return 
-    }
-    let cartData = []
-    let carts = this.data.carts
-    ids.forEach(id=>{
-      carts.some(item=>{
-        if (item.id == id){
-          cartData.push( Object.assign({}, item) )
-          return true 
-        }
-        return false 
-      })
-    })
-    let totalPrice = this.data.totalPrice
-    wx.navigateTo({
-      url: '/pages/confirm-order/index',
-      success:res=>{
-        res.eventChannel.emit('cartData', {data:cartData,totalPrice})
-      }
-    })
-  },
-
   changeEditMode(){
     let editMode = !this.data.editMode
     this.setData({
@@ -122,6 +91,35 @@ Page({
     }
   },
 
+  onCartConfirm(e){
+    // 拿到列表数据
+    let carts = this.data.carts 
+    let cartData = []
+    let ids = this.data.cartIdSelectedResult
+    if (ids.length == 0){
+      wx.showModal({
+        title: '未选择商品',
+        showCancel: false
+      })
+      return
+    }
+    ids.forEach(id=>{
+      carts.some(item=>{
+        if (item.id == id){
+          cartData.push(Object.assign({}, item))
+          return true 
+        }
+        return false
+      })
+    })
+    wx.navigateTo({
+      url: `/pages/confirm-order/index`,
+      success: function(res) {
+        res.eventChannel.emit('cartData', { data: cartData })
+      }
+    })
+  },
+
   async onCartGoodsNumChanged(e){
     let cartGoodsId = e.currentTarget.dataset.id 
     let oldNum = parseInt( e.currentTarget.dataset.num )
@@ -138,6 +136,7 @@ Page({
       wx.showToast({
         title: num > oldNum ? '增加成功' : '减少成功',
       })
+      // 修复数据
       let carts = this.data.carts
       carts.some(item=>{
         if (item.id == cartGoodsId){
@@ -146,8 +145,8 @@ Page({
         }
         return false
       })
+      this.calcTotalPrice()
     }
-    this.calcTotalPrice()
   },
 
   async removeCartGoods(e){

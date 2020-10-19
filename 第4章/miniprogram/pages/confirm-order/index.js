@@ -6,50 +6,41 @@ Page({
    */
   data: {
     carts:[],
-    totalPrice:0,
-    address:{
-      userName:'选择'
-    }
+    userMessage:'',
+    totalPrice:0
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let eventChannel = this.getOpenerEventChannel()
-    eventChannel.on('cartData', res=>{
+    const eventChannel = this.getOpenerEventChannel()
+    eventChannel.on('cartData', (res)=> {
+      // console.log(res)
       this.setData({
-        carts:res.data,
-        totalPrice:res.totalPrice
+        carts:res.data
       })
-      // this.calcTotalPrice()
+      this.calcTotalPrice()
     })
   },
 
+  // 准备跳转地址列表表，选取地址
   toSelectAddress(){
     wx.navigateTo({
       url: '/pages/address-list/index',
-      success:res=>{
-        res.eventChannel.on('selectAddress', address=>{
-          this.setData({
-            address
-          })
-        })
-      }
     })
   },
-
-   // 计算总价
-  //  calcTotalPrice(){
-  //   let totalPrice = 0
-  //   let carts = this.data.carts
-  //   carts.forEach(item=>{
-  //     totalPrice += item.price * item.num
-  //   })
-  //   this.setData({
-  //     totalPrice
-  //   })
-  // },
+    // 重新计算总价
+    calcTotalPrice(){
+      let totalPrice = 0
+      let carts = this.data.carts
+      carts.forEach(item=>{
+        totalPrice += item.price * item.num 
+      })
+      this.setData({
+        totalPrice
+      })
+    },
 
   /**
    * 生命周期函数--监听页面初次渲染完成

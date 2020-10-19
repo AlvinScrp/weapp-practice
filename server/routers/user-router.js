@@ -9,7 +9,6 @@ const User = require("../models/user-model")
 const SessionKey = require("../models/session-key-model")
 const GoodsCarts = require("../models/goods-carts-model")
 const db = require("../models/mysql-db")
-const Address = require("../models/address-model")
 
 // jwt 实现
 // const JWT_SECRET = 'JWTSECRET'
@@ -379,102 +378,6 @@ router.post("/my/carts", async (ctx) => {
       data: res
     }
   }
-})
-
-// get /user/my/address
-router.get("/my/address", async (ctx)=>{
-  let {uid:userId} = ctx.user 
-  let addresses = await Address.findAll({
-    where: {'user_id':userId}
-  })
-  ctx.status = 200
-  ctx.body = {
-    coce:200,
-    msg:'ok',
-    data:addresses
-  }
-})
-
-// post /user/my/address
-router.post("/my/address", async (ctx) => {
-  let res = null 
-  let { uid: userId } = ctx.user
-  // console.log('ctx.request.body',ctx.request.body);
-  let { userName, telNumber, detailInfo, region } = ctx.request.body
-  let hasExistRes = await Address.findOne({
-    where: {
-      telNumber,
-    }
-  })
-  if (!hasExistRes) {
-    res = await Address.create({
-      userId,
-      telNumber,
-      userName,
-      addressInfo,
-      region
-    })
-  }
-  ctx.status = 200
-  ctx.body = {
-    code: 200,
-    msg: res ? 'ok' : '',
-    data: res
-  }
-})
-
-// put /user/my/address
-router.put("/my/address", async (ctx) => {
-  // let { uid: userId } = ctx.user
-  // console.log('ctx.request.body',ctx.request.body);
-  let { id, userName, telNumber, detailInfo, region } = ctx.request.body
-  let res = await Address.update({
-    telNumber,
-    userName,
-    detailInfo,
-    region
-  },{
-    where:{
-      id
-    }
-  })
-  ctx.status = 200
-  ctx.body = {
-    code: 200,
-    msg: res[0]>0 ? 'ok' : '',
-    data: res
-  }
-})
-
-// put /user/my/address
-router.put("/my/address", async (ctx) => {
-  let res = null 
-  let { uid: userId } = ctx.user
-  // console.log('ctx.request.body',ctx.request.body);
-  let { id, userName, telNumber, detailInfo, region } = ctx.request.body
-  let hasExistRes = await Address.findOne({
-    where: {
-      telNumber,
-    }
-  })
-  if (hasExistRes) {
-    res = await Address.userName({
-      telNumber,
-      userName,
-      detailInfo,
-      region
-    },{
-      where:{
-        id
-      }
-    })
-  }
-  ctx.status = 200
-    ctx.body = {
-      code: 200,
-      msg: res ? 'ok' : '',
-      data: res
-    }
 })
 
 module.exports = router

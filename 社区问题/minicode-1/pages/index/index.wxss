@@ -24,6 +24,6 @@
 .progress-box{
   padding: 20px;
 }
-/* .wx-progress-inner-bar {
+.wx-progress-inner-bar {
   border-radius: 20rpx;
-} */
+}

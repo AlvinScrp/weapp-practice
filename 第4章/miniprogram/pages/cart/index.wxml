@@ -9,7 +9,6 @@
 
 <block wx:for="{{carts}}" wx:key="id">
 <van-checkbox-group value="{{ cartIdSelectedResult }}" bind:change="onSelectGoodsItem">
-
 	<view class="goods-card-container">
 		<view style="width:30px;display:flex;align-items:center;justify-content:center;">
 			<van-checkbox icon-size="17px" shape="square" name="{{item.id}}"></van-checkbox>
@@ -25,7 +24,7 @@
 </van-checkbox-group>
 </block>
 
-<van-submit-bar bind:submit="onSubmit" wx:if="{{!editMode}}" price="{{ totalPrice }}" button-text="提交订单">
+<van-submit-bar bind:submit="onCartConfirm" wx:if="{{!editMode}}" price="{{ totalPrice }}" button-text="提交订单">
 	<van-checkbox value="{{ allIsSelected }}" bind:change="onSelectAll" shape="square">全选</van-checkbox>
 	<view wx:if="{{false}}" slot="tip">您的收货地址</view>
 </van-submit-bar>

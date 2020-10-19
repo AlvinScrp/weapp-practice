@@ -1,17 +1,11 @@
 /* miniprogram/pages/address-list/index.wxss */
 .vertical-align{
-  display: flex;
-  align-items: center;
-  padding-right:10px;
+  display: flex;align-items: center;
 }
-.address-btns{
+.add-button{
+  width:100%;
   position: fixed !important;
-  width: 690rpx;
   bottom: 0;
-  margin: 30rpx;
-}
-.new-address{
-  margin-top: 30rpx;
 }
 page{
   height: 100%;

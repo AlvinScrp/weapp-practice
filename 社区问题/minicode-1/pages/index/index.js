@@ -43,11 +43,11 @@ Page({
   },
   reloadProgress2(e) {
     // 去掉这行代码是不行的
-    // console.log(new Date().getTime());
+    console.log(new Date().getTime());
     this.setData({
       number: 0
     });
-    // console.log(new Date().getTime());
+    console.log(new Date().getTime());
     this.setData({
       number: 100
     });
