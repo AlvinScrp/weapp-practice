@@ -2,9 +2,8 @@
 <!-- <text>miniprogram/pages/confirm-order/index.wxml</text> -->
 
 <van-cell-group>
-  <van-cell icon="location-o" title="收货人：某某" value="1378783434" size="large" label="收货地址：北京xx地址xx地址xx地址xx地址" is-link bind:click="toSelectAddress" />
+  <van-cell bind:click="toSelectAddress" is-link icon="location-o" size="large" title="{{address.userName}}" value="{{address.telNumber}}" label="{{address.addressInfo}}" />
 </van-cell-group>
-
 
 <view style="padding:10px;">
   <block wx:for="{{carts}}" wx:key="id">

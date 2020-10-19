@@ -7,27 +7,13 @@ Page({
   data: {
     radio: 0,
     selectedAddressId: 0,
-    addressList: [{
-        id: 0,
-        userName: '小王',
-        telNumber: '021-238383388',
-        region: ['广东省', '广州市', '海珠区'],
-        detailInfo: '详情楼房号123'
-      },
-      {
-        id: 1,
-        userName: '小李',
-        telNumber: '051-238383388',
-        region: ['广东省', '广州市', '海珠区'],
-        detailInfo: '楼房号1777'
-      }
-    ]
+    addressList: []
   },
 
   getAddressFromWeixin(e) {
     if (wx.canIUse('chooseAddress.success.userName')) {
       wx.chooseAddress({
-        success: (res) => {
+        success: async (res) => {
           console.log(res);
           let addressList = this.data.addressList
 
@@ -39,22 +25,45 @@ Page({
             return
           }
 
-          let address = {
-            id: addressList.length,
+          let data = {
+            // id: addressList.length,
             userName: res.userName,
             telNumber: res.telNumber,
             region: [res.provinceName, res.cityName, res.countyName],
             detailInfo: res.detailInfo
           }
-          addressList.push(address)
-
-          this.setData({
-            selectedAddressId: address.id,
-            addressList
+          let res1 = await wx.wxp.request4({
+            url: 'http://localhost:3000/user/my/address',
+            method:'post',
+            data
           })
+          console.log(res1);
+          if (res1.data.msg == 'ok'){
+            let item = res1.data.data 
+            addressList.push(item)
+            this.setData({
+              addressList,
+              selectedAddressId:item.id
+            })
+          }else{
+            wx.showToast({
+              title: '添加不成功，是不是添加过了？',
+            })
+          }
         },
       })
     }
+  },
+
+  confirm(e){
+    let selectedAddressId = this.data.selectedAddressId
+    let addressList = this.data.addressList
+    let item = addressList.find(item=>item.id == selectedAddressId)
+    let opener = this.getOpenerEventChannel()
+    opener.emit('selectAddress', item)
+    wx.navigateBack({
+      delta: 1,
+    })
   },
 
   // 编辑回来回调这个方法
@@ -88,8 +97,17 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-
+  onLoad: async function (options) {
+    let res = await wx.wxp.request4({
+      url: 'http://localhost:3000/user/my/address',
+      method:'get'
+    })
+    let addressList = res.data.data 
+    let selectedAddressId = addressList[0].id
+    this.setData({
+      addressList,
+      selectedAddressId
+    })
   },
 
   /**
@@ -103,7 +121,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    
   },
 
   /**

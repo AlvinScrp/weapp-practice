@@ -7,7 +7,10 @@ Page({
   data: {
     carts:[],
     userMessage:'',
-    totalPrice:0
+    totalPrice:0,
+    address:{
+      userName:'选择'
+    }
   },
 
   /**
@@ -28,6 +31,14 @@ Page({
   toSelectAddress(){
     wx.navigateTo({
       url: '/pages/address-list/index',
+      success:res=>{
+        res.eventChannel.on('selectAddress', address=>{
+          address.addressInfo = address.region.join('')+address.detailInfo 
+          this.setData({
+            address
+          })
+        })
+      }
     })
   },
     // 重新计算总价
