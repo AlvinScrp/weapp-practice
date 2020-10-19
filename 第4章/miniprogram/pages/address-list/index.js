@@ -7,57 +7,78 @@ Page({
   data: {
     radio: 0,
     selectedAddressId: 0,
-    addressList:[
-      {
-        id:0,
-        userName:'小王',
-        telNumber:'021-238383388',
-        region:['广东省', '广州市', '海珠区'],
-        detailInfo:'详情楼房号123'
+    addressList: [{
+        id: 0,
+        userName: '小王',
+        telNumber: '021-238383388',
+        region: ['广东省', '广州市', '海珠区'],
+        detailInfo: '详情楼房号123'
       },
       {
-        id:1,
-        userName:'小李',
-        telNumber:'051-238383388',
-        region:['广东省', '广州市', '海珠区'],
-        detailInfo:'楼房号1777'
+        id: 1,
+        userName: '小李',
+        telNumber: '051-238383388',
+        region: ['广东省', '广州市', '海珠区'],
+        detailInfo: '楼房号1777'
       }
     ]
   },
 
-  getAddressFromWeixin(e){
-    if (wx.canIUse('chooseAddress.success.userName')){
+  getAddressFromWeixin(e) {
+    if (wx.canIUse('chooseAddress.success.userName')) {
       wx.chooseAddress({
         success: (res) => {
           console.log(res);
           let addressList = this.data.addressList
 
-          let addressContained = addressList.find(item=>item.telNumber == res.telNumber)
-          if (addressContained){
+          let addressContained = addressList.find(item => item.telNumber == res.telNumber)
+          if (addressContained) {
             this.setData({
-              selectedAddressId:addressContained.id
+              selectedAddressId: addressContained.id
             })
-            return 
+            return
           }
 
           let address = {
-            id:addressList.length,
-            userName:res.userName,
-            telNumber:res.telNumber,
-            region:[res.provinceName,res.cityName,res.countyName],
-            detailInfo:res.detailInfo
+            id: addressList.length,
+            userName: res.userName,
+            telNumber: res.telNumber,
+            region: [res.provinceName, res.cityName, res.countyName],
+            detailInfo: res.detailInfo
           }
-          addressList.push( address )
+          addressList.push(address)
 
           this.setData({
-            selectedAddressId:address.id,
+            selectedAddressId: address.id,
             addressList
           })
         },
       })
     }
   },
-  
+
+  // 编辑回来回调这个方法
+  onSavedAddress(address) {
+    console.log(address);
+
+    let addressList = this.data.addressList
+    addressList.push(address)
+
+    this.setData({
+      addressList,
+      selectedAddressId: address.id
+    })
+  },
+
+  navigateToNewAddressPage(e) {
+    wx.navigateTo({
+      url: '/pages/new-address/index',
+      success:(res)=>{
+        res.eventChannel.on("savedNewAddress", this.onSavedAddress)
+      }
+    })
+  },
+
   onChange(event) {
     this.setData({
       selectedAddressId: event.detail,

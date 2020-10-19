@@ -408,7 +408,7 @@ router.post("/my/address",async (ctx)=>{
       "tel_number":telNumber
     }
   })
-  
+
   if (!hasExistRes){
     res = await Address.create({
       userId,
@@ -423,7 +423,7 @@ router.post("/my/address",async (ctx)=>{
     ctx.body = {
       code: 200,
       msg: res ? 'ok' : '',
-      data: addressList
+      data: res
     }
 })
 
