@@ -381,12 +381,12 @@ router.post("/my/carts", async (ctx) => {
   }
 })
 
-// get /user/my/adddress
+// get /user/my/address
 router.get("/my/address",async (ctx)=>{
-  let {user_id:userId} = ctx.user
+  let {uid:userId} = ctx.user
   let addressList = await Address.findAll({
     where:{
-      userId,
+      "user_id":userId,
     }
   })
 
@@ -397,5 +397,35 @@ router.get("/my/address",async (ctx)=>{
       data: addressList
     }
 })
+
+// post /user/my/address
+router.post("/my/address",async (ctx)=>{
+  let res = null 
+  let {uid:userId} = ctx.user
+  let {userName,telNumber,region,detailInfo} = ctx.request.body
+  let hasExistRes = await Address.findOne({
+    where:{
+      "tel_number":telNumber
+    }
+  })
+  
+  if (!hasExistRes){
+    res = await Address.create({
+      userId,
+      userName,
+      telNumber,
+      region,
+      detailInfo
+    })
+  }
+
+  ctx.status = 200
+    ctx.body = {
+      code: 200,
+      msg: res ? 'ok' : '',
+      data: addressList
+    }
+})
+
 
 module.exports = router
