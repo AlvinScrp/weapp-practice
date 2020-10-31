@@ -35,6 +35,7 @@ Page({
           title: '请选择商品规格',
           showCancel: false
         })
+        this.showSkuPanelPopup()
         return
       }
       let goods_id = this.data.goodsId
@@ -147,8 +148,16 @@ Page({
     let selectedGoodsSkuObject = this.data.selectedGoodsSkuObject
     selectedGoodsSkuObject.sku = Object.assign({}, this.data.selectedGoodsSku)
     selectedGoodsSkuObject.text = ''
+
     for (let j=0;j<goodsSkuData.goodsAttrKeys.length;j++){
       let item = goodsSkuData.goodsAttrKeys[j]
+      if (!this.data.selectedAttrValue[item.attr_key]){
+        wx.showModal({
+          title: '没有选择全部规格',
+          showCancel:false
+        })
+        return
+      }
       selectedGoodsSkuObject.text += this.data.selectedAttrValue[item.attr_key].attr_value + ' '
     }
     this.setData({

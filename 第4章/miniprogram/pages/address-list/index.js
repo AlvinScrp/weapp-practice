@@ -7,8 +7,36 @@ Page({
   data: {
     radio: 0,
     selectedAddressId: 0,
-    addressList: []
+    addressList: [],
+    slideButtons: [{
+      type: 'warn',
+      text: '删除'
+    }]
   },
+
+  async onSlideButtonTap(e) {
+    // e.detail.index是选择按钮的序号
+    let id = e.currentTarget.dataset.id 
+    // console.log('slide button tap', e.detail, id)
+    let res = await wx.wxp.request4({
+      url:`http://localhost:3000/user/my/address/${id}`,
+      method:'delete'
+    })
+    // console.log('res',res);
+    if (res.data.msg == 'ok'){
+      // 处理本地数据
+      let addressList = this.data.addressList
+      for(let j=0;j<addressList.length;j++){
+        if (addressList[j].id == id){
+          addressList.splice(j, 1)
+          break
+        }
+      }
+      this.setData({
+        addressList
+      })
+    }
+},
 
   getAddressFromWeixin(e) {
     if (wx.canIUse('chooseAddress.success.userName')) {

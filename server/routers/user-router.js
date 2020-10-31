@@ -10,6 +10,8 @@ const SessionKey = require("../models/session-key-model")
 const GoodsCarts = require("../models/goods-carts-model")
 const db = require("../models/mysql-db")
 const Address = require("../models/address-model")
+const Pay = require("./pay")
+// const getRawBody = require( 'raw-body')
 
 // jwt 实现
 // const JWT_SECRET = 'JWTSECRET'
@@ -37,9 +39,10 @@ router.use(async (ctx, next) => {
 // 如果没有验证通过，会返回404   
 router.use(koajwt({ secret: config.jwtSecret }).unless({
   // Logon interface does not require authentication
-  path: ['/user/login', '/user/wexin-login1', '/user/wexin-login2', '/user/web-view']
+  path: ['/user/login', '/user/wexin-login1', 
+    '/user/wexin-login2', 
+    '/user/web-view']
 }));
-
 
 router.use(async (ctx, next) => {
   // console.log('ctx.url', ctx.url, ctx.url.includes('login'));
@@ -384,6 +387,7 @@ router.post("/my/carts", async (ctx) => {
 // get /user/my/address
 router.get("/my/address", async (ctx) => {
   let { uid: userId } = ctx.user
+  console.log('userId', userId);
   let addressList = await Address.findAll({
     where: {
       "user_id": userId,
@@ -452,5 +456,27 @@ router.put("/my/address", async (ctx) => {
     data: res
   }
 })
+
+// 删除一条地址的接口
+// delete /user/my/address/:id
+router.delete("/my/address/:id", async (ctx) => {
+  let {uid:userId} = ctx.user
+  let { id } = ctx.params
+  // desctroy方法返回的不是数据，而是成功删除的数目
+  let res = await Address.destroy({
+    where: {
+      id,
+      userId //会翻译为user_id=?
+    }
+  })
+  ctx.status = 200
+  ctx.body = {
+    code: 200,
+    msg: res > 0 ? 'ok' : '',
+    data: res
+  }
+})
+
+Pay.init(router)
 
 module.exports = router

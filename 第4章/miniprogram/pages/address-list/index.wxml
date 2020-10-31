@@ -1,9 +1,9 @@
 <!--miniprogram/pages/address-list/index.wxml-->
 <!-- <text>miniprogram/pages/address-list/index.wxml</text> -->
 <wxs module="fn">
-  module.exports={
+  module.exports = {
     // 将数组合并为字符串
-    join:function(arr){
+    join: function (arr) {
       return arr.join('')
     }
   }
@@ -17,24 +17,29 @@
 <van-radio-group value="{{ selectedAddressId }}" bind:change="onChange">
   <van-cell-group title=" ">
     <block wx:for="{{addressList}}" wx:key="id">
-    <van-cell use-label-slot>
-      <view slot="icon" class="vertical-align" style="margin-right:10px">
-        <van-radio icon-size="16px" name="{{item.id}}"></van-radio>
-      </view>
-      <view slot="title">
-        <view class="van-cell-text">{{item.userName}}，{{item.telNumber}}</view>
-      </view>
-      <view slot="label">
-        <view class="van-cell-text">收货地址：{{fn.join(item.region)}}{{item.detailInfo}}</view>
-      </view>
-      <van-icon data-id="{{item.id}}" bind:click="edit" slot="right-icon" name="edit" />
 
-    </van-cell>
-  </block>
+      <mp-slideview data-id="{{item.id}}" buttons="{{slideButtons}}" bindbuttontap="onSlideButtonTap">
+      <van-cell use-label-slot>
+        <view slot="icon" class="vertical-align" style="margin-right:10px">
+          <van-radio icon-size="16px" name="{{item.id}}"></van-radio>
+        </view>
+        <view slot="title">
+          <view class="van-cell-text">{{item.userName}}，{{item.telNumber}}</view>
+        </view>
+        <view slot="label">
+          <view class="van-cell-text">收货地址：{{fn.join(item.region)}}{{item.detailInfo}}</view>
+        </view>
+        <van-icon data-id="{{item.id}}" bind:click="edit" slot="right-icon" name="edit" />
+      </van-cell>
+    </mp-slideview>
+
+
+    </block>
   </van-cell-group>
 </van-radio-group>
 
 <view class="address-btns">
   <van-button bind:click="confirm" type="default" size="large">选择</van-button>
-<van-button custom-class="new-address" bind:click="navigateToNewAddressPage" type="primary" size="large">新增收货地址</van-button>
+  <van-button custom-class="new-address" bind:click="navigateToNewAddressPage" type="primary" size="large">新增收货地址
+  </van-button>
 </view>

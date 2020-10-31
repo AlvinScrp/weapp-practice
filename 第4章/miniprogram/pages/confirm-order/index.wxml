@@ -26,9 +26,9 @@
 </van-cell-group>
 
 <van-cell-group title=" ">
-  <van-cell title="商品金额" value="￥900" />
-  <van-cell title="运费" value="+￥200" />
-  <van-cell custom-class="total-price" title="" value="合计：￥900" />
+  <van-cell title="商品金额" value="￥{{totalPrice/100}}" />
+  <van-cell title="运费" value="+￥0" />
+  <van-cell custom-class="total-price" title="" value="合计：￥{{totalPrice/100}}" />
 </van-cell-group>
 
 <van-submit-bar
