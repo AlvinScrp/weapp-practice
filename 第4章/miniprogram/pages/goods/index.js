@@ -148,7 +148,6 @@ Page({
     let selectedGoodsSkuObject = this.data.selectedGoodsSkuObject
     selectedGoodsSkuObject.sku = Object.assign({}, this.data.selectedGoodsSku)
     selectedGoodsSkuObject.text = ''
-
     for (let j=0;j<goodsSkuData.goodsAttrKeys.length;j++){
       let item = goodsSkuData.goodsAttrKeys[j]
       if (!this.data.selectedAttrValue[item.attr_key]){
