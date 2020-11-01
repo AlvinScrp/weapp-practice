@@ -10,6 +10,7 @@ const SessionKey = require("../models/session-key-model")
 const GoodsCarts = require("../models/goods-carts-model")
 const db = require("../models/mysql-db")
 const Address = require("../models/address-model")
+const Pay = require("./pay")
 
 // jwt 实现
 // const JWT_SECRET = 'JWTSECRET'
@@ -470,5 +471,7 @@ router.delete('/my/address/:id', async ctx=>{
     data: res
   }
 })
+
+Pay.init(router)
 
 module.exports = router
