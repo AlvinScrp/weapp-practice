@@ -9,7 +9,7 @@ module.exports = db.define("address", {
     primaryKey: true,
     autoIncrement: true
   },
-  userId: {
+  userId: {//user_id
     type: DataTypes.INTEGER(11),
     allowNull: false
   },

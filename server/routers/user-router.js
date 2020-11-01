@@ -453,4 +453,22 @@ router.put("/my/address", async (ctx) => {
   }
 })
 
+// delete /user/my/address/:id
+router.delete('/my/address/:id', async ctx=>{
+  let {id} = ctx.params
+  let {uid:userId} = ctx.user
+  let res = await Address.destroy({
+    where:{
+      id,
+      userId //user_id=?
+    }
+  })
+  ctx.status = 200
+  ctx.body = {
+    code: 200,
+    msg: res > 0 ? 'ok' : '',
+    data: res
+  }
+})
+
 module.exports = router
