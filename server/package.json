@@ -23,8 +23,10 @@
     "koa2-weixin-auth": "^1.0.2",
     "koa3-wechat": "^1.1.9",
     "nodemon": "^2.0.4",
+    "raw-body": "^2.4.1",
     "redis": "^3.0.2",
-    "short-uuid": "^4.1.0"
+    "short-uuid": "^4.1.0",
+    "weixin-pay": "^1.1.7"
   },
   "devDependencies": {
     "mysql2": "^2.1.0",

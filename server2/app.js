@@ -4,7 +4,7 @@ const Router = require("@koa/router")
 const getRawBody = require( 'raw-body')
 
 const router = new Router()
-router.all('/', ctx=>{
+router.all('/apis/', ctx=>{
   ctx.status = 200
   ctx.body = 'ok'
 })
@@ -14,8 +14,13 @@ router.all('/apis/pay_notify', async ctx=>{
       encoding: 'utf-8'
   });
   console.log('rawText',rawText);
+  const xml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+  <xml>
+    <return_code>SUCCESS</return_code>
+    <return_msg>OK</return_msg>
+  </xml>`
   ctx.status = 200
-  ctx.body = 'rawText\n'+rawText
+  ctx.body = xml
 })
 app.use(router.routes())
 app.use(router.allowedMethods())
