@@ -35,7 +35,7 @@ Page({
       goodsNameDesc
     }
     let res = await wx.wxp.request4({
-      url: 'http://localhost:3000/user/my/order2',
+      url: 'http://localhost:3000/user/my/order',
       method: 'post',
       data
     })

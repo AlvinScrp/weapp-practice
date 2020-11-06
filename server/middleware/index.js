@@ -13,7 +13,6 @@ const dateFormat = require("../lib/date-format")
 // console.log( dataFormat(new Date(), "yyyy-MM-dd hh:mm:ss"))
 
 module.exports = app => {
-
   app.use(logger())
   app.use(koaBody({
     multipart: true,

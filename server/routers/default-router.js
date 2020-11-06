@@ -4,6 +4,7 @@ const wepay = require('../lib/wepay')
 const Order = require("../models/order-model")
 const wepay2 = require('../lib/wepay2')
 const short = require('short-uuid');
+var debug = require('debug')('app');
 
 // 开放一个路由
 const defaultRouter = new Router()
@@ -102,9 +103,12 @@ defaultRouter.all('/apis/pay_notify', async ctx=>{
       }else{
         payState = 2
       }
+      // 存储交易单号备用
+      let transactionId = retobj.transaction_id
       //  成功与失败都要同步订单状态
       let res = await Order.update({
-        payState
+        payState,
+        transactionId
       },{
         where:{
           outTradeNo
@@ -122,10 +126,11 @@ defaultRouter.all('/apis/pay_notify', async ctx=>{
   }
 })
 
-// 这个接口不好使
+// 这个接口不好使,使用koa3-weixin
 // http://localhost:3000/apis/pay_refund?no=20203cBT1HE7YfxFgLvTVqtohf
 defaultRouter.get("/apis/pay_refund",async ctx=>{
   let {no:out_trade_no} = ctx.request.query
+  debug('pay_refund....')
   // 尝试退款
   var retobj = await wepay.refund({ 
     out_trade_no,
@@ -138,7 +143,7 @@ defaultRouter.get("/apis/pay_refund",async ctx=>{
   ctx.body = retobj;
 })
 
-// 这个可以
+// 这个可以，使用weixin-pay
 defaultRouter.get("/apis/pay_refund2",async ctx=>{
   let {no:out_trade_no} = ctx.request.query
   var data = {

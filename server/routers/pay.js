@@ -54,6 +54,7 @@ function init(router){
     }
   })
 
+  // post /user/my/order2
   // 使用weixin-pay实现的接口，测试通过
   router.post('/my/order2', async ctx=>{
     let {uid:userId,openId} = ctx.user
@@ -70,7 +71,7 @@ function init(router){
       out_trade_no: outTradeNo, //
       total_fee: totalFee, //以分为单位，货币的最小金额
       spbill_create_ip: ctx.request.ip, //ctx.request.ip
-      notify_url: 'https://rxyk.cn/apis/pay_notify', // 支付成功通知地址
+      // notify_url: 'https://rxyk.cn/apis/pay_notify', // 支付成功通知地址
       trade_type: 'JSAPI',
       openid:openId
     };
@@ -84,7 +85,7 @@ function init(router){
       })
     })()
     let err = '', res
-    if (params && params.package && params.sign) {
+    if (params && params.package && params.paySign) {
       // 创建记录
       res = await Order.create({
         userId,

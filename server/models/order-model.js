@@ -12,9 +12,13 @@ module.exports = db.define("order",{
     type:DataTypes.INTEGER(20),
     allowNull:false
   },
-  outTradeNo:{// 微信支付预付单id
+  outTradeNo:{// 微信商号单号
     type:DataTypes.STRING(50),
     allowNull:false
+  },
+  transactionId:{// 微信交易单号
+    type:DataTypes.STRING(50),
+    allowNull:true //允许为空
   },
   payState:{// 支付订单的状态，0=未支付，1=已支付，2=取消或其它
     type:DataTypes.INTEGER,
