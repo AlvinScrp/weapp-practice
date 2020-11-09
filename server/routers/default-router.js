@@ -26,11 +26,31 @@ defaultRouter.get('/hi', function (ctx) {
 // 本地测试：http://localhost:3000/apis/pay_notify?test=true
 // 微信支付成功通知接口
 defaultRouter.all('/apis/pay_notify', async ctx=>{
-  // const testInLocal = !!ctx.request.query.test
+  const testInLocal = !!ctx.request.query.test
   // console.log('testInLocal',testInLocal);
   var rawText = await getRawBody(ctx.req, {
       encoding: 'utf-8'
   });
+  if (testInLocal){
+    rawText = `<xml><appid><![CDATA[wxc3db312ddf9bcb01]]></appid>
+    <attach><![CDATA[支付测试]]></attach>
+    <bank_type><![CDATA[OTHERS]]></bank_type>
+    <cash_fee><![CDATA[1]]></cash_fee>
+    <fee_type><![CDATA[CNY]]></fee_type>
+    <is_subscribe><![CDATA[Y]]></is_subscribe>
+    <mch_id><![CDATA[1410138302]]></mch_id>
+    <nonce_str><![CDATA[1eTp670VVN04aRlpGBpHH0fKbEUgqMwK]]></nonce_str>
+    <openid><![CDATA[o-hrq0EVYOTJHX9MWqk-LF-_KL0o]]></openid>
+    <out_trade_no><![CDATA[2020vEPk8sib229F1rDkRgGhPh]]></out_trade_no>
+    <result_code><![CDATA[SUCCESS]]></result_code>
+    <return_code><![CDATA[SUCCESS]]></return_code>
+    <sign><![CDATA[92AB862CF14B22193DDE9D86DC2D3701]]></sign>
+    <time_end><![CDATA[20201109140319]]></time_end>
+    <total_fee>1</total_fee>
+    <trade_type><![CDATA[JSAPI]]></trade_type>
+    <transaction_id><![CDATA[4200000728202011097892062758]]></transaction_id>
+    </xml>`
+  }
   
   try {
     var retobj = await wepay.notifyParse(rawText);
