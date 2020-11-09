@@ -2,6 +2,8 @@ const Router = require("@koa/router")
 const getRawBody = require( 'raw-body')
 const wepay = require("../lib/wepay")
 const Order = require("../models/order-model")
+const short = require('short-uuid');
+const wepay2 = require('../lib/wepay2')
 
 // 开放一个路由
 const defaultRouter = new Router()
@@ -114,5 +116,44 @@ defaultRouter.all('/apis/pay_notify', async ctx=>{
   }
 })
 
+// 这个接口不好使,使用koa3-weixin
+// http://localhost:3000/apis/pay_refund?no=20201aB6PprMLnwu7ev6aBgSZzw
+defaultRouter.get("/apis/pay_refund",async ctx=>{
+  let {no:out_trade_no} = ctx.request.query
+  // debug('pay_refund....')
+  // 尝试退款
+  var retobj = await wepay.refund({ 
+    out_trade_no,
+    out_refund_no: short().new(),
+    total_fee: 1,
+    refund_fee: 1
+   });
+
+  ctx.status = 200
+  ctx.body = retobj;
+})
+
+// 这个可以，使用weixin-pay
+defaultRouter.get("/apis/pay_refund2",async ctx=>{
+  let {no:out_trade_no} = ctx.request.query
+  var data = {
+      out_trade_no,
+      out_refund_no: short().new(),
+      total_fee: 1,
+      refund_fee: 1
+  };
+  // 尝试退款，封装原方法
+  let res = await (()=>{
+    return new Promise((resolve, reject)=>{
+      wepay2.refund(data,(err, result) => {
+        if (err) reject(err)
+        else resolve(result)
+      });
+    })
+  })()
+  console.log('res',res);
+  ctx.status = 200
+  ctx.body = res;
+})
 
 module.exports = defaultRouter
