@@ -4,6 +4,7 @@ const wepay = require("../lib/wepay")
 const Order = require("../models/order-model")
 const short = require('short-uuid');
 const wepay2 = require('../lib/wepay2')
+var debug = require('debug')('app');
 
 // 开放一个路由
 const defaultRouter = new Router()
@@ -120,7 +121,7 @@ defaultRouter.all('/apis/pay_notify', async ctx=>{
 // http://localhost:3000/apis/pay_refund?no=20201aB6PprMLnwu7ev6aBgSZzw
 defaultRouter.get("/apis/pay_refund",async ctx=>{
   let {no:out_trade_no} = ctx.request.query
-  // debug('pay_refund....')
+  debug('pay_refund....')
   // 尝试退款
   var retobj = await wepay.refund({ 
     out_trade_no,
