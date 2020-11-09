@@ -47,15 +47,16 @@ Page({
       package: payArgs.package,
       signType: 'MD5',
       paySign: payArgs.paySign,
-      success(res1) {
+      success:res1=> {
         console.log('success', res1);
         // requestPayment:ok
         if (res1.errMsg == 'requestPayment:ok') {
           // 微信支付成功
-          wx.showModal({
+          await wx.wxp.showModal({
             title: '支持成功',
             showCancel: false
           })
+          this.removeCartsGoods(goodsCartsIds)
         } else {
           // {errMsg: "requestPayment:fail cancel"}
           wx.showModal({
@@ -69,6 +70,30 @@ Page({
       }
     })
 
+  },
+
+  // 将已经下单的商品从购物车中移除
+  async removeCartsGoods(goodsCartsIds) {
+    let data = {
+      ids: goodsCartsIds
+    }
+    let res2 = await wx.wxp.request4({
+      url: 'http://localhost:3000/user/my/carts',
+      method: 'delete',
+      data
+    })
+    console.log('res2', res2);
+
+    if (res2.data.msg == 'ok') {
+      wx.switchTab({
+        url: '/pages/cart/index',
+      })
+    } else {
+      wx.showModal({
+        title: '更新购物车数据失败',
+        showCancel: false
+      })
+    }
   },
 
   /**
