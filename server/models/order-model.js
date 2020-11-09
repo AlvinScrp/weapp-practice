@@ -37,7 +37,7 @@ module.exports = db.define("order",{
     type:DataTypes.TEXT('tiny'),//最大长度255个字节
     allowNull:false
   },
-  goodsCartsIds:{//购买车商品id
+  goodsCartsIds:{//购买车商品ids
     type:DataTypes.JSON,
     allowNull:false
   },

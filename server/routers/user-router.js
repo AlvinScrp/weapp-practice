@@ -316,7 +316,6 @@ router.put("/my/carts/:id", async (ctx) => {
   }
 })
 
-// 删除指定的购物车商品
 // delete /user/my/carts
 router.delete("/my/carts", async (ctx) => {
   console.log('ctx.request.body ', ctx.request.body);
@@ -474,7 +473,5 @@ router.delete('/my/address/:id', async ctx=>{
 })
 
 Pay.init(router)
-
-
 
 module.exports = router
