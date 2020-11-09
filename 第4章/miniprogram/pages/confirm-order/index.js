@@ -13,6 +13,64 @@ Page({
     }
   },
 
+  async onSubmit(e) {
+    if (!this.data.address.id) {
+      wx.showModal({
+        title: '没有选择收货地址',
+        showCancel: false
+      })
+      return
+    }
+    let address = this.data.address
+    let addressDesc = `${address.userName},${address.telNumber},${address.region.join('')}${address.detailInfo}`
+    let carts = this.data.carts
+    let goodsCartsIds = carts.map(item => item.id)
+    let goodsNameDesc = carts.map(item => `${item.goods_name}（${item.sku_desc}）x${item.num}`).join(',')
+    if (goodsNameDesc.length > 200) goodsNameDesc = goodsNameDesc.substr(0, 200) + ".."
+    let data = {
+      totalFee: this.data.totalPrice,
+      addressId: address.id,
+      addressDesc,
+      goodsCartsIds,
+      goodsNameDesc
+    }
+    let res = await wx.wxp.request4({
+      url: 'http://localhost:3000/user/my/order',
+      method: 'post',
+      data
+    })
+    console.log(res);
+    let payArgs = res.data.data.params
+    wx.requestPayment({
+      timeStamp: payArgs.timeStamp,
+      nonceStr: payArgs.nonceStr,
+      package: payArgs.package,
+      signType: 'MD5',
+      paySign: payArgs.paySign,
+      success(res1) {
+        console.log('success', res1);
+        // requestPayment:ok
+        if (res1.errMsg == 'requestPayment:ok') {
+          // 微信支付成功
+          wx.showModal({
+            title: '支持成功',
+            showCancel: false
+          })
+        } else {
+          // {errMsg: "requestPayment:fail cancel"}
+          wx.showModal({
+            title: '支持取消或失败了，请稍后得试',
+            showCancel: false,
+          })
+        }
+      },
+      fail:(err1)=> {
+        console.log('fail', err1);
+      }
+    })
+
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */

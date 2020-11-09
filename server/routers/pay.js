@@ -2,6 +2,7 @@ const {wepay:WechatPay} = require('koa3-wechat');
 const short = require('short-uuid');
 // const fs = require('fs');
 const wepay = require("../lib/wepay")
+const Order = require("../models/order-model")
 
 function init(router) {
   // post /user/my/order
