@@ -156,7 +156,7 @@ function init(router) {
       })
       if (!res) err = 'db create error'
     } else {
-      err = 'error! getBrandWCPayRequestParams() return null!'
+      err = 'error! return null!'
       console.log(err);
     }
     ctx.status = 200
