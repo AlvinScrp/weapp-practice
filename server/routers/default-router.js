@@ -117,6 +117,76 @@ defaultRouter.all('/apis/pay_notify', async ctx=>{
   }
 })
 
+defaultRouter.all('/apis/pay_notify2', async ctx=>{
+  const testInLocal = !!ctx.request.query.test
+  // console.log('testInLocal',testInLocal);
+  var rawText = await getRawBody(ctx.req, {
+      encoding: 'utf-8'
+  });
+  if (testInLocal){
+    rawText = `{"attach":"","mchid":"9c97b8fce69e421ca3b6a4df72754ba2","nonce_str":"P2Wn15GJh7NKdT5zDe6TroijQ2H6Ekgd","order_id":"fe80044426f840b7b602efa6a88cb9f3","out_trade_no":"2020cGRFRC9A4HBjGfyCndQKH3","return_code":"SUCCESS","sign":"A6EFDE3F8495078D3984533234398237","status":"complete","time_end":"20201111092726","total_fee":1,"transaction_id":"4200000840202011114524318818"}`
+  }
+  // console.log(rawText);
+  
+  try {
+    var retobj = JSON.parse(rawText)// await wepay.notifyParse(rawText);
+    console.log ("payNotify parsed:", retobj);
+    /* retobj示例
+    {
+      appid: 'wxc3db312ddf9bcb01',
+      attach: '附加信息',
+      bank_type: 'OTHERS',
+      cash_fee: '1',
+      fee_type: 'CNY',
+      is_subscribe: 'Y',
+      mch_id: '1410138302',
+      nonce_str: '6ma2Wk08YBGkvAaFAtSYP4el6wDBB4hd',
+      openid: 'o-hrq0EVYOTJHX9MWqk-LF-_KL0o',
+      out_trade_no: '20201aB6PprMLnwu7ev6aBgSZzw',
+      result_code: 'SUCCESS',
+      return_code: 'SUCCESS',
+      sign: 'BDCFDAD06CCF5254C88F29D69B871FAE',
+      time_end: '20201031173616',
+      total_fee: '1',
+      trade_type: 'JSAPI',
+      transaction_id: '4200000727202010317871404188'
+    }
+    // return_code SUCCESS/FAIL此字段是通信标识，非交易标识
+    // 业务结果	result_code SUCCESS/FAIL
+    */
+    // emitter.wechatSendOut({cmd:'payNotify', payload: retobj});
+    if (retobj){
+      // 商户单号
+      let outTradeNo = retobj.out_trade_no
+      let resultCode = retobj.return_code
+      let payState = 0
+      if (resultCode === 'SUCCESS'){
+        // 支付成功，设置订单状态
+        console.log("SUCCESS",resultCode, outTradeNo);
+        payState = 1
+      }else{
+        payState = 2
+      }
+      // 存储交易单号备用
+      let transactionId = retobj.transaction_id
+      //  成功与失败都要同步订单状态
+      let res = await Order.update({
+        payState,
+        transactionId
+      },{
+        where:{
+          outTradeNo
+        }
+      })
+      console.log(`支付状态更新${res[0] > 0?'成功':'失败'}`)
+    }
+    ctx.body = 'success';
+  } catch (e) {
+    console.log ("payNotify error: ", e);
+    ctx.body = 'fail';
+  }
+})
+
 // 这个接口不好使,使用koa3-weixin
 // http://localhost:3000/apis/pay_refund?no=20201aB6PprMLnwu7ev6aBgSZzw
 defaultRouter.get("/apis/pay_refund",async ctx=>{

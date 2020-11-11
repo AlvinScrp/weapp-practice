@@ -36,3 +36,7 @@
   button-text="提交订单"
   bind:submit="onSubmit"
 />
+
+
+<!-- 小微商户支付 -->
+<xunhupay wx:if="{{ prepareSubmchPay }}" params="{{ submchPayParams }}" bindsuccess="bindPaySuccess" bindfail="bindPayFail" bindcomplete="bindPayComplete" />
