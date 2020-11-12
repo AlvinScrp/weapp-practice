@@ -13,7 +13,7 @@ const config = {
 class WechatMessageHandler {
   constructor () {
       this.router = new Router({
-        prefix:"/mp"
+        prefix:"/apis/mp"
       })
       this.registerServices();
   }
