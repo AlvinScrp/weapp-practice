@@ -53,6 +53,7 @@ class WechatMessageHandler {
   async processWechatMessage(ctx) {
       // 微信输入信息都在this.weixin上
       var message = ctx.weixin;
+      console.log("message", message)
       // debug ("windsome processWechatMessage:", message);
 
       switch (message.MsgType) {
