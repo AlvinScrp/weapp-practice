@@ -3,6 +3,7 @@ const app = new Koa();
 const Router = require("@koa/router")
 const getRawBody = require( 'raw-body')
 
+
 const router = new Router()
 router.all('/apis/', ctx=>{
   ctx.status = 200
@@ -32,5 +33,9 @@ router.all('/apis/pay_notify2', async ctx=>{
 })
 app.use(router.routes())
 app.use(router.allowedMethods())
+
+const mpRouter = require("./mp-router")
+app.use(mpRouter.routes())
+app.use(mpRouter.allowedMethods())
 
 app.listen(3009);
