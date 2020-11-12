@@ -105,6 +105,10 @@ class WechatMessageHandler {
           break;
       }
       case 'text':
+        ctx.body = {
+          content: 're'+message.Content,
+          type: 'text'
+        };
           break;
       case 'image':
           break;
