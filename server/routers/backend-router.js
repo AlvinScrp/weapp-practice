@@ -2,7 +2,7 @@ const Router = require("@koa/router")
 const jssdk = require('../lib/jssdk')
 
 const router = new Router({
-  prefix:"/backend"
+  prefix:"/apis/backend"
 })
 
 // router.use(weixinJSSDK({
