@@ -26,25 +26,8 @@ class WechatMessageHandler {
         encodingAESKey: config.encodingAESKey
     })
       
-      // for receive xml message from wechat server.
-      router.all('/msg', this.msgHandler.middleware(this.processWechatMessage.bind(this)));
-
-      // this.app.use(async (ctx, next) => {
-      //     if(/^\/wcapis/.test(ctx.path)) {
-      //         try {
-      //             //debug ("start process input path:", ctx.path, ", body:", ctx.request.body);
-      //             var result = await next();
-      //             //debug ("end process input path:", ctx.path);
-      //         } catch (e) {
-      //             debug ("error:",e);
-      //             //ctx.body = e;
-      //             ctx.body = { errcode:e.errcode || -1, message: e.message };
-      //         }
-      //     } else {
-      //         await next();
-      //     }
-      // });
-      // this.app.use(router.routes()).use(router.allowedMethods());
+    // for receive xml message from wechat server.
+    router.all('/msg', this.msgHandler.middleware(this.processWechatMessage.bind(this)));
   }
 
   ///////////////////////////////////////////////////

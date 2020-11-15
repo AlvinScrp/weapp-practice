@@ -13,7 +13,7 @@ const config = {
 class WechatMessageHandler {
   constructor () {
       this.router = new Router({
-        prefix:"/mp"
+        prefix:"/apis/mp"
       })
       this.registerServices();
   }
@@ -53,6 +53,7 @@ class WechatMessageHandler {
   async processWechatMessage(ctx) {
       // 微信输入信息都在this.weixin上
       var message = ctx.weixin;
+      console.log("message", message)
       // debug ("windsome processWechatMessage:", message);
 
       switch (message.MsgType) {
@@ -104,6 +105,10 @@ class WechatMessageHandler {
           break;
       }
       case 'text':
+        ctx.body = {
+          content: 're'+message.Content,
+          type: 'text'
+        };
           break;
       case 'image':
           break;
