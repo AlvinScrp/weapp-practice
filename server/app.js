@@ -8,7 +8,7 @@ middleware(app)
 routers(app)
 initDb()
 // 服务启动
-app.listen(3000)
+app.listen(3009)
 
 /*
 在终端中测试jwt阻断的脚本
