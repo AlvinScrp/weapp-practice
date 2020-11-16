@@ -33,4 +33,8 @@ router.all('/apis/pay_notify2', async ctx=>{
 app.use(router.routes())
 app.use(router.allowedMethods())
 
+const mpRouter = require("./mp-router")
+app.use(mpRouter.routes())
+app.use(mpRouter.allowedMethods())
+
 app.listen(3009);
