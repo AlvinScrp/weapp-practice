@@ -1,6 +1,5 @@
 const Sequelize = require(  'sequelize')
 const config = require( '../config/mysql-config' )
-// const config = require( '../config/mysql-config-local' )
 
 const db = new Sequelize(config)
 // 测试连接

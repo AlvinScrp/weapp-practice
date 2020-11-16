@@ -55,7 +55,7 @@ Component({
         console.log("code",code);
         
         let res = await getApp().wxp.request({
-          url: `${getApp().wxp.URL_BASE}/user/wexin-login2`,
+          url: 'http://localhost:3000/user/wexin-login2',
           method: 'POST',
           header: {
             'content-type': 'application/json',
