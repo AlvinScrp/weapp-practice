@@ -22,6 +22,14 @@ router.all('/apis/pay_notify', async ctx=>{
   ctx.status = 200
   ctx.body = xml
 })
+router.all('/apis/pay_notify2', async ctx=>{
+  var rawText = await getRawBody(ctx.req, {
+      encoding: 'utf-8'
+  });
+  console.log('rawText',rawText);
+  ctx.status = 200
+  ctx.body = 'success'
+})
 app.use(router.routes())
 app.use(router.allowedMethods())
 
