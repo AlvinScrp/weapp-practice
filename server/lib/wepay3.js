@@ -54,6 +54,35 @@ const getOrderParams = (trade) => {
   return paramsObject
 }
 
+// 
+const refund = async (order_id)=>{
+  let order = {
+    mchid,
+    order_id,
+    nonce_str:getRandomNumber(),
+    refund_desc:'no',
+    notify_url:'https://rxyk.cn/apis/pay_notify3',
+  }
+  order.sign = getSign(order);
+  
+  // 以json方式提交
+  return new Promise((resolve, reject) => {
+    request({
+      url: "https://admin.xunhuweb.com/pay/refund",
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      body: JSON.stringify(order),
+    }, function(err, res, body){
+      console.log(err, res, body)
+      if (err) reject(err)
+      else resolve(body)
+    });
+  })
+}
+
 module.exports = {
-  getOrderParams
+  getOrderParams,
+  refund
 }

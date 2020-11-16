@@ -5,6 +5,7 @@ const Order = require("../models/order-model")
 const short = require('short-uuid');
 const wepay2 = require('../lib/wepay2')
 var debug = require('debug')('app');
+const wepay3 = require('../lib/wepay3')
 
 // 开放一个路由
 const defaultRouter = new Router()
@@ -224,6 +225,18 @@ defaultRouter.get("/apis/pay_refund2",async ctx=>{
   console.log('res',res);
   ctx.status = 200
   ctx.body = res;
+})
+
+// get /apis/pay_refund3
+// 使用小微商户接口退款
+defaultRouter.get("/apis/pay_refund3",async ctx=>{
+  let {no:orderId} = ctx.request.query
+  // 尝试退款，封装原方法
+  let res = await wepay3.refund(orderId)
+  console.log('res',res);
+  let msg = res.return_code == "SUCCESS"?'退款成功':'重复退款或退款异常'
+  ctx.status = 200
+  ctx.body = msg;
 })
 
 module.exports = defaultRouter
