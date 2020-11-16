@@ -2,7 +2,13 @@ import {
   promisifyAll
 } from 'miniprogram-api-promise';
 
-const wxp = {}
+// const wxp = {}
+// http://localhost:3000
+const URL_BASE = 'http://10.2.10.173:3000'
+
+const wxp = {
+  URL_BASE
+}
 promisifyAll(wx, wxp)
 
 // compatible usage
@@ -15,6 +21,7 @@ wxp.request2 = function (args) {
     if (!args.header) args.header = {}
     args.header['Authorization'] = `Bearer ${token}`
   }
+  if (args.url) args.url = args.url.replace(/^http:\/\/localhost:3000/,URL_BASE)
   return wxp.request(args).catch(function (reason) {
     console.log('reason', reason)
   })

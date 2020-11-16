@@ -10,10 +10,113 @@ Page({
     totalPrice:0,
     address:{
       userName:'选择'
-    }
+    },
+    submchPayParams: {}, 
+    submchPayorderResult:{},
+    prepareSubmchPay: false
   },
 
-  async onSubmit(e) {
+  onSubmit(e){
+    wx.showActionSheet({
+      itemList: ['默认支付', '小微商户'],
+      success:(res)=> {
+        console.log(res.tapIndex)
+        let index = res.tapIndex
+        if (index == 0){// 默认支付
+          this.startNormalPay(e)
+        }else if (index == 1){// 小微商户
+          this.startSubmchPay(e)
+        }
+      },
+      fail (res) {
+        console.log(res.errMsg)
+      }
+    })
+    
+  },
+
+  // 
+  async startSubmchPay(e){
+    if (!this.data.address.id) {
+      wx.showModal({
+        title: '没有选择收货地址',
+        showCancel: false
+      })
+      return
+    }
+    let address = this.data.address
+    let addressDesc = `${address.userName},${address.telNumber},${address.region.join('')}${address.detailInfo}`
+    let carts = this.data.carts
+    let goodsCartsIds = carts.map(item => item.id)
+    let goodsNameDesc = carts.map(item => `${item.goods_name}（${item.sku_desc}）x${item.num}`).join(',')
+    if (goodsNameDesc.length > 200) goodsNameDesc = goodsNameDesc.substr(0, 200) + ".."
+    let data = {
+      totalFee: this.data.totalPrice,
+      addressId: address.id,
+      addressDesc,
+      goodsCartsIds,
+      goodsNameDesc
+    }
+    let res = await wx.wxp.request4({
+      url: 'http://localhost:3000/user/my/order3',
+      method: 'post',
+      data
+    })
+    console.log(res);
+    let submchPayParams = res.data.data.params
+    console.log("submchPayParams",submchPayParams);
+
+    this.setData({
+      prepareSubmchPay: true,
+      submchPayParams
+    })
+  },
+
+  // 小微商户支付成功后
+  async bindPaySuccess (res) {
+    console.log('success', res)
+    this.setData({
+      submchPayorderResult: res.detail.info,
+    })
+    await wx.wxp.showModal({
+      title: '支付成功',
+      content: '支付单号：' + res.detail.info.orderId,
+      showCancel: false
+    })
+    let carts = this.data.carts
+    let goodsCartsIds = carts.map(item => item.id)
+    this.removeCartsGoods(goodsCartsIds)
+  },
+  bindPayFail (res) {
+    console.log('fail', res)
+    this.setData({
+      submchPayorderResult: res.detail.info
+    })
+    if (res.detail.error) {
+      console.error('发起支付失败', res.detail.info)
+      wx.showModal({
+        title: '支付失败，请重试',
+        content: '支付单号：' + res.detail.info.orderId,
+        showCancel: false
+      })
+    } else if (res.detail.navigateSuccess) {
+      console.log('[取消支付] 支付单号：', res.detail.info.orderId)
+      wx.showModal({
+        title: '支付取消了，why?',
+        content: '支付单号：' + res.detail.info.orderId,
+        showCancel: false
+      })
+    }
+  },
+  bindPayComplete () {
+    console.log('complete')
+    this.setData({
+      prepareSubmchPay: false
+    })
+  },
+
+  // 
+  async startNormalPay(e) {
     if (!this.data.address.id) {
       wx.showModal({
         title: '没有选择收货地址',
