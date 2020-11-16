@@ -30,6 +30,8 @@ https://gitee.com/geektime-geekbang/weapp-practice/repository/archive/4.70
 
 从4.71开始，所有标签及描述都具有了表意性，可以直接查看课程对应的标签，例如：
 
+![输入图片说明](https://images.gitee.com/uploads/images/2020/1116/163708_c74d8296_496357.png "屏幕截图.png")
+
 对于4.2~4.70之间的课程，可以根据标签号对应。例如标签4.60，对应的是第四章60节课程的源码。
 
 对于4.2之前的源码，在源码内部有如下对应关系：
