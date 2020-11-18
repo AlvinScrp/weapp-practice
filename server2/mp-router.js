@@ -4,8 +4,8 @@ const {wechat:Koa3Wechat} = require('koa3-wechat');
 
 const config = {
   origin:'gh_4ddea429e5d3',
-  appId:'wxb0bbb77bb501cf0b', 
-  appSecret:'5799760463be94afefffbedce05c80be', 
+  appId:'wxb0bbb77bb501cf0b',
+  appSecret:'5799760463be94afefffbedce05c80be',
   encodingAESKey:'sgpc6KQQifgYRmApeea9Uoac28kUNX9HPol56CkBChB',
   token:'yishulun2005'
 }
