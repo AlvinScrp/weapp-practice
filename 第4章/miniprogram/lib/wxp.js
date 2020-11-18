@@ -2,15 +2,14 @@ import {
   promisifyAll
 } from 'miniprogram-api-promise';
 
+// const wxp = {}
 // http://localhost:3000
-const URL_BASE = 'http://192.168.31.236:3000'
+const URL_BASE = 'http://10.2.10.173:3000'
 
 const wxp = {
   URL_BASE
 }
 promisifyAll(wx, wxp)
-
-
 
 // compatible usage
 // wxp.getSystemInfo({success(res) {console.log(res)}})

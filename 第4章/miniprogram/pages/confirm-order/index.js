@@ -1,5 +1,4 @@
 // miniprogram/pages/confirm-order/index.js
-
 Page({
 
   /**
@@ -36,6 +35,7 @@ Page({
     
   },
 
+  // 
   async startSubmchPay(e){
     if (!this.data.address.id) {
       wx.showModal({
@@ -115,7 +115,7 @@ Page({
     })
   },
 
-  // onSubmit
+  // 
   async startNormalPay(e) {
     if (!this.data.address.id) {
       wx.showModal({

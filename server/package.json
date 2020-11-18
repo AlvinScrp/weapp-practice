@@ -26,8 +26,6 @@
     "koa3-wechat": "^1.1.9",
     "nodemon": "^2.0.4",
     "redis": "^3.0.2",
-    "request-promise": "^4.2.6",
-    "sha1": "^1.1.1",
     "short-uuid": "^4.1.0",
     "weixin-pay": "^1.1.7"
   },

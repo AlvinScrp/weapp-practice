@@ -54,7 +54,7 @@ Page({
     let goods = await wx.wxp.request({
       url: `http://localhost:3000/goods/goods/${goodsId}`,
     })
-    console.log(goods);
+    console.log(goods)
    
     if (goods){
       goods = goods.data.data 

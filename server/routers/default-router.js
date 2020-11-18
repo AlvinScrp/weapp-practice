@@ -4,9 +4,8 @@ const wepay = require("../lib/wepay")
 const Order = require("../models/order-model")
 const short = require('short-uuid');
 const wepay2 = require('../lib/wepay2')
-const wepay3 = require('../lib/wepay3')
-
 var debug = require('debug')('app');
+const wepay3 = require('../lib/wepay3')
 
 // 开放一个路由
 const defaultRouter = new Router()
@@ -126,7 +125,7 @@ defaultRouter.all('/apis/pay_notify2', async ctx=>{
       encoding: 'utf-8'
   });
   if (testInLocal){
-    rawText = `{"attach":"","mchid":"9c97b8fce69e421ca3b6a4df72754ba2","nonce_str":"P2Wn15GJh7NKdT5zDe6TroijQ2H6Ekgd","order_id":"fe80044426f840b7b602efa6a88cb9f3","out_trade_no":"2020cGRFRC9A4HBjGfyCndQKH3","return_code":"SUCCESS","sign":"A6EFDE3F8495078D3984533234398237","status":"complete","time_end":"20201111092726","total_fee":1,"transaction_id":"4200000840202011114524318818"}`
+    rawText = `{"attach":"","mchid":"9c97b8fce69e421ca3b6a4df72754ba2","nonce_str":"cbjrIsllsqSAvOqUS3Od8zD30VUBPQws","order_id":"423378270e69458e9caeba44a4034449","out_trade_no":"2020rVTyC5Uq9E6NbWPkBgJZPA","return_code":"SUCCESS","sign":"8C8BD32B1368B3A3672CC91166759537","status":"complete","time_end":"20201116135620","total_fee":1,"transaction_id":"4200000727202011167385701175"}`
   }
   // console.log(rawText);
   
@@ -231,9 +230,9 @@ defaultRouter.get("/apis/pay_refund2",async ctx=>{
 // get /apis/pay_refund3
 // 使用小微商户接口退款
 defaultRouter.get("/apis/pay_refund3",async ctx=>{
-  let {no:out_trade_no} = ctx.request.query
+  let {no:orderId} = ctx.request.query
   // 尝试退款，封装原方法
-  let res = await wepay3.refund(out_trade_no)
+  let res = await wepay3.refund(orderId)
   console.log('res',res);
   let msg = res.return_code == "SUCCESS"?'退款成功':'重复退款或退款异常'
   ctx.status = 200
