@@ -1,5 +1,5 @@
 const request = require("request-promise")
-const request1 = require("request")
+// const request1 = require("request")
 const sha1 = require('sha1')
 // const path = require('path')
 
@@ -55,7 +55,18 @@ function startGetOpenid(ctx){
   ctx.redirect(targetUrl)
 }
 
+function getOauthAccessToken(code) {
+
+  let url = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${appId}&secret=${appSecret}&code=${code}&grant_type=authorization_code`;
+
+  let res = await request(url)
+  console.log(res);
+
+}
+
+
 module.exports = {
   getSignature,
-  startGetOpenid
+  startGetOpenid,
+  getOauthAccessToken
 }

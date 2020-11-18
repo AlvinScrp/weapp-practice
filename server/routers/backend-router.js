@@ -28,6 +28,8 @@ router.get("/", async function(ctx) {
   console.log('code', code);
   if (!code){
     jssdk.startGetOpenid(ctx)
+  }else{
+    jssdk.getOauthAccessToken(code)
   }
   console.log(ctx.request.href);
   let jssdkConfigArgs = await jssdk.getSignature(ctx.request.href)
