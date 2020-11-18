@@ -48,8 +48,9 @@ function createShaString(ticket,timestamp,nonce,url){
 }
 
 function startGetOpenid(ctx){
-  let redirectUrl = encodeURIComponent(`https://${ctx.request.header.host}${ctx.request.url}`)
-  console.log('redirectUrl',redirectUrl);
+  log('url', ctx.request, ctx.request.url)
+  let redirectUrl = encodeURIComponent(`${ctx.request.origin}/apis/backend`)
+  // console.log('redirectUrl',redirectUrl);
   let targetUrl = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_base&state=123#wechat_redirect`
   ctx.status = 301;    
   ctx.redirect(targetUrl)

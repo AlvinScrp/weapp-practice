@@ -24,7 +24,7 @@ const router = new Router({
 // })
 
 router.get("/", async function(ctx) {
-  let code = ctx.request.code 
+  let {code} = ctx.request.query 
   console.log('code', code);
   if (!code){
     jssdk.startGetOpenid(ctx)
