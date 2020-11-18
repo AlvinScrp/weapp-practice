@@ -55,7 +55,7 @@ function startGetOpenid(ctx){
   ctx.redirect(targetUrl)
 }
 
-function getOauthAccessToken(code) {
+async function getOauthAccessToken(code) {
 
   let url = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${appId}&secret=${appSecret}&code=${code}&grant_type=authorization_code`;
 
