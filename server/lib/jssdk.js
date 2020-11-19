@@ -60,6 +60,7 @@ async function getAccessToken(code) {
   let url = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${appId}&secret=${appSecret}&code=${code}&grant_type=authorization_code`;
 
   let res = await request(url)
+  console.log('getAccessToken res',res);
   return {
     accessToken:res.access_token,
     openId:res.openid
