@@ -50,17 +50,25 @@ function createShaString(ticket,timestamp,nonce,url){
 function startGetOpenid(ctx){
   let redirectUrl = encodeURIComponent(`${ctx.request.origin}/apis/backend`)
   console.log('redirectUrl',redirectUrl);
-  let targetUrl = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_base&state=123#wechat_redirect`
+  let targetUrl = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`
   ctx.status = 301;    
   ctx.redirect(targetUrl)
 }
 
-async function getOauthAccessToken(code) {
+async function getAccessToken(code) {
 
   let url = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${appId}&secret=${appSecret}&code=${code}&grant_type=authorization_code`;
 
   let res = await request(url)
-  console.log(res);
+  return {
+    accessToken:res.access_token,
+    openId:res.openid
+  }
+  // {"access_token":"39_QaX1un5VfzjlQ1QJ4PiJ9QNdft7imqVseaQSUGIJr5FpyO89Og3oGStFujUaOcTAjLqVLRBUA8qZtegdPo5a6A","expires_in":7200,"refresh_token":"39_Sax4_pleJ88MqnmrDksVoWjE1a-_DAIHCtT-bAUoAHDzD7APRJ4fTl61Z2X1UrM5t3uVxSxSFiQcwOHca2-snw","openid":"oKW_h5js3ECnQqezklWz391DivLE","scope":"snsapi_base"}
+  // console.log(res);
+}
+
+async function getUserInfo(AccessToken, openId){
 
 }
 
@@ -68,5 +76,5 @@ async function getOauthAccessToken(code) {
 module.exports = {
   getSignature,
   startGetOpenid,
-  getOauthAccessToken
+  getAccessToken
 }
