@@ -44,7 +44,7 @@ Component({
         console.log("err",err);
         tokenIsValid = false
       })
-      console.log("res0", res0);
+      // console.log("res0", res0);
       if (res0 && res0.errMsg === "checkSession:ok") sessionIsValid = true
       let token = wx.getStorageSync('token')
       if (token) tokenIsValid = true
@@ -52,7 +52,7 @@ Component({
       if (!tokenIsValid || !sessionIsValid) {
         let res1 = await getApp().wxp.login()
         let code = res1.code
-        console.log("code",code);
+        // console.log("code",code);
         
         let res = await getApp().wxp.request({
           url: `${getApp().wxp.URL_BASE}/user/wexin-login2`,
@@ -82,12 +82,11 @@ Component({
           return
         }
         // Error: Illegal Buffer at WXBizDataCrypt.decryptData
-        console.log('登录接口请求成功', res.data)
+        // console.log('登录接口请求成功', res.data)
         token = res.data.data.authorizationToken
         wx.setStorageSync('token', token)
-        console.log('authorization', token)
+        // console.log('authorization', token)
       }
-
       getApp().globalData.token = token
       wx.showToast({
         title: '登陆成功了',
@@ -95,8 +94,8 @@ Component({
       this.close()
       this.triggerEvent('loginSuccess')
       getApp().globalEvent.emit('loginSuccess')
-
     },
+
     login2(e) {
       let {
         userInfo,

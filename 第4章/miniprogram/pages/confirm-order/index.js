@@ -35,7 +35,7 @@ Page({
     
   },
 
-  // 
+  // 开始小微商户支付
   async startSubmchPay(e){
     if (!this.data.address.id) {
       wx.showModal({

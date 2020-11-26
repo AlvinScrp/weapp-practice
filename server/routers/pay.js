@@ -139,7 +139,7 @@ function init(router) {
       openid: openId
     };
     let params = wepay3.getOrderParams(trade)
-    console.log('params',params);
+    // console.log('params',params);
     let err = '', res
     // 在这里还没有产生package，因为prepay_id还没有产生
     if (params && params.sign) {

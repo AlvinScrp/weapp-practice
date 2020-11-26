@@ -1,7 +1,7 @@
 var config = {
   database: 'practice', 
   username: 'frontend', // 用户名
-  password: 'frontend123456', // 口令
+  password: 'frontend123^E', // 口令
   host: 'bj-cdb-huefuwa0.sql.tencentcdb.com', // 主机名
   port: 63151, // 端口号，MySQL默认3306
   define: {
