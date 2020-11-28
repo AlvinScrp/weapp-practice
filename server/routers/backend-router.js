@@ -11,7 +11,8 @@ router.get("/", async function(ctx) {
   // console.log('mpuser:',ctx.mpuser);
   await ctx.render('backend/index', {
     hi: new Date(),
-    jssdkConfig:pkg
+    jssdkConfig:pkg,
+    user:ctx.mpuser
   })
 })
 
