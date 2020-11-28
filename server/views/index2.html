@@ -26,8 +26,6 @@
   <p id="output"></p>
   <input id="share-btn" type="button" value="share" style="width: 100px;height:30px;border:solid 1px grey;"></input>
   <script type="text/javascript">
-    
-
     // 当处于小程序内
     document.addEventListener('intoMiniprogram', () => {
       retrieveHomeData()
@@ -61,8 +59,6 @@
         onWeixinJSBridgeReady()
       }
     }
-    // retrieveHomeData()
-
     // 在小程序中，模拟调用接口
     function retrieveHomeData() {
       $('#send-btn').bind('click', (e) => {

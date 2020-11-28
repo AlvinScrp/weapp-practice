@@ -51,7 +51,7 @@ function createShaString(ticket,timestamp,nonce,url){
 // 准备发生跳转
 function startGetUserInfo(ctx, getUserInfo = false){
   let redirectUrl = encodeURIComponent(`${ctx.request.origin}${REBACK_URL}`)
-  console.log('redirectUrl',redirectUrl)
+  // console.log('redirectUrl',redirectUrl)
   let scope = getUserInfo?'snsapi_userinfo':'snsapi_base'
   let state = getUserInfo?'userinfo':'base'
   let targetUrl = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=${scope}&state=${state}#wechat_redirect`
