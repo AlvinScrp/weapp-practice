@@ -2,12 +2,10 @@ const md5Util = require('./md5.js')
 const request = require('request')
 const xml2js = require('xml2js')
 
-
 // 在下面设置商户号
 const mchid = '9c97b8fce69e421ca3b6a4df72754ba2'
 // 在下面设置密钥
 const secret = 'ff28f46c445243aea7c5438febc7a3a9'
-
 
 const buildXML = function(json){
 	var builder = new xml2js.Builder();
@@ -17,15 +15,8 @@ const buildXML = function(json){
 const getRandomNumber = (minNum = 1000000000, maxNum = 99999999999999) => parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10)
 
 const getSign = obj => {
-  /*
-   * 签名算法
-   * 
-   * 由于密钥不应该在小程序内出现，因此生产环境下的小程序不应该包含此参数
-   */
-
   let keys = Object.keys(obj)
   keys.sort()
-
   let params = []
 
   keys.forEach(e => {
@@ -63,11 +54,11 @@ const getOrderParams = (trade) => {
   return paramsObject
 }
 
-// 小微商户退款
-const refund = async (out_trade_no)=>{
+// 
+const refund = async (order_id)=>{
   let order = {
     mchid,
-    order_id:out_trade_no,
+    order_id,
     nonce_str:getRandomNumber(),
     refund_desc:'no',
     notify_url:'https://rxyk.cn/apis/pay_notify3',

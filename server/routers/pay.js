@@ -127,7 +127,7 @@ function init(router) {
     let payState = 0
     // 依照Order模型接收参数
     let outTradeNo = `${new Date().getFullYear()}${short().new()}`
-    console.log('outTradeNo', outTradeNo);
+    // console.log('outTradeNo', outTradeNo);
     // 获取订单的预支付信息
     var trade = {
       body: goodsNameDesc.substr(0, 127), //最长127字节
@@ -139,7 +139,7 @@ function init(router) {
       openid: openId
     };
     let params = wepay3.getOrderParams(trade)
-    // console.log('params',params);
+    console.log('params', params);
     let err = '', res
     // 在这里还没有产生package，因为prepay_id还没有产生
     if (params && params.sign) {
@@ -169,9 +169,8 @@ function init(router) {
       }
     }
   })
+
 }
-
-
 
 module.exports = {
   init

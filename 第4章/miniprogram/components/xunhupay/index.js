@@ -73,7 +73,7 @@ Component({
         
         if (appOptions.scene === 1038 && appOptions.referrerInfo.appId === 'wx2574b5c5ee8da56b') {
           // 来源于 xunhupay 小程序返回
-          // console.log('确认来源于 xunhupay 回调返回', appOptions)
+          console.log('确认来源于 xunhupay 回调返回', appOptions)
           let extraData = appOptions.referrerInfo.extraData
 
           // if (extraData.success) { 这个地方demo中有错误，字段已经更改了，但是代码没有更新

@@ -152,14 +152,14 @@ router.post("/wexin-login1", async (ctx) => {
 // 这是正规的登陆方法
 // 添加一个参数，sessionKeyIsValid，代表sessionKey是否还有效
 router.post("/wexin-login2", async (ctx) => {
-  // console.log('request.body', ctx.request.body);
+  console.log('request.body', ctx.request.body);
   let { code,
     userInfo,
     encryptedData,
     iv,
     sessionKeyIsValid } = ctx.request.body
 
-  // console.log("sessionKeyIsValid", sessionKeyIsValid);
+  console.log("sessionKeyIsValid", sessionKeyIsValid);
 
   let sessionKey
   // 如果客户端有token，则传来，解析
@@ -171,7 +171,7 @@ router.post("/wexin-login2", async (ctx) => {
       let payload = await util.promisify(jsonwebtoken.verify)(token, config.jwtSecret).catch(err => {
         console.log('err', err);
       })
-      // console.log('payload', payload);
+      console.log('payload', payload);
       if (payload) sessionKey = payload.sessionKey
     }
   }
@@ -179,7 +179,7 @@ router.post("/wexin-login2", async (ctx) => {
   // 如果在db或redis中存储，可以与cookie结合起来使用，
   // 目前没有这样做，sessionKey仍然存在丢失的时候，又缺少一个wx.clearSession方法
   // 
-  // console.log("ctx.session.sessionKeyRecordId", ctx.session.sessionKeyRecordId);
+  console.log("ctx.session.sessionKeyRecordId", ctx.session.sessionKeyRecordId);
   if (sessionKeyIsValid && !sessionKey && ctx.session.sessionKeyRecordId) {
     let sessionKeyRecordId = ctx.session.sessionKeyRecordId
     console.log("sessionKeyRecordId", sessionKeyRecordId);
@@ -197,7 +197,7 @@ router.post("/wexin-login2", async (ctx) => {
     const token = await weixinAuth.getAccessToken(code)
     // 目前微信的 session_key, 有效期3天
     sessionKey = token.data.session_key;
-    // console.log('sessionKey2', sessionKey);
+    console.log('sessionKey2', sessionKey);
   }
 
   let decryptedUserInfo
@@ -224,11 +224,11 @@ router.post("/wexin-login2", async (ctx) => {
       sessionKey: sessionKey
     })
     sessionKeyRecord = sessionKeyRecordCreateRes.dataValues
-    // console.log("created record", sessionKeyRecord);
+    console.log("created record", sessionKeyRecord);
   }
   // ctx.cookies.set("sessionKeyRecordId", sessionKeyRecord.id)
   ctx.session.sessionKeyRecordId = sessionKeyRecord.id
-  // console.log("sessionKeyRecordId", sessionKeyRecord.id);
+  console.log("sessionKeyRecordId", sessionKeyRecord.id);
 
   // 添加上openId与sessionKey
   let authorizationToken = jsonwebtoken.sign({

@@ -1,6 +1,6 @@
 # 《微信小程序全栈开发实战》示例源码
 
-## 这是什么？
+## 这是什么
 
 你好，这是一套极客时间微信小程序视频课程的示例源码。
 
@@ -12,29 +12,29 @@
 
 ## 在哪里观看视频：
 
-戳此在极客时间观看全部视频课程：
+戳此在极客时间观看视频课程：
 
 [《微信小程序全栈开发实战》](http://gk.link/a/10itD)
 
-## 在哪里查看分阶段的课程源码
+也可以从下面海报中扫码观看视频：
 
-标签总地址：https://gitee.com/geektime-geekbang/weapp-practice/tags
+<img src="./poster.png" style="zoom: 50%;" />
 
-在这个标签页面下，可以查看大部分课程对应的标签。在这里可以下载zip包，也可以直接使用git clone下载。例如标签4.70对应的源码地址为：
+## 视频与源码的对应关系
 
-https://gitee.com/geektime-geekbang/weapp-practice/tree/4.70
+由于缺少经验，在章节进化过程中，某些页面子目录名称与实际课程编号有出入，这可能会让读者感到困惑。例如2.30课对应的目录是2.22,实际2.30目录对应的课程却是2.31以上。所以，我花了点时间，做了这个主要源码索引。
 
-zip包下载地址为：
+如果遇到源码找不到的情况，可以用某个特征单词在源码中全文搜索。事实上我也记不住具体课程对应的源码入口在哪里，我就是用这个方法建立这个索引的。
 
-https://gitee.com/geektime-geekbang/weapp-practice/repository/archive/4.70
+部分新旧子目录对应关系：
 
-从4.71开始，所有标签及描述都具有了表意性，可以直接查看课程对应的标签，例如：
+- weapp-priactice1 -> 第2章
+- weapp-priactice2 -> 第2章2
+- weapp-priactice3 -> 第2章3
+- weapp-priactice第3章 -> 第3章
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/1116/163708_c74d8296_496357.png "屏幕截图.png")
 
-对于4.2~4.70之间的课程，可以根据标签号对应。例如标签4.60，对应的是第四章60节课程的源码。
-
-对于4.2之前的源码，在源码内部有如下对应关系：
+以下是视频课程主要源码索引：
 
 ### 第四章
 
@@ -105,3 +105,18 @@ https://gitee.com/geektime-geekbang/weapp-practice/repository/archive/4.70
 - 2.3：第2章/miniprogram/pages/2.3
 - 2.2：第2章/miniprogram/pages/2.2
 - 2.1：第2章/miniprogram/pages/2.1
+
+（注：有些课程是涉及前端、后端多处代码的，在前端这块，有时候也涉及组件、页面多处代码，上面列举的意义在于标出主要代码入口，从这些入口可以很快定位当前课程主要涉及的代码在哪里。）
+
+如果你有什么建议，欢迎与我联系，作者邮箱9830131@qq.com。关注微信公众号「用故事讲技术」，加入读者圈子，与作者及更多读者互动。
+
+![](./slogon.png)
+
+2020年5月25日
+
+小程序APPID：
+wxb036cafe2994d7d0
+小程序路径：
+
+二维码链接：
+https://wsad.weixin.qq.com/group/BgAAWdJxKGLjjFA9CqcH9hoyqQ
