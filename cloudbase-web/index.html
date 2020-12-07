@@ -1,0 +1,86 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2">
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://imgcache.qq.com/qcloud/tcbjs/1.3.5/tcb.js"></script>
+  <script>
+    const app = tcb.init({
+      env: 'weapp-ebfl5' // 您的环境id
+    })
+    window.onload = async (e) => {
+      const auth = app.auth();
+      async function login() {
+        // 1. 建议登录前先判断当前是否已经登录
+        let loginState = await auth.getLoginState();
+        if (!loginState) {
+          // 2. 调用微信登录API
+          // snsapi_base、snsapi_userinfo
+          const provider = auth.weixinAuthProvider({
+            appid: "wxb0bbb77bb501cf0b", // 微信公众号的Appid
+            scope: "snsapi_userinfo"
+          })
+          // signInWithRedirect方法不存在
+          await provider.signIn();
+          // {isAnonymous: false, credential: {accessToken,refreshToken}}
+          loginState = await auth.getLoginState();
+        }
+        return loginState
+      }
+      let loginState = await login();
+      console.log('loginState', loginState);
+
+      // 从库中取出用户信息，可使用帐号信息登录
+      const db = app.database();
+      if (loginState) {
+        const res = await db.collection("user").where({
+          nickName: "程序员LIYI"
+        }).limit(1).get();
+        if (res.data.length) {
+          let user = res.data[0]
+          auth.currentUser = user
+          console.log('user', user);
+        }
+      }
+      const user = auth.currentUser;
+      console.log('user', user);
+
+      // 测试实时数据
+      const watcher = db.collection('message')
+      .orderBy('_id', 'desc')
+      .limit(10)
+      .where({
+        room: '100000'
+      })
+      .watch({
+        onChange: function(snapshot) {
+          if (snapshot.docs.length){
+            let doc = snapshot.docs[0]
+            console.log('doc', doc);
+          }
+          // console.log('docs\'s changed events', snapshot.docChanges)
+          // console.log('query result snapshot after the event', snapshot.docs)
+          // console.log('is init data', snapshot.type === 'init')
+        },
+        onError: function(err) {
+          console.error('the watch closed because of error', err)
+        }
+      })
+      db.collection('message').add({
+        data:{
+          room:'100000',
+          user:'web',
+          text:'message'+Math.random()*1000
+        }
+      })
+
+    }
+  </script>
+</head>
+
+<body>
+  Hello Cloudbase
+</body>
+
+</html>
