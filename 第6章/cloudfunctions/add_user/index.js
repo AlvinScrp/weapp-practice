@@ -14,7 +14,7 @@ exports.main = async (event, context) => {
   let openid = wXContext.OPENID
   data.openid = openid
 
-  // console.log(data,openid);
+  console.log(data,openid);
 
   const db = cloud.database()
   
