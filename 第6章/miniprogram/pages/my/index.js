@@ -10,6 +10,24 @@ Page({
     currentUserDocId:''
   },
 
+  // 测试调用云函数add_user
+  async testForAddUser(e){
+    let data = Object.assign({}, this.data.userInfo)
+    // data.openid = getApp().globalData.openid
+    // console.log('data',data);
+    let res = await wx.wxp.cloud.callFunction({
+      name: 'add_user',
+      data,
+    })
+    // console.log('add_user', res);
+    if (res.result.msg == 'ok'){
+      this.setData({
+        currentUserDocId:res.result._id
+      })
+      console.log(`新增或更新用户成功，_id为${res.result._id}`);
+    }
+  },
+
   // 测试云支付
   async testForWexinPay(e) {
     const getRandomNumber = (minNum = 1000000000, maxNum = 99999999999999) => parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10)
@@ -25,7 +43,7 @@ Page({
       outTradeNo: '' + getRandomNumber(),
       totalFee: 1
     }
-    console.log('data', data);
+    // console.log('data', data);
 
     wx.cloud.callFunction({
       name: 'pay',
