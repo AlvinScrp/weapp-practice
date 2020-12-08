@@ -10,6 +10,17 @@ Page({
     currentUserDocId:''
   },
 
+    // 测试小程序内拉取用户
+    async testForGetUser(e){
+      const db = wx.cloud.database()
+      const res = await db.collection('user').doc(this.data.currentUserDocId).get()
+      // {data: {…}, errMsg: "document.get:ok"}
+      
+      if (res.errMsg == 'document.get:ok'){
+        console.log('user',res.data);
+      }
+    },
+
   // 测试调用云函数add_user
   async testForAddUser(e){
     let data = Object.assign({}, this.data.userInfo)
