@@ -20,8 +20,9 @@ onReceivedMessage(e){
 },
 
   onShareAppMessage(options) {
-    // console.log('title',this.data.webViewData.title);
-    // console.log('webViewUrl',options.webViewUrl)
+    console.log('title',this.data.webViewData.title);
+    
+    console.log('webViewUrl',options.webViewUrl)
     return {
       title: this.data.webViewData.title,
       path: `/pages/2.22/web-view/index?web-view-url=${options.webViewUrl}`
@@ -35,7 +36,7 @@ onReceivedMessage(e){
     let token = getApp().globalData.token
     let url = `http://localhost:3000/user/web-view?token=${token}`
     // let url = `http://192.168.31.68:3000/user/web-view?token=${token}`
-    // console.log('token', token);
+    console.log('token', token);
     this.setData({
       url
     })
