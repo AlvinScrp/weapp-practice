@@ -88,7 +88,7 @@ Page({
     })
     // 拉取sku规格数据
     let goodsSkuDataRes = await wx.wxp.request({
-      url: `http://localhost:3000/goods/goods/${goodsId}/sku`,
+      url: `${getApp().wxp.URL_BASE}/goods/goods/${goodsId}/sku`,
     })
     if (goodsSkuDataRes){
       let goodsSkuData = goodsSkuDataRes.data.data 

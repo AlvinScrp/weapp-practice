@@ -12,4 +12,7 @@
 
   <button class="userinfo-nickname" bindtap="onGetOpenid">获取 openid</button>
 
+  <button class="userinfo-nickname" bindtap="testForWexinPay">测试支付</button>
+
+
 </view>
