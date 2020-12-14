@@ -4,7 +4,10 @@
 
 源码是分课、分阶段的。基本上每一课对应一个 tag。直接在下面这个链接，可以查看 tag list：
 
-https://gitee.com/geektime-geekbang/weapp-practice/tags
+ **https://gitee.com/geektime-geekbang/weapp-practice/tags
+** 
+
+![源码taglist](https://images.gitee.com/uploads/images/2020/1214/103343_99caceb3_496357.png "屏幕截图.png")
 
 
 ## 这是什么
