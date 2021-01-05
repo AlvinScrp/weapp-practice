@@ -1,0 +1,72 @@
+/* plugin/pages/hello-page.wxss */
+.now view {
+  text-align: center;
+  width: 100%;
+  font-size: 14px;
+  padding-bottom: 10px;
+  color: rgb(163, 163, 163);
+}
+
+.now {
+  margin: 30px auto 20px;
+}
+
+.now .area {
+  font-size: 19px;
+  color: rgb(79, 57, 175);
+}
+
+.now .c {
+  font-size: 49px;
+  color: rgb(219, 132, 17);
+}
+
+/*  */
+.scroll-view_H {
+  white-space: nowrap;
+}
+
+.scroll-view-item_H {
+  display: inline-block;
+  width: 50px;
+  height: auto;
+  background-color: blanchedalmond;
+  padding: 5px;
+  text-align: center;
+  margin: 1px;
+  font-size: 13px;
+}
+
+.scroll-view-item_H text {
+  width: 50px;
+}
+
+.future {
+  width: 100%;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.future .line {
+  width: 100%;
+  display: flex;
+  padding: 10px 20px 10px;
+  border-bottom: solid 1px rgb(230, 230, 230);
+}
+
+.future .line:last-child {
+  border-bottom-style: none;
+}
+
+.future .line>view:nth-child(2n+1) {
+  width: 100px;
+}
+
+.future .line>view:nth-child(2n) {
+  width: auto;
+  flex: 1;
+}
+
+page {
+  padding-bottom: 100px;
+}

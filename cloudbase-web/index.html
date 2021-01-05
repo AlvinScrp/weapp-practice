@@ -14,6 +14,7 @@
     })
     window.onload = async (e) => {
       const auth = app.auth();
+      // 6.9
       async function login() {
         // 1. 建议登录前先判断当前是否已经登录
         let loginState = await auth.getLoginState();
@@ -36,6 +37,7 @@
       let accessToken = loginState.credential.accessToken
 
       // 从库中取出用户信息，可使用帐号信息登录
+      // 6.9 实现signIn登录，拿到loginState对象，并打印出来
       const db = app.database();
       if (loginState) {
         const res = await db.collection("user").where({
@@ -50,36 +52,37 @@
       const user = auth.currentUser;
       console.log('user', user);
 
-      // 测试实时数据
+      // 6.10 测试实时数据监听
       const watcher = db.collection('message')
-      .orderBy('_id', 'desc')
-      .limit(10)
-      .where({
-        room: '100000'
-      })
-      .watch({
-        onChange: function(snapshot) {
-          if (snapshot.docs.length){
-            let doc = snapshot.docs[0]
-            console.log('doc', doc);
+        .orderBy('_id', 'desc')
+        .limit(10)
+        .where({
+          room: '100000'
+        })
+        .watch({
+          onChange: function (snapshot) {
+            if (snapshot.docs.length) {
+              let doc = snapshot.docs[0]
+              console.log('doc', doc);
+            }
+            // console.log('docs\'s changed events', snapshot.docChanges)
+            // console.log('query result snapshot after the event', snapshot.docs)
+            // console.log('is init data', snapshot.type === 'init')
+          },
+          onError: function (err) {
+            console.error('the watch closed because of error', err)
           }
-          // console.log('docs\'s changed events', snapshot.docChanges)
-          // console.log('query result snapshot after the event', snapshot.docs)
-          // console.log('is init data', snapshot.type === 'init')
-        },
-        onError: function(err) {
-          console.error('the watch closed because of error', err)
-        }
-      })
+        })
+
       await db.collection('message').add({
-        data:{
-          room:'100000',
-          user:'web',
-          text:'message'+Math.random()*1000
+        data: {
+          room: '100000',
+          user: 'web',
+          text: 'message' + Math.random() * 1000
         }
       })
 
-      // 获取临时链接
+      // 6.11 获取临时链接，在web页面中展示图片
       const fileID = 'cloud://weapp-ebfl5.7765-weapp-ebfl5-1301675402/img.png'
       let fileRes = await app
         .getTempFileURL({
@@ -88,34 +91,6 @@
       let url = fileRes.fileList[0].tempFileURL
       console.log('url',url);
       $('#img1').attr('src', url)
-
-      // 尝试下载（不在许可范围内），也可以用，拿到的是url
-      let fileDownloadRes = await app
-        .downloadFile({
-          fileID
-        })
-      url = fileDownloadRes.tempFilePath
-      console.log('download url',url);
-
-      // 准备签名jssdk,不存在getJSSDKSignature方法
-      // const jssdkRes = await tcb.getJSSDKSignature({
-      //   url: `${document.location.origin}/`
-      // })
-      // wx.config({
-      //   debug: true,
-      //   appId: AppID, // 必填，公众号的唯一标识
-      //   timestamp: jssdkRes.timestamp + '', // 必填，生成签名的时间戳
-      //   nonceStr: jssdkRes.nonceStr, // 必填，生成签名的随机串
-      //   signature: jssdkRes.signature,// 必填，签名
-      //   jsApiList: ['chooseImage'] // 必填，需要使用的JS接口列表
-      // })
-
-      // 触发云函数执行add_message，需要在服务器端调用
-      // let postUrl = `https://api.weixin.qq.com/tcb/invokecloudfunction?access_token=${accessToken}&env=${EnvID}&name=add_message`
-      // let postRes = await $.post({
-      //   url:postUrl
-      // })
-      // console.log('postRes',postRes);
 
     }
   </script>

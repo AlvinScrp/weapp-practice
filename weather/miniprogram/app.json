@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "plugins": {
+    "weather": {
+      "version": "dev",
+      "provider": "wxc3db312ddf9bcb01"
+    }
+  },
+  "sitemapLocation": "sitemap.json",
+  "functionalPages": {
+    "independent": true
+  }
+}

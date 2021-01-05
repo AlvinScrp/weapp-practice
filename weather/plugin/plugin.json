@@ -1,0 +1,9 @@
+{
+  "publicComponents": {
+    "weibao": "components/weibao/index"
+  },
+  "pages": {
+    "index": "pages/weather/index"
+  },
+  "main": "index.js"
+}

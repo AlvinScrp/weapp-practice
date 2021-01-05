@@ -1,0 +1,21 @@
+/* plugin/components/hello-component.wxss */
+.login{
+  margin:20px 15px
+}
+.weibao{
+  font-size: 13px;
+  color: #3a3a3a;
+  padding: 10px 15px;
+}
+.weibao .title{
+  font-size: 21px;
+  line-height: 50px;
+  padding: 0 10px 0;
+  margin-bottom: 10px;
+  background-color: rgb(222, 233, 243);
+}
+.weibao .context{
+  line-height: 24px;
+  word-break: break-word;
+  padding: 0 10px 0;
+}

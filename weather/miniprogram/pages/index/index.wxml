@@ -1,0 +1,8 @@
+<navigator id="nav" url="plugin://weather/index">
+  今日天气 {{today.area}} {{today.temperature}}℃
+</navigator>
+
+<weibao />
+
+<!-- 转发 -->
+<button data-kind="weather" open-type="share" type="default" class="login">转发天气插件内页</button>

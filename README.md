@@ -1,16 +1,5 @@
 # 《微信小程序全栈开发实战》示例源码
 
-## 关于源码的说明
-
-源码是分课、分阶段的。基本上每一课对应一个 tag。直接在下面这个链接，可以查看 tag list：
-
-
-https://gitee.com/geektime-geekbang/weapp-practice/tags
-
-
-![源码taglist](https://images.gitee.com/uploads/images/2020/1214/103343_99caceb3_496357.png "屏幕截图.png")
-
-
 ## 这是什么
 
 你好，这是一套极客时间微信小程序视频课程的示例源码。
@@ -26,6 +15,10 @@ https://gitee.com/geektime-geekbang/weapp-practice/tags
 戳此在极客时间观看视频课程：
 
 [《微信小程序全栈开发实战》](http://gk.link/a/10itD)
+
+也可以从下面海报中扫码观看视频：
+
+<img src="./poster.png" style="zoom: 50%;" />
 
 ## 视频与源码的对应关系
 
@@ -115,6 +108,15 @@ https://gitee.com/geektime-geekbang/weapp-practice/tags
 
 （注：有些课程是涉及前端、后端多处代码的，在前端这块，有时候也涉及组件、页面多处代码，上面列举的意义在于标出主要代码入口，从这些入口可以很快定位当前课程主要涉及的代码在哪里。）
 
-如果你有什么建议，欢迎到极客时间与作者留言联系。
+如果你有什么建议，欢迎与我联系，作者邮箱9830131@qq.com。关注微信公众号「用故事讲技术」，加入读者圈子，与作者及更多读者互动。
 
-2020年12月14日
+![](./slogon.png)
+
+2020年5月25日
+
+小程序APPID：
+wxb036cafe2994d7d0
+小程序路径：
+
+二维码链接：
+https://wsad.weixin.qq.com/group/BgAAWdJxKGLjjFA9CqcH9hoyqQ

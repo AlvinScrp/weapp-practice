@@ -1,0 +1,54 @@
+<!-- 渲染基本信息 -->
+<view class="now">
+  <view class="area">
+    {{area}}
+  </view>
+  <view class="c">
+    {{now['温度']}}<text>℃</text>
+  </view>
+  <view>
+    湿度:{{now['湿度']}},风速:{{now['风速'][0]+now['风速'][1]}},风向:{{now['风向'][1]}}
+  </view>
+</view>
+
+<!-- 渲染小时数据 -->
+<scroll-view class="scroll-view_H" scroll-x="true" style="width: 100%">
+  <block wx:for="{{hours['温度']}}">
+    <view class="scroll-view-item_H">
+      <view>{{item['时间']}}时</view>
+      <view>{{item['温度']}}℃</view>
+    </view>
+  </block>
+</scroll-view>
+
+<!-- 渲染未来几天数据 -->
+<view class="future">
+  <block wx:for="{{future['日出日落']}}">
+    <view class="line">
+      <view>
+        {{tools.getDate(item['日出'])}}
+      </view>
+      <view>
+        <view>日出:{{tools.getTime(item['日出'])}}日落:{{tools.getTime(item['日落'])}}</view>
+        <view>
+        温度:【{{future['温度'][index]['最高']}}~{{future['温度'][index]['最低']}}】℃</view>
+      </view>
+    </view>
+  </block>
+</view>
+
+<!-- 使用wxs模块格式化时间文本 -->
+<wxs module="tools">
+  var getDate = function (d) {
+    var pos = d.indexOf(' ')
+    return d.substring(0, pos)
+  }
+  var getTime = function (d) {
+    var pos = d.indexOf(' ')
+    return d.substring(pos + 1, d.length - 3)
+  }
+  module.exports = {
+    getDate: getDate,
+    getTime: getTime
+  }
+</wxs>

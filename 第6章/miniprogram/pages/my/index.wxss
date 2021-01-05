@@ -156,3 +156,17 @@ page {
   line-height: 36rpx;
   word-break: break-all;
 }
+
+ad-custom{
+  position: fixed;
+  left:0;
+  right:0;
+  top:0;
+  bottom:0;
+  width: 100%;
+  height: 100%;
+}
+.login{
+  margin:10px 15px;
+  border: solid 1px rgb(189, 189, 189);
+}

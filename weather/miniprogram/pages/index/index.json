@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "weibao": "plugin://weather/weibao"
+  }
+}
