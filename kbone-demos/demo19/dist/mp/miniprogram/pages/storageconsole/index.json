@@ -1,0 +1,7 @@
+{
+	"navigationBarTitleText": "文件存储指引",
+	"enablePullDownRefresh": false,
+	"usingComponents": {
+		"element": "miniprogram-element"
+	}
+}

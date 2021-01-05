@@ -1,0 +1,7 @@
+{
+	"navigationBarTitleText": "部署云函数",
+	"enablePullDownRefresh": false,
+	"usingComponents": {
+		"element": "miniprogram-element"
+	}
+}

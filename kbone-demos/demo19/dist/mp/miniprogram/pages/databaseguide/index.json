@@ -1,0 +1,7 @@
+{
+	"navigationBarTitleText": "数据库指引",
+	"enablePullDownRefresh": false,
+	"usingComponents": {
+		"element": "miniprogram-element"
+	}
+}

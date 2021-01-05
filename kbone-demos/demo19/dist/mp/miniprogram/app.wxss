@@ -1,0 +1,57 @@
+.h5-body, .h5-p, .h5-address, .h5-article, .h5-aside, .h5-div, .h5-footer, .h5-header, .h5-hgroup, .h5-main, .h5-nav, .h5-section, .h5-blockquote, .h5-figcaption, .h5-figure, .h5-center, .h5-hr, .h5-h1, .h5-h2, .h5-h3, .h5-h4, .h5-h5, .h5-h6, .h5-ul, .h5-menu, .h5-dir, .h5-ol, .h5-dd, .h5-dl, .h5-dt, .h5-form, .h5-legend, .h5-fieldset, .h5-pre, .h5-details, .h5-summary {
+    display: block;
+}
+
+.h5-q, .h5-output, .h5-a, .h5-abbr, .h5-b, .h5-code, .h5-i, .h5-label, .h5-small, .h5-span, .h5-strong, .h5-time {
+    display: inline;
+}
+
+.h5-input, .h5-textarea, keygen, .h5-select, .h5-button, .h5-img, .h5-br {
+    display: inline-block;
+}
+
+.h5-datalist, .h5-area, .h5-param, template {
+    display: none;
+}
+
+.h5-table {
+    display: table;
+}
+
+.h5-thead {
+    display: table-header-group;
+}
+
+.h5-tbody {
+    display: table-row-group;
+}
+
+.h5-tfoot {
+    display: table-footer-group;
+}
+
+.h5-col {
+    display: table-column;
+}
+
+.h5-colgroup {
+    display: table-column-group;
+}
+
+.h5-tr {
+    display: table-row;
+}
+
+.h5-td, .h5-th {
+    display: table-cell;
+}
+
+.h5-caption {
+    display: table-caption;
+}
+
+.h5-li {
+    display: list-item;
+}
+
+@import "common/miniprogram-app.wxss";

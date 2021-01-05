@@ -1,0 +1,7 @@
+{
+	"navigationBarTitleText": "选择基础库",
+	"enablePullDownRefresh": false,
+	"usingComponents": {
+		"element": "miniprogram-element"
+	}
+}

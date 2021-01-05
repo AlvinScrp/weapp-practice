@@ -1,0 +1,21 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/userconsole/index",
+    "pages/storageconsole/index",
+    "pages/databaseguide/index",
+    "pages/deployfunctions/index",
+    "pages/chooselib/index"
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTitleText": "云开发 QuickStart",
+    "navigationBarTextStyle": "black"
+  },
+  "subpackages": [],
+  "preloadRule": {},
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
